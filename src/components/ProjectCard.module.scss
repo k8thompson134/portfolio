@@ -1,0 +1,95 @@
+@use '../styles/variables' as *;
+
+.card {
+  @include panel;
+  padding: $space-5;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-3;
+}
+
+.designation {
+  @include dymo-label;
+}
+
+// Status LED — the dot + label
+.led {
+  font-family: $font-mono;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+
+  // The glowing dot — built with a pseudo-element
+  &::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  &.live {
+    color: $led-green;
+    &::before {
+      background: $led-green;
+      box-shadow: 0 0 6px rgba($led-green, 0.6);
+    }
+  }
+
+  &.wip {
+    color: $led-yellow;
+    &::before {
+      background: $led-yellow;
+      box-shadow: 0 0 6px rgba($led-yellow, 0.5);
+    }
+  }
+
+  &.archived {
+    color: $led-red;
+    &::before {
+      background: $led-red;
+      box-shadow: 0 0 4px rgba($led-red, 0.4);
+    }
+  }
+}
+
+.title {
+  font-family: $font-display;
+  font-size: 1.15rem;
+  margin-bottom: $space-2;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: $text-secondary;
+  line-height: 1.6;
+  flex: 1; // pushes footer to bottom
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-1;
+  margin-top: $space-4;
+}
+
+.tag {
+  font-family: $font-mono;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $console-teal;
+  padding: 2px $space-2;
+  border: 1px solid rgba($console-teal, 0.3);
+  border-radius: $radius-sm;
+}

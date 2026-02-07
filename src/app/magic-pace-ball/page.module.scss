@@ -1,0 +1,74 @@
+@use '../../styles/variables' as *;
+
+.main {
+    padding: $space-6;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.backLink {
+    display: inline-block;
+    margin-bottom: $space-4;
+    color: $console-teal;
+    text-decoration: none;
+    font-family: $font-mono;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.title {
+    font-family: $font-display;
+    font-size: 3rem;
+    margin-bottom: $space-2;
+    color: $led-yellow; // Highlight for WIP
+}
+
+.tagline {
+    font-size: 1.25rem;
+    color: $text-secondary;
+    margin-bottom: $space-8;
+    max-width: 600px;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-8;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info {
+    p {
+        line-height: 1.6;
+        margin-bottom: $space-4;
+    }
+}
+
+.status {
+    display: flex;
+    gap: $space-2;
+}
+
+.badge {
+    @include dymo-label;
+    font-size: 0.8rem;
+}
+
+.preview {
+    @include panel;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.placeholderBox {
+    color: $text-secondary;
+    font-family: $font-mono;
+}

@@ -1,0 +1,154 @@
+@use '../styles/variables' as *;
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: $space-4;
+    height: 80vh;
+    position: relative;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        height: auto;
+    }
+}
+
+.mapContainer {
+    height: 100%;
+    width: 65%;
+    border-radius: $radius-md;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    order: 2;
+    overflow: hidden; // For map corners
+
+    @media (max-width: 768px) {
+        width: 100%;
+        height: 400px;
+        order: 1;
+        margin-bottom: $space-4;
+    }
+}
+
+.panel {
+    width: 33%;
+    @include panel;
+    padding: $space-5;
+    height: 100%;
+    order: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        order: 2;
+        height: auto;
+    }
+}
+
+.title {
+    font-family: $font-display;
+    font-size: 1.5rem;
+    margin-bottom: $space-4;
+    color: $text-primary;
+}
+
+.formGroup {
+    margin-bottom: $space-4;
+
+    label {
+        display: block;
+        margin-bottom: $space-2;
+        font-size: 0.9rem;
+        color: $text-secondary;
+    }
+}
+
+.input {
+    @include input;
+    width: 100%;
+}
+
+.checkboxGroup {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    margin-top: $space-2;
+
+    label {
+        margin-bottom: 0;
+        font-size: 0.85rem;
+    }
+}
+
+.button {
+    @include button;
+    width: 100%;
+    margin-bottom: $space-2;
+    justify-content: center;
+
+    &.secondary {
+        background: transparent;
+        border: 1px solid $console-teal;
+        color: $console-teal;
+
+        &:hover {
+            background: rgba($console-teal, 0.1);
+        }
+    }
+}
+
+.routeStats {
+    font-family: $font-mono;
+    color: $led-green;
+    margin-bottom: $space-4;
+    padding: $space-2;
+    border: 1px solid rgba($led-green, 0.3);
+    border-radius: $radius-sm;
+    background: rgba($led-green, 0.05);
+}
+
+.stopsList {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 $space-4 0;
+}
+
+.stopItem {
+    padding: $space-3;
+    border-bottom: 1px solid $border-color;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    strong {
+        display: block;
+        color: $text-primary;
+        margin-bottom: 4px;
+    }
+
+    small {
+        color: $text-secondary;
+    }
+}
+
+.loadingOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: $radius-md;
+
+    span {
+        color: $text-primary;
+        font-family: $font-mono;
+    }
+}
