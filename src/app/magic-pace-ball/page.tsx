@@ -1,5 +1,6 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function MagicPaceBall() {
     return (
@@ -18,14 +19,19 @@ export default function MagicPaceBall() {
                         <span className={styles.badge}>Status: WIP</span>
                         <span className={styles.badge}>Flutter</span>
                         <span className={styles.badge}>On-Device AI</span>
+                        <a href="https://github.com/k8thompson134/magic-pace-ball" className={styles.githubLink} target="_blank" rel="noopener noreferrer">View on GitHub</a>
                     </div>
                 </div>
 
                 <div className={styles.preview}>
-                    {/* Placeholder for Screenshots or Web Build */}
-                    <div className={styles.placeholderBox}>
-                        <p>App Preview / Download</p>
-                    </div>
+                    <Image
+                        src="/paceball.png"
+                        alt="Magic Pace Ball Screenshot"
+                        width={300}
+                        height={600}
+                        className={styles.screenshot}
+                        style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '500px' }}
+                    />
                 </div>
             </div>
         </main>

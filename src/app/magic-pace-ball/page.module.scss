@@ -52,6 +52,31 @@
 .status {
     display: flex;
     gap: $space-2;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.githubLink {
+    margin-left: auto;
+    color: $console-teal;
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    transition: color $transition-fast;
+    white-space: nowrap;
+
+    &::after {
+        content: '↗';
+        font-family: sans-serif;
+    }
+
+    &:hover {
+        color: $nixie-orange;
+        text-decoration: underline;
+    }
 }
 
 .badge {
@@ -68,7 +93,12 @@
     background: rgba(0, 0, 0, 0.2);
 }
 
-.placeholderBox {
-    color: $text-secondary;
-    font-family: $font-mono;
+
+.screenshot {
+    max-width: 100%;
+    height: auto;
+    max-height: 500px;
+    border-radius: $radius-md;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+    object-fit: contain;
 }

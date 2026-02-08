@@ -1,0 +1,69 @@
+@use '../../styles/variables' as *;
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  padding: 3px $space-2;
+  border-radius: $radius-badge;
+  border: 1px solid;
+  font-family: $font-mono;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: transform $transition-fast;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.compact {
+  padding: 2px 6px;
+  font-size: 0.6rem;
+}
+
+.severityDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 4px currentColor;
+}
+
+.name {
+  line-height: 1.3;
+}
+
+.severity {
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  opacity: 0.9;
+}
+
+.painDetails {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 2px;
+  padding-left: $space-1;
+  border-left: 1px solid rgba($border-gray, 0.5);
+}
+
+.qualifier {
+  font-size: 0.55rem;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.location {
+  font-size: 0.55rem;
+  opacity: 0.8;
+  text-transform: capitalize;
+
+  &::before {
+    content: '\2192 '; // right arrow
+  }
+}

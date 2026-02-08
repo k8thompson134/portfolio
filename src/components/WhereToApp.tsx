@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Loader } from '@googlemaps/js-api-loader';
+import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
 import styles from './WhereToApp.module.scss';
 
 // Fallback key from original project if env not set
@@ -53,32 +53,42 @@ export default function WhereToApp() {
     // Starting place object (for geometry)
     const startPlaceRef = useRef<google.maps.places.PlaceResult | null>(null);
 
-    // Load Google Maps API
+    // Load Google Maps API using new functional API
     useEffect(() => {
-        const loader = new Loader({
-            apiKey: API_KEY,
-            version: "weekly",
-            libraries: ["places"]
-        });
-
-        loader.load().then((google) => {
-            setGoogleInfo({ maps: google.maps });
-
-            if (mapRef.current) {
-                const map = new google.maps.Map(mapRef.current, {
-                    center: { lat: 39.50, lng: -98.35 },
-                    zoom: 4,
-                    mapTypeControl: false,
-                    streetViewControl: false
+        const loadMaps = async () => {
+            try {
+                // Set options for the loader
+                setOptions({
+                    key: API_KEY,
+                    v: "weekly",
                 });
-                setMapInstance(map);
 
-                directionsService.current = new google.maps.DirectionsService();
-                directionsRenderer.current = new google.maps.DirectionsRenderer();
-                directionsRenderer.current.setMap(map);
-                placesService.current = new google.maps.places.PlacesService(map);
+                // Import required libraries
+                const mapsLib = await importLibrary("maps") as google.maps.MapsLibrary;
+                const placesLib = await importLibrary("places") as google.maps.PlacesLibrary;
+
+                setGoogleInfo({ maps: { ...mapsLib, places: placesLib } });
+
+                if (mapRef.current) {
+                    const map = new mapsLib.Map(mapRef.current, {
+                        center: { lat: 39.50, lng: -98.35 },
+                        zoom: 4,
+                        mapTypeControl: false,
+                        streetViewControl: false
+                    });
+                    setMapInstance(map);
+
+                    directionsService.current = new google.maps.DirectionsService();
+                    directionsRenderer.current = new google.maps.DirectionsRenderer();
+                    directionsRenderer.current.setMap(map);
+                    placesService.current = new google.maps.places.PlacesService(map);
+                }
+            } catch (e) {
+                console.error("Error loading Google Maps", e);
             }
-        }).catch(e => console.error("Error loading Google Maps", e));
+        };
+
+        loadMaps();
     }, []);
 
     // Handle Autocomplete Attachment
@@ -179,10 +189,7 @@ export default function WhereToApp() {
 
     const searchForPlace = (query: string): Promise<PlaceOption[]> => {
         return new Promise((resolve) => {
-            const request: google.maps.places.PlaceSearchRequest = {
-                query: query,
-                // rankBy: google.maps.places.RankBy.DISTANCE, // requires location
-            };
+            // Prefer nearby search if we have a start location
 
             // Prefer nearby search if we have a start location
             const useNearby = startPlaceRef.current && startPlaceRef.current.geometry;
@@ -315,7 +322,10 @@ export default function WhereToApp() {
 
         if (bestRouteObj) {
             setResult(bestRouteObj);
-            directionsRenderer.current!.setDirections(bestRouteObj.response);
+            if (directionsRenderer.current) {
+                directionsRenderer.current.setMap(mapInstance);
+                directionsRenderer.current.setDirections(bestRouteObj.response);
+            }
         } else {
             throw new Error("Could not calculate any valid route.");
         }
@@ -338,7 +348,7 @@ export default function WhereToApp() {
     const handleReset = () => {
         setResult(null);
         if (directionsRenderer.current) {
-            directionsRenderer.current.setDirections({ routes: [] });
+            directionsRenderer.current.setMap(null);
         }
     };
 
@@ -356,16 +366,17 @@ export default function WhereToApp() {
             <div className={styles.panel}>
                 {!result ? (
                     <>
-                        <h2 className={styles.title}>Plan Route</h2>
+                        <h2 className={styles.title}>Where To?</h2>
+                        <p className={styles.subtitle}>Plan your errand run.</p>
 
                         <div className={styles.formGroup}>
-                            <label>Start Location</label>
+                            <label className={styles.label}>Starting Location:</label>
                             <input
                                 ref={startInputRef}
                                 className={styles.input}
                                 value={startQuery}
                                 onChange={(e) => setStartQuery(e.target.value)}
-                                placeholder="e.g. 123 Main St"
+                                placeholder="Enter a location"
                             />
                             <div className={styles.checkboxGroup}>
                                 <input
@@ -374,29 +385,29 @@ export default function WhereToApp() {
                                     checked={sameStartEnd}
                                     onChange={(e) => setSameStartEnd(e.target.checked)}
                                 />
-                                <label htmlFor="sameStartEnd">End at same location</label>
+                                <label htmlFor="sameStartEnd">Same start and end location</label>
                             </div>
                         </div>
 
                         {!sameStartEnd && (
                             <div className={styles.formGroup}>
-                                <label>End Location</label>
+                                <label className={styles.label}>Ending Location:</label>
                                 <input
                                     ref={endInputRef}
                                     className={styles.input}
                                     value={endQuery}
                                     onChange={(e) => setEndQuery(e.target.value)}
-                                    placeholder="e.g. 456 Elm St"
+                                    placeholder="Enter a location"
                                 />
                             </div>
                         )}
 
-                        <hr style={{ margin: '20px 0', borderColor: '#333' }} />
+                        <hr className={styles.divider} />
 
                         {waypoints.map((wp, index) => (
                             <div key={wp.id} className={styles.formGroup}>
-                                <label>Stop {index + 1}</label>
-                                <div style={{ display: 'flex', gap: '8px' }}>
+                                <label className={styles.label}>Location {index + 1}</label>
+                                <div className={styles.stopRow}>
                                     <input
                                         className={styles.input}
                                         value={wp.value}
@@ -406,7 +417,7 @@ export default function WhereToApp() {
                                     {waypoints.length > 1 && (
                                         <button
                                             onClick={() => removeWaypoint(wp.id)}
-                                            style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer' }}
+                                            className={styles.removeBtn}
                                         >
                                             ✕
                                         </button>
@@ -416,18 +427,18 @@ export default function WhereToApp() {
                         ))}
 
                         <button className={`${styles.button} ${styles.secondary}`} onClick={addWaypoint}>
-                            + Add Stop
+                            Add Location
                         </button>
 
                         <button className={styles.button} onClick={handleSearch} disabled={isSearching}>
-                            {isSearching ? 'Working...' : 'Find Best Route'}
+                            {isSearching ? 'Searching...' : 'Search'}
                         </button>
                     </>
                 ) : (
                     <>
-                        <h2 className={styles.title}>Optimized!</h2>
+                        <h2 className={styles.title}>Route Ready!</h2>
                         <div className={styles.routeStats}>
-                            Total Time: {Math.round(result.duration / 60)} min
+                            🕐 {Math.round(result.duration / 60)} min total
                         </div>
 
                         <ul className={styles.stopsList}>
@@ -439,7 +450,7 @@ export default function WhereToApp() {
                             ))}
                         </ul>
 
-                        <a href={getGoogleMapsLink()} target="_blank" rel="noopener noreferrer" className={styles.button} style={{ textAlign: 'center', textDecoration: 'none', display: 'block' }}>
+                        <a href={getGoogleMapsLink()} target="_blank" rel="noopener noreferrer" className={styles.button}>
                             Open in Google Maps
                         </a>
 

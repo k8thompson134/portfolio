@@ -1,0 +1,99 @@
+@use '../styles/variables' as *;
+
+.creativeGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $space-3;
+}
+
+.creativeCard {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: $radius-md;
+    overflow: hidden;
+    cursor: pointer;
+    @include panel;
+
+    &.portrait {
+        aspect-ratio: 3 / 4;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba($deep-space, 0.9) 0%, transparent 50%);
+        opacity: 0;
+        transition: opacity $transition-base;
+        z-index: 1;
+    }
+
+    &:hover {
+        box-shadow: $shadow-glow-orange;
+
+        &::before {
+            opacity: 1;
+        }
+
+        .info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .image {
+            transform: scale(1.05);
+        }
+    }
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform $transition-slow;
+
+    &.contain {
+        object-fit: contain;
+        padding: $space-3;
+        background: $panel-dark;
+    }
+}
+
+.placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, $panel-mid 0%, $panel-dark 100%);
+    color: $text-muted;
+
+    svg {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: $space-3;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all $transition-base;
+}
+
+.title {
+    font-family: $font-display;
+    font-size: 0.9rem;
+    color: $text-primary;
+    margin-bottom: $space-1;
+}
+
+.category {
+    @include dymo-label;
+    font-size: 0.6rem;
+}

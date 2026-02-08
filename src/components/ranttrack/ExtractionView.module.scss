@@ -1,0 +1,111 @@
+@use '../../styles/variables' as *;
+
+.container {
+  @include panel;
+  padding: $space-4;
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+
+  @include scanline;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  text-align: center;
+  color: $text-muted;
+  gap: $space-2;
+
+  p {
+    font-size: 0.85rem;
+    max-width: 320px;
+    line-height: 1.5;
+  }
+}
+
+.emptyLabel {
+  @include dymo-label;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-3;
+}
+
+.label {
+  @include dymo-label;
+}
+
+.status {
+  font-family: $font-mono;
+  font-size: 0.7rem;
+  color: $led-yellow;
+  letter-spacing: 0.08em;
+  animation: blink 1s step-end infinite;
+}
+
+.count {
+  font-family: $font-mono;
+  font-size: 0.7rem;
+  color: $led-green;
+  letter-spacing: 0.05em;
+}
+
+.parsedText {
+  margin-bottom: $space-3;
+}
+
+.sectionLabel {
+  display: block;
+  font-family: $font-mono;
+  font-size: 0.6rem;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: $space-1;
+}
+
+.text {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: $text-secondary;
+}
+
+.highlight {
+  background: none;
+  color: inherit;
+  border-bottom: 2px solid;
+  font-weight: 500;
+  padding-bottom: 1px;
+}
+
+.symptoms {
+  padding-top: $space-3;
+  border-top: 1px solid rgba($border-gray, 0.4);
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-top: $space-2;
+}
+
+.noResults {
+  color: $text-muted;
+  font-size: 0.8rem;
+  font-style: italic;
+  padding-top: $space-3;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

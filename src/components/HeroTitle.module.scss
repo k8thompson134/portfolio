@@ -1,0 +1,91 @@
+@use '../styles/variables' as *;
+
+.heroSection {
+    text-align: center;
+    margin-bottom: $space-8;
+    overflow: hidden;
+}
+
+.title {
+    font-family: $font-display;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: $nixie-orange;
+    text-shadow: 0 0 10px rgba($nixie-orange, 0.5), 0 0 20px rgba($nixie-orange, 0.3);
+
+    // CRT power-on animation
+    animation: crtPowerOn 1.5s ease-out forwards;
+    transform-origin: center center;
+
+    &::after {
+        content: '_';
+        display: inline-block;
+        animation: blink 1s step-end infinite;
+        margin-left: 2px;
+        color: rgba($nixie-orange, 0.7);
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.tagline {
+    font-family: $font-mono;
+    font-size: 1rem;
+    color: $text-secondary;
+    margin-top: $space-4;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+    animation-delay: 1s;
+
+    span {
+        color: $led-green;
+        @include crt-glow($led-green);
+    }
+}
+
+// CRT monitor power-on effect
+@keyframes crtPowerOn {
+    0% {
+        transform: scaleY(0.005) scaleX(0.3);
+        opacity: 0;
+        filter: brightness(3);
+    }
+
+    20% {
+        transform: scaleY(0.005) scaleX(1);
+        opacity: 1;
+        filter: brightness(2);
+    }
+
+    40% {
+        transform: scaleY(0.02) scaleX(1);
+        filter: brightness(1.5);
+    }
+
+    100% {
+        transform: scaleY(1) scaleX(1);
+        opacity: 1;
+        filter: brightness(1);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

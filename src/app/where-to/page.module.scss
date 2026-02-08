@@ -1,9 +1,25 @@
+@use "sass:color";
 @use '../../styles/variables' as *;
 
 .main {
   padding: $space-6;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: $console-teal;
+  text-decoration: none;
+  font-family: var(--font-body), 'Quicksand', sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: $space-4;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: color.adjust($console-teal, $lightness: 15%);
+  }
 }
 
 .title {
@@ -18,21 +34,32 @@
   margin-bottom: $space-6;
 }
 
-.appContainer {
-  @include panel;
-  height: 600px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba($console-black, 0.5);
+.links {
+  margin-bottom: $space-6;
 }
 
-.mapPlaceholder {
-  text-align: center;
-  color: $text-secondary;
-  
-  p {
-    font-size: 1.2rem;
-    margin-bottom: $space-2;
+.githubLink {
+  color: $console-teal;
+  font-family: $font-mono;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  transition: color $transition-fast;
+
+  &::after {
+    content: '↗';
+    font-family: sans-serif;
   }
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+}
+
+.appContainer {
+  width: 100%;
+  min-height: 70vh;
 }

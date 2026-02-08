@@ -1,0 +1,131 @@
+@use '../styles/variables' as *;
+
+.footer {
+    margin-top: $space-9;
+    padding: $space-6 0;
+    text-align: center;
+    position: relative;
+
+    // Technical Top Border
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg,
+                transparent 0%,
+                rgba($console-teal, 0.5) 20%,
+                rgba($console-teal, 0.5) 80%,
+                transparent 100%);
+    }
+
+
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: $space-6;
+    margin-bottom: $space-6;
+    flex-wrap: wrap;
+}
+
+.navLink {
+    font-family: $font-mono;
+    font-size: 0.85rem;
+    color: $text-secondary;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all $transition-fast;
+    position: relative;
+    padding: $space-1 $space-2;
+
+    // Bracket effect on hover
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border: 1px solid transparent;
+        transition: all $transition-fast;
+        opacity: 0;
+    }
+
+    &::before {
+        top: 0;
+        left: 0;
+        border-top-color: $nixie-orange;
+        border-left-color: $nixie-orange;
+    }
+
+    &::after {
+        bottom: 0;
+        right: 0;
+        border-bottom-color: $nixie-orange;
+        border-right-color: $nixie-orange;
+    }
+
+    &:hover {
+        color: $nixie-orange;
+        background: rgba($nixie-orange, 0.05);
+
+        &::before,
+        &::after {
+            opacity: 1;
+        }
+    }
+}
+
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: $space-4;
+    margin-bottom: $space-6;
+}
+
+.socialLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba($console-teal, 0.3);
+    border-radius: $radius-sm;
+    color: $text-secondary;
+    transition: all $transition-fast;
+    background: rgba($deep-space, 0.5);
+
+    svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    &:hover {
+        color: $led-green;
+        border-color: $led-green;
+        box-shadow: 0 0 8px rgba($led-green, 0.3);
+        transform: translateY(-2px);
+    }
+}
+
+.copyright {
+    display: inline-block;
+    padding: $space-2 $space-4;
+    border: 1px solid rgba($border-gray, 0.3);
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.3);
+
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: $text-muted;
+    letter-spacing: 0.05em;
+
+    span {
+        color: $nixie-orange;
+        font-weight: bold;
+    }
+}

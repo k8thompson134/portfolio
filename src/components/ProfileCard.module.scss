@@ -1,0 +1,91 @@
+@use '../styles/variables' as *;
+
+.profileCard {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-5;
+    margin-bottom: $space-5;
+
+    @media (max-width: $bp-md) {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.avatarWrapper {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    @include panel;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow $transition-base;
+
+    &:hover {
+        box-shadow: $shadow-glow-orange;
+    }
+
+    @include scanline;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, $panel-mid 0%, $panel-dark 100%);
+
+    svg {
+        width: 60%;
+        height: 60%;
+        color: $text-muted;
+    }
+}
+
+.info {
+    flex: 1;
+}
+
+.name {
+    font-family: $font-display;
+    font-size: 1.25rem;
+    color: $text-primary;
+    margin-bottom: $space-2;
+}
+
+.quickStats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+
+    @media (max-width: $bp-md) {
+        justify-content: center;
+    }
+}
+
+.stat {
+    @include dymo-label;
+    display: flex;
+    align-items: center;
+    gap: $space-1;
+
+    svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    &.highlight {
+        color: $led-green;
+        border-color: rgba($led-green, 0.3);
+        background: rgba($led-green, 0.1);
+    }
+}

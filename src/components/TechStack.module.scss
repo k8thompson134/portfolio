@@ -1,0 +1,17 @@
+@use '../styles/variables' as *;
+
+.techStack {
+    margin-bottom: $space-7;
+}
+
+.heading {
+    @include dymo-label;
+    display: inline-block;
+    margin-bottom: $space-3;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2;
+}

@@ -1,11 +1,14 @@
+@use "sass:color";
 @use '../styles/variables' as *;
+
+// Where To? specific colors - more vibrant for dark mode
+$accent-color: #6B9DC2; // Brighter Earthy Blue
 
 .container {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: $space-4;
-    height: 80vh;
+    gap: $space-5;
+    height: 75vh;
+    min-height: 500px;
     position: relative;
 
     @media (max-width: 768px) {
@@ -15,98 +18,191 @@
 }
 
 .mapContainer {
-    height: 100%;
-    width: 65%;
-    border-radius: $radius-md;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    order: 2;
-    overflow: hidden; // For map corners
+    flex: 1;
+    min-width: 0;
+    border-radius: $radius-lg;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
 
     @media (max-width: 768px) {
-        width: 100%;
         height: 400px;
-        order: 1;
-        margin-bottom: $space-4;
+        order: -1;
     }
 }
 
 .panel {
-    width: 33%;
-    @include panel;
-    padding: $space-5;
-    height: 100%;
-    order: 1;
+    width: 360px;
+    flex-shrink: 0;
+    background: $panel-dark;
+    border: 1px solid $border-gray;
+    border-radius: $radius-lg;
+    padding: $space-6;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 
     @media (max-width: 768px) {
         width: 100%;
-        order: 2;
-        height: auto;
     }
 }
 
 .title {
-    font-family: $font-display;
-    font-size: 1.5rem;
-    margin-bottom: $space-4;
-    color: $text-primary;
+    font-family: var(--font-heading), 'Caprasimo', cursive;
+    font-size: 2.2rem;
+    font-weight: 400;
+    margin-bottom: $space-2;
+    color: $accent-color;
+    letter-spacing: 0.02em;
+}
+
+.subtitle {
+    font-family: var(--font-body), 'Quicksand', sans-serif;
+    font-size: 0.95rem;
+    color: $text-muted;
+    margin-bottom: $space-5;
 }
 
 .formGroup {
     margin-bottom: $space-4;
+}
 
-    label {
-        display: block;
-        margin-bottom: $space-2;
-        font-size: 0.9rem;
-        color: $text-secondary;
-    }
+.label {
+    display: block;
+    margin-bottom: $space-2;
+    font-family: var(--font-body), 'Quicksand', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $accent-color;
 }
 
 .input {
-    @include input;
     width: 100%;
+    background: rgba($deep-space, 0.6);
+    color: $text-primary;
+    border: 1px solid $border-gray;
+    padding: $space-3 $space-4;
+    border-radius: $radius-lg;
+    font-family: var(--font-body), 'Quicksand', sans-serif;
+    font-size: 0.95rem;
+    transition: all $transition-fast;
+
+    &:focus {
+        outline: none;
+        border-color: $accent-color;
+        box-shadow: 0 0 0 3px rgba($accent-color, 0.15);
+    }
+
+    &::placeholder {
+        color: $text-muted;
+        font-style: italic;
+    }
 }
 
 .checkboxGroup {
     display: flex;
     align-items: center;
     gap: $space-2;
-    margin-top: $space-2;
+    margin-top: $space-3;
+
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: $accent-color;
+        cursor: pointer;
+    }
 
     label {
-        margin-bottom: 0;
+        font-family: var(--font-body), 'Quicksand', sans-serif;
         font-size: 0.85rem;
+        color: $text-secondary;
+        cursor: pointer;
+    }
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid $border-gray;
+    margin: $space-5 0;
+}
+
+.stopRow {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+}
+
+.removeBtn {
+    background: none;
+    border: none;
+    color: $text-muted;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: $space-1;
+    transition: color $transition-fast;
+
+    &:hover {
+        color: $led-red;
     }
 }
 
 .button {
-    @include button;
     width: 100%;
-    margin-bottom: $space-2;
+    background: $accent-color;
+    color: #fff;
+    border: none;
+    padding: $space-3 $space-4;
+    border-radius: $radius-lg;
+    font-family: var(--font-body), 'Quicksand', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    text-decoration: none;
+    transition: all $transition-fast;
+    margin-bottom: $space-3;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    &:hover {
+        background: color.adjust($accent-color, $lightness: -8%);
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
 
     &.secondary {
         background: transparent;
-        border: 1px solid $console-teal;
-        color: $console-teal;
+        border: 1px solid $accent-color;
+        color: $accent-color;
+        box-shadow: none;
 
         &:hover {
-            background: rgba($console-teal, 0.1);
+            background: rgba($accent-color, 0.1);
         }
     }
 }
 
 .routeStats {
-    font-family: $font-mono;
+    font-family: var(--font-body), 'Quicksand', sans-serif;
+    font-weight: 600;
     color: $led-green;
     margin-bottom: $space-4;
-    padding: $space-2;
+    padding: $space-3;
     border: 1px solid rgba($led-green, 0.3);
-    border-radius: $radius-sm;
+    border-radius: $radius-lg;
     background: rgba($led-green, 0.05);
+    text-align: center;
+    font-size: 1.1rem;
 }
 
 .stopsList {
@@ -117,20 +213,26 @@
 
 .stopItem {
     padding: $space-3;
-    border-bottom: 1px solid $border-color;
+    border-radius: $radius-md;
+    background: rgba($deep-space, 0.4);
+    margin-bottom: $space-2;
 
     &:last-child {
-        border-bottom: none;
+        margin-bottom: 0;
     }
 
     strong {
         display: block;
+        font-family: var(--font-body), 'Quicksand', sans-serif;
         color: $text-primary;
         margin-bottom: 4px;
+        font-size: 0.95rem;
     }
 
     small {
-        color: $text-secondary;
+        font-family: var(--font-body), 'Quicksand', sans-serif;
+        color: $text-muted;
+        font-size: 0.8rem;
     }
 }
 
@@ -140,15 +242,21 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba($deep-space, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
-    border-radius: $radius-md;
+    border-radius: $radius-lg;
+    backdrop-filter: blur(4px);
 
     span {
         color: $text-primary;
-        font-family: $font-mono;
+        font-family: var(--font-body), 'Quicksand', sans-serif;
+        font-size: 1rem;
+        padding: $space-4 $space-6;
+        background: $panel-dark;
+        border-radius: $radius-lg;
+        border: 1px solid $border-gray;
     }
 }

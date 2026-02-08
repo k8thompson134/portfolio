@@ -1,0 +1,107 @@
+@use '../styles/variables' as *;
+
+.contactSection {
+    margin-top: $space-9;
+    padding: $space-7 $space-6;
+    text-align: center;
+    position: relative;
+    border: 1px solid rgba($console-teal, 0.3);
+    background: rgba($panel-dark, 0.4);
+    border-radius: $radius-lg;
+    overflow: hidden;
+
+    // Corner Accents
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border-top: 2px solid $console-teal;
+        border-left: 2px solid $console-teal;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        border-bottom: 2px solid $console-teal;
+        border-right: 2px solid $console-teal;
+    }
+}
+
+.heading {
+    font-family: $font-display;
+    font-size: 1.8rem;
+    color: $nixie-orange;
+    margin-bottom: $space-3;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: $shadow-glow-orange;
+
+    &::before {
+        content: '> ';
+        color: $led-green;
+        font-family: $font-mono;
+        opacity: 0.7;
+    }
+}
+
+.subtext {
+    font-family: $font-mono;
+    font-size: 0.9rem;
+    color: $text-secondary;
+    margin-bottom: $space-6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.links {
+    display: flex;
+    justify-content: center;
+    gap: $space-5;
+    flex-wrap: wrap;
+}
+
+.iconLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    color: $text-primary;
+    background: rgba($deep-space, 0.6);
+    border: 1px solid rgba($border-gray, 0.5);
+    border-radius: $radius-md;
+    transition: all $transition-base;
+    text-decoration: none;
+    position: relative;
+
+    svg {
+        width: 24px;
+        height: 24px;
+        filter: drop-shadow(0 0 2px rgba($text-primary, 0.5));
+    }
+
+    &:hover {
+        color: $led-green;
+        border-color: $led-green;
+        background: rgba($led-green, 0.1);
+        box-shadow: 0 0 15px rgba($led-green, 0.3);
+        transform: translateY(-3px);
+
+        svg {
+            filter: drop-shadow(0 0 5px $led-green);
+        }
+    }
+
+    &:active {
+        transform: translateY(-1px);
+    }
+}

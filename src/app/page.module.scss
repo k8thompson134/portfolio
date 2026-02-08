@@ -4,6 +4,41 @@
   max-width: 800px;
   margin: 0 auto;
   padding: $space-8 $space-5;
+  position: relative;
+  min-height: 100vh;
+
+  // Technical Grid Background
+  background-image:
+    linear-gradient(rgba($console-teal, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba($console-teal, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center top;
+
+  // Corner Brackets (HUD overlay)
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba($console-teal, 0.3);
+    transition: all 0.5s ease;
+    pointer-events: none;
+  }
+
+  &::before {
+    top: $space-5;
+    left: $space-5;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  &::after {
+    top: $space-5;
+    right: $space-5;
+    border-left: none;
+    border-bottom: none;
+  }
 }
 
 .title {
@@ -14,21 +49,117 @@
 }
 
 .sectionLabel {
-  @include dymo-label;
-  display: inline-block;
-  margin-bottom: $space-3;
-  
+  font-family: $font-mono;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: $console-teal;
+  display: flex;
+  align-items: center;
+  margin-top: $space-8;
+  margin-bottom: $space-5; // slightly more space
+  position: relative;
+  width: 100%;
+
+  // Tech Line
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg,
+        rgba($console-teal, 0.4) 0%,
+        rgba($console-teal, 0.1) 50%,
+        transparent 100%);
+    margin-left: $space-3;
+  }
+
+  // Left Bracket/Block
+  &::before {
+    content: '';
+    width: 4px;
+    height: 16px;
+    background: $console-teal;
+    margin-right: $space-3;
+    box-shadow: 0 0 8px rgba($console-teal, 0.5);
+  }
+
+  // "Scanner" effect on hover
+  &:hover {
+    &::before {
+      background: $nixie-orange;
+      box-shadow: 0 0 10px rgba($nixie-orange, 0.6);
+    }
+
+    color: $nixie-orange;
+    text-shadow: 0 0 8px rgba($nixie-orange, 0.4);
+
+    &::after {
+      background: linear-gradient(90deg,
+          rgba($nixie-orange, 0.4) 0%,
+          rgba($nixie-orange, 0.1) 50%,
+          transparent 100%);
+    }
+  }
 }
 
 .bio {
   color: $text-secondary;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   line-height: 1.8;
   margin-bottom: $space-7;
+  max-width: 90%;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: $space-4;
+}
+
+.creativeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $space-3;
+  margin-bottom: $space-6;
+}
+
+.pageTitle {
+  font-family: $font-display;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: $nixie-orange;
+  margin-bottom: $space-3;
+}
+
+.pageDescription {
+  color: $text-secondary;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: $space-6;
+  max-width: 600px;
+}
+
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: $space-4;
+}
+
+.backLink {
+  margin-bottom: $space-5;
+
+  a {
+    color: $led-green;
+    text-decoration: none;
+    font-family: $font-mono;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    transition: color $transition-base;
+
+    &:hover {
+      color: $nixie-orange;
+      text-shadow: $shadow-glow-green; // subtle glow on hover
+    }
+  }
 }

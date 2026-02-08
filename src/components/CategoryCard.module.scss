@@ -1,0 +1,97 @@
+@use '../styles/variables' as *;
+
+.categoryCard {
+    display: block;
+    text-decoration: none;
+    @include panel;
+    padding: $space-4;
+    border-radius: $radius-md;
+    transition: all $transition-base;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba($console-teal, 0.2);
+
+    // Tech Corner Accents
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 15px;
+        height: 15px;
+        border-top: 2px solid rgba($console-teal, 0.3);
+        border-right: 2px solid rgba($console-teal, 0.3);
+        transition: all $transition-base;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 15px;
+        height: 15px;
+        border-bottom: 2px solid rgba($console-teal, 0.3);
+        border-left: 2px solid rgba($console-teal, 0.3);
+        transition: all $transition-base;
+    }
+
+    &:hover {
+        box-shadow: $shadow-glow-orange;
+        transform: translateY(-2px);
+        border-color: $nixie-orange;
+
+        &::before {
+            border-color: $nixie-orange;
+        }
+
+        &::after {
+            border-color: $nixie-orange;
+        }
+
+        .title {
+            color: $nixie-orange;
+        }
+
+        .arrow {
+            transform: translateX(4px);
+            color: $nixie-orange;
+        }
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $space-2;
+}
+
+.title {
+    font-family: $font-display;
+    font-size: 1.1rem;
+    color: $text-primary;
+    transition: color $transition-fast;
+}
+
+.arrow {
+    color: $text-muted;
+    transition: transform $transition-fast;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.description {
+    font-size: 0.85rem;
+    color: $text-muted;
+    line-height: 1.5;
+    margin-bottom: $space-3;
+}
+
+.count {
+    @include dymo-label;
+    font-size: 0.65rem;
+}

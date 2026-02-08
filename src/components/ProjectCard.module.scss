@@ -6,6 +6,52 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: all $transition-base;
+  border: 1px solid rgba($console-teal, 0.2);
+
+  // Tech Corner Accents
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-top: 20px solid rgba($console-teal, 0.1);
+    border-right: 20px solid transparent;
+    transition: all $transition-base;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-bottom: 2px solid rgba($console-teal, 0.3);
+    border-right: 2px solid rgba($console-teal, 0.3);
+    transition: all $transition-base;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 12px rgba($console-teal, 0.4);
+    border-color: rgba($console-teal, 0.5);
+
+    &::before {
+      border-top-color: $console-teal;
+    }
+
+    &::after {
+      width: 15px;
+      height: 15px;
+      border-color: $nixie-orange;
+      box-shadow: 2px 2px 5px rgba($nixie-orange, 0.3);
+    }
+  }
 }
 
 .header {
@@ -13,6 +59,39 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: $space-3;
+  position: relative;
+  z-index: 2; // Above the card link
+}
+
+.cardLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  &:focus {
+    outline: 2px solid $console-teal;
+    outline-offset: -2px;
+  }
+}
+
+.githubIcon {
+  color: $text-muted;
+  transition: color $transition-fast;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3; // Above card link
+
+  &:hover {
+    color: $nixie-orange;
+    filter: drop-shadow(0 0 4px rgba($nixie-orange, 0.5));
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
 }
 
 .designation {
@@ -40,6 +119,7 @@
 
   &.live {
     color: $led-green;
+
     &::before {
       background: $led-green;
       box-shadow: 0 0 6px rgba($led-green, 0.6);
@@ -48,6 +128,7 @@
 
   &.wip {
     color: $led-yellow;
+
     &::before {
       background: $led-yellow;
       box-shadow: 0 0 6px rgba($led-yellow, 0.5);
@@ -56,6 +137,7 @@
 
   &.archived {
     color: $led-red;
+
     &::before {
       background: $led-red;
       box-shadow: 0 0 4px rgba($led-red, 0.4);
