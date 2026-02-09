@@ -44,6 +44,14 @@ export default function Home() {
             github="https://github.com/k8thompson134/magic-pace-ball"
           />
           <ProjectCard
+            title="Where To?"
+            description="I want to get coffee, go to a book store, hit a thrift shop, and get sushi for lunch. So many different coffee brands, so many thrift shops in the Milwaukee area, Where To helps you find the options that give you the itinerary that makes the best route. Scenic route feature coming soon!"
+            tech={['JavaScript', 'Google Maps API']}
+            status="live"
+            href="/where-to"
+            github="https://github.com/k8thompson134/where-to"
+          />
+          <ProjectCard
             title="Progresive Learning Platform"
             description="Assembly language compiler built for students to replace an outdated software used in computer architecture courses to include modern IDE features while also implementing features to make learning assembly less intimidating."
             tech={['Java', 'JavaFX', 'JUnit', 'Mockito', 'MIPS Assembly', 'Lombok', 'Google Guava']}
@@ -54,14 +62,6 @@ export default function Home() {
             description="Assignment submittal tool and autograder used in for programming assignments in multiple languages. Team focused on updating the docker infastructure and views for both students and instructors."
             tech={['Ruby On Rails', 'SQLite', 'AngularJS', 'Docker', 'LDAP', 'jQuery', 'RSpec']}
             status="live"
-          />
-          <ProjectCard
-            title="Where To?"
-            description="I want to get coffee, go to a book store, hit a thrift shop, and get sushi for lunch. So many different coffee brands, so many thrift shops in the Milwaukee area, Where To helps you find the options that give you the itinerary that makes the best route. Scenic route feature coming soon!"
-            tech={['JavaScript', 'Google Maps API']}
-            status="live"
-            href="/where-to"
-            github="https://github.com/k8thompson134/where-to"
           />
         </div>
       </section>

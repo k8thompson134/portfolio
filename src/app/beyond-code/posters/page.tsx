@@ -22,37 +22,37 @@ export default function PostersPage() {
                 />
                 <CreativeCard
                     title="Fall Music Festival"
-                    category="KSM Sorority"
+                    category="MKE YDSA"
                     imageSrc="/images/creative work/Fall Music Festival Invitation.png"
                     portrait
                 />
                 <CreativeCard
                     title="Election Flyer"
-                    category="YDSA"
+                    category="MSOE YDSA"
                     imageSrc="/images/creative work/YDSA Election flyer (36 x 48 in).png"
                     portrait
                 />
                 <CreativeCard
                     title="YDSA × SAGA"
-                    category="Campus Coalition"
+                    category="MSOE YDSA"
                     imageSrc="/images/creative work/MSOE YDSA and SAGA(1).png"
                     portrait
                 />
                 <CreativeCard
                     title="Debate Watch Party"
-                    category="YDSA"
+                    category="MSOE YDSA"
                     imageSrc="/images/creative work/Debate watch party (8.5 x 11 in)(1).png"
                     portrait
                 />
                 <CreativeCard
                     title="Learn About Voting"
-                    category="YDSA"
+                    category="MSOE YDSA"
                     imageSrc="/images/creative work/Learn about.png"
                     portrait
                 />
                 <CreativeCard
                     title="All Students Welcome"
-                    category="Campus Event"
+                    category="MSOE YDSA"
                     imageSrc="/images/creative work/No hate, No fear All studenst are welcome here! (Instagram Post).png"
                     portrait
                 />

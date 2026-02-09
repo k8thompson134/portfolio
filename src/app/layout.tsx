@@ -36,7 +36,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "K8 Portfolio | Ground Control",
+  title: "Kate Thompson | Software Engineer",
   description: "Portfolio of Kate Thompson - Software Engineer",
 };
 
