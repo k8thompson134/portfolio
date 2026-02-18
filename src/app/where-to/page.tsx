@@ -6,7 +6,7 @@ export default function WhereTo() {
     return (
         <main className={styles.main}>
             <Link href="/" className={styles.backLink}>
-                ← Back to Home
+                ← Back to Command Center
             </Link>
 
             <h1 className={styles.title}>Where To?</h1>

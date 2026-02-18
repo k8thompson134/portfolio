@@ -12,7 +12,7 @@ export default function RantTrack() {
 
     return (
         <main className={styles.main}>
-            <Link href="/" className={styles.backLink}>&larr; Return to Base</Link>
+            <Link href="/" className={styles.backLink}>← Back to Command Center</Link>
             <h1 className={styles.title}>RantTrack</h1>
             <p className={styles.tagline}>Just rant about how you feel. The NLP handles the rest.</p>
 

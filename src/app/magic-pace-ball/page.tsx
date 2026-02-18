@@ -5,7 +5,7 @@ import Image from 'next/image';
 export default function MagicPaceBall() {
     return (
         <main className={styles.main}>
-            <Link href="/" className={styles.backLink}>← Return to Base</Link>
+            <Link href="/" className={styles.backLink}>← Back to Command Center</Link>
             <h1 className={styles.title}>Magic Pace Ball</h1>
             <p className={styles.tagline}>Real-time running pacing advice powered by on-device AI.</p>
 

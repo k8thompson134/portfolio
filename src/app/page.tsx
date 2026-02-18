@@ -36,6 +36,14 @@ export default function Home() {
             github="https://github.com/k8thompson134/rant-app"
           />
           <ProjectCard
+            title="Stormglass"
+            description="Real-time environmental health tracker built for people with chronic illness. Correlates barometric pressure, air quality, geomagnetic activity, and pollen with symptom patterns to forecast flare risk for conditions like ME/CFS, POTS, and migraines. Pulls from four free public APIs with no cloud lock-in, backed by a local PostgreSQL database and a Fastify REST API."
+            tech={['React', 'TypeScript', 'Fastify', 'PostgreSQL', 'Drizzle ORM', 'PWA']}
+            status="live"
+            href="https://mystormglass.xyz"
+            github="https://github.com/k8thompson134/Stormglass"
+          />
+          <ProjectCard
             title="Magic Pace Ball"
             description="Flutter running pacing oracle with on-device LLM for real-time pacing advice. No cloud dependency for privacy."
             tech={['Flutter', 'Dart', 'On-Device LLM']}
@@ -50,6 +58,13 @@ export default function Home() {
             status="live"
             href="/where-to"
             github="https://github.com/k8thompson134/where-to"
+          />
+          <ProjectCard
+            title="Portfolio Website"
+            description="The site you are currently visiting! Built to showcase my projects and skills with a custom design."
+            tech={['Next.js', 'React', 'TypeScript', 'SCSS']}
+            status="live"
+            github="https://github.com/k8thompson134/portfolio"
           />
           <ProjectCard
             title="Progresive Learning Platform"
