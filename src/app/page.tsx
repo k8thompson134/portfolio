@@ -40,7 +40,7 @@ export default function Home() {
             description="Real-time environmental health tracker built for people with chronic illness. Correlates barometric pressure, air quality, geomagnetic activity, and pollen with symptom patterns to forecast flare risk for conditions like ME/CFS, POTS, and migraines. Pulls from four free public APIs with no cloud lock-in, backed by a local PostgreSQL database and a Fastify REST API."
             tech={['React', 'TypeScript', 'Fastify', 'PostgreSQL', 'Drizzle ORM', 'PWA']}
             status="live"
-            href="https://mystormglass.xyz"
+            liveUrl="https://mystormglass.xyz"
             github="https://github.com/k8thompson134/Stormglass"
           />
           <ProjectCard

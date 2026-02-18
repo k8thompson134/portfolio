@@ -74,13 +74,37 @@
   }
 }
 
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  z-index: 3;
+}
+
+.liveIcon {
+  color: $text-muted;
+  transition: color $transition-fast;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: $led-green;
+    filter: drop-shadow(0 0 4px rgba($led-green, 0.5));
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 .githubIcon {
   color: $text-muted;
   transition: color $transition-fast;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 3; // Above card link
 
   &:hover {
     color: $nixie-orange;
