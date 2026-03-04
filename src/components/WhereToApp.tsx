@@ -2,6 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
+import {
+  getDistanceFromLatLonInM,
+  generateCombinations,
+  getGoogleMapsLink as buildGoogleMapsLink,
+  validateSearchParams,
+  sortCombinationsByPathDistance,
+} from '@/lib/where-to';
 import styles from './WhereToApp.module.scss';
 
 // Fallback key from original project if env not set
@@ -52,9 +59,16 @@ export default function WhereToApp() {
 
     // Starting place object (for geometry)
     const startPlaceRef = useRef<google.maps.places.PlaceResult | null>(null);
+    const endPlaceRef = useRef<google.maps.places.PlaceResult | null>(null);
+
+    const mapInitRef = useRef(false);
+    const acInitRef = useRef(false);
 
     // Load Google Maps API using new functional API
     useEffect(() => {
+        if (mapInitRef.current) return;
+        mapInitRef.current = true;
+
         const loadMaps = async () => {
             try {
                 // Set options for the loader
@@ -98,6 +112,8 @@ export default function WhereToApp() {
 
     useEffect(() => {
         if (!googleInfo || !mapInstance) return;
+        if (acInitRef.current) return;
+        acInitRef.current = true;
 
         if (startInputRef.current) {
             const ac = new googleInfo.maps.places.Autocomplete(startInputRef.current);
@@ -118,6 +134,7 @@ export default function WhereToApp() {
             const ac = new googleInfo.maps.places.Autocomplete(endInputRef.current);
             ac.addListener('place_changed', () => {
                 const place = ac.getPlace();
+                endPlaceRef.current = place;
                 setEndQuery(place.formatted_address || place.name);
             });
         }
@@ -140,20 +157,14 @@ export default function WhereToApp() {
     const handleSearch = async () => {
         if (!mapInstance || !placesService.current) return;
 
-        // Validation
-        if (!startQuery) {
-            alert("Please enter a starting location");
-            return;
-        }
-        const finalEnd = sameStartEnd ? startQuery : endQuery;
-        if (!finalEnd && !sameStartEnd) {
-            alert("Please enter an ending location");
-            return;
-        }
-
-        const activeWaypoints = waypoints.filter(w => w.value.trim().length > 0);
-        if (activeWaypoints.length === 0) {
-            alert("Please enter at least one stop");
+        const validation = validateSearchParams({
+            startQuery,
+            endQuery,
+            sameStartEnd,
+            waypoints,
+        });
+        if (!validation.valid) {
+            alert(validation.error);
             return;
         }
 
@@ -176,6 +187,7 @@ export default function WhereToApp() {
 
             // 2. Route Optimization
             setStatusMessage("Calculating best route...");
+            const finalEnd = sameStartEnd ? startQuery : endQuery;
             await findBestRoute(startQuery, finalEnd, waypointOptions);
 
         } catch (error: any) {
@@ -189,10 +201,25 @@ export default function WhereToApp() {
 
     const searchForPlace = (query: string): Promise<PlaceOption[]> => {
         return new Promise((resolve) => {
-            // Prefer nearby search if we have a start location
+            const startLoc = startPlaceRef.current?.geometry?.location;
+            const endLoc = sameStartEnd ? startLoc : endPlaceRef.current?.geometry?.location;
 
-            // Prefer nearby search if we have a start location
-            const useNearby = startPlaceRef.current && startPlaceRef.current.geometry;
+            let searchLocation = startLoc;
+            let searchRadius = 50000; // default 50km
+
+            if (startLoc && endLoc) {
+                // Calculate midpoint
+                const lat1 = startLoc.lat();
+                const lng1 = startLoc.lng();
+                const lat2 = endLoc.lat();
+                const lng2 = endLoc.lng();
+
+                searchLocation = new google.maps.LatLng((lat1 + lat2) / 2, (lng1 + lng2) / 2);
+
+                const distanceM = getDistanceFromLatLonInM(lat1, lng1, lat2, lng2);
+                // Radius is half the distance plus a 10km buffer, max 50km minimum 10km
+                searchRadius = Math.min(50000, Math.max(10000, (distanceM / 2) + 10000));
+            }
 
             const callback = async (results: google.maps.places.PlaceResult[] | null, status: google.maps.places.PlacesServiceStatus) => {
                 if (status === google.maps.places.PlacesServiceStatus.OK && results && results.length > 0) {
@@ -245,11 +272,11 @@ export default function WhereToApp() {
                 }
             };
 
-            if (useNearby && startPlaceRef.current?.geometry?.location) {
-                placesService.current!.nearbySearch({
-                    location: startPlaceRef.current.geometry.location,
-                    radius: 50000, // 50km
-                    keyword: query
+            if (searchLocation) {
+                placesService.current!.textSearch({
+                    location: searchLocation,
+                    radius: searchRadius,
+                    query: query
                 }, callback);
             } else {
                 placesService.current!.textSearch({ query }, callback);
@@ -265,10 +292,29 @@ export default function WhereToApp() {
             }
         }
 
-        const optionArrays = waypointData.map(wp => wp.options);
-        let combinations = generateCombinations(optionArrays);
+        const optionArrays: PlaceOption[][] = waypointData.map((wp) => wp.options);
+        let combinations: PlaceOption[][] = generateCombinations(optionArrays);
 
         console.log(`Testing ${combinations.length} initial combinations`);
+
+        const startLoc = startPlaceRef.current?.geometry?.location;
+        const endLoc = sameStartEnd ? startLoc : endPlaceRef.current?.geometry?.location;
+
+        if (startLoc && endLoc) {
+            const startPoint = { lat: startLoc.lat(), lng: startLoc.lng() };
+            const endPoint = { lat: endLoc.lat(), lng: endLoc.lng() };
+            const getPoint = (p: PlaceOption) => ({
+                lat: p.geometry?.location?.lat() ?? 0,
+                lng: p.geometry?.location?.lng() ?? 0,
+            });
+            combinations = sortCombinationsByPathDistance(
+                startPoint,
+                endPoint,
+                combinations,
+                getPoint
+            );
+        }
+
         // Limit combinations
         if (combinations.length > 10) {
             combinations = combinations.slice(0, 10);
@@ -331,20 +377,6 @@ export default function WhereToApp() {
         }
     };
 
-    // Helper: Recursive combination generator
-    function generateCombinations<T>(arrays: T[][]): T[][] {
-        if (arrays.length === 0) return [[]];
-        const result: T[][] = [];
-        const first = arrays[0];
-        const rest = generateCombinations(arrays.slice(1));
-        for (const item of first) {
-            for (const r of rest) {
-                result.push([item, ...r]);
-            }
-        }
-        return result;
-    }
-
     const handleReset = () => {
         setResult(null);
         if (directionsRenderer.current) {
@@ -354,10 +386,11 @@ export default function WhereToApp() {
 
     const getGoogleMapsLink = () => {
         if (!result) return '#';
-        const origin = encodeURIComponent(startQuery);
-        const destination = encodeURIComponent(sameStartEnd ? startQuery : endQuery);
-        const waypointsParam = result.places.map(p => encodeURIComponent(`${p.name} ${p.vicinity}`)).join('|');
-        return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&waypoints=${waypointsParam}`;
+        return buildGoogleMapsLink({
+            origin: startQuery,
+            destination: sameStartEnd ? startQuery : endQuery,
+            places: result.places.map((p) => ({ name: p.name, vicinity: p.vicinity })),
+        });
     };
 
     return (
