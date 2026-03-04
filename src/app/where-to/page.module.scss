@@ -5,6 +5,10 @@
   padding: $space-6;
   max-width: 1400px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: $space-3 $space-4;
+  }
 }
 
 .backLink {
@@ -26,6 +30,10 @@
   font-family: $font-display;
   font-size: 2.5rem;
   margin-bottom: $space-4;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 }
 
 .description {

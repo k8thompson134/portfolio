@@ -25,8 +25,9 @@ $accent-color: #6B9DC2; // Brighter Earthy Blue
     overflow: hidden;
 
     @media (max-width: 768px) {
-        height: 400px;
-        order: -1;
+        height: 60vh;
+        min-height: 300px;
+        flex: none;
     }
 }
 
@@ -44,6 +45,8 @@ $accent-color: #6B9DC2; // Brighter Earthy Blue
 
     @media (max-width: 768px) {
         width: 100%;
+        padding: $space-4;
+        flex: none;
     }
 }
 
@@ -88,6 +91,12 @@ $accent-color: #6B9DC2; // Brighter Earthy Blue
     font-family: var(--font-body), 'Quicksand', sans-serif;
     font-size: 0.95rem;
     transition: all $transition-fast;
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+        /* Prevents auto-zoom on iOS */
+        padding: $space-3;
+    }
 
     &:focus {
         outline: none;
