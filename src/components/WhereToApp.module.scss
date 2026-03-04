@@ -13,7 +13,11 @@ $accent-color: #6B9DC2; // Brighter Earthy Blue
 
     @media (max-width: 768px) {
         flex-direction: column;
-        height: auto;
+        height: calc(100dvh - 160px);
+        min-height: 500px;
+        gap: 0;
+        border-radius: $radius-lg;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 }
 
@@ -25,9 +29,12 @@ $accent-color: #6B9DC2; // Brighter Earthy Blue
     overflow: hidden;
 
     @media (max-width: 768px) {
-        height: 60vh;
-        min-height: 300px;
-        flex: none;
+        height: auto;
+        min-height: 35%;
+        flex: 1;
+        border-radius: $radius-lg $radius-lg 0 0;
+        order: -1;
+        box-shadow: none;
     }
 }
 
@@ -46,7 +53,12 @@ $accent-color: #6B9DC2; // Brighter Earthy Blue
     @media (max-width: 768px) {
         width: 100%;
         padding: $space-4;
-        flex: none;
+        flex: 1.5;
+        border-radius: 0 0 $radius-lg $radius-lg;
+        border: none;
+        border-top: 1px solid $border-gray;
+        box-shadow: none;
+        background: rgba($panel-dark, 0.98);
     }
 }
 

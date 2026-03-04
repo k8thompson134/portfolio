@@ -40,6 +40,10 @@
   font-size: 1.1rem;
   color: $text-secondary;
   margin-bottom: $space-6;
+
+  @media (max-width: 768px) {
+    display: none; // Hiding to give the app layout more vertical space
+  }
 }
 
 .links {
