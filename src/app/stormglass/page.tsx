@@ -1,6 +1,7 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+import CreativeCard from '@/components/CreativeCard';
 
 export default function Stormglass() {
   return (
@@ -67,25 +68,22 @@ export default function Stormglass() {
             <span className={styles.badge}>Drizzle ORM</span>
             <span className={styles.badge}>Recharts</span>
             <span className={styles.badge}>PWA</span>
-
-            <div className={styles.links}>
-              <a
-                href="https://mystormglass.xyz"
-                className={styles.primaryLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Visit Live Site
-              </a>
-              <a
-                href="https://github.com/k8thompson134/Stormglass"
-                className={styles.githubLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View on GitHub
-              </a>
-            </div>
+            <a
+              href="https://mystormglass.xyz"
+              className={styles.liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit Live Site
+            </a>
+            <a
+              href="https://github.com/k8thompson134/Stormglass"
+              className={styles.githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on GitHub
+            </a>
           </div>
         </div>
 
@@ -144,6 +142,30 @@ export default function Stormglass() {
           </section>
         </div>
       </div>
+
+      <section className={styles.gallery}>
+        <h2 className={styles.galleryTitle}>Screenshots</h2>
+        <div className={styles.galleryGrid}>
+          <CreativeCard
+            title="Pressure Dynamics & Current Conditions"
+            category="Dashboard"
+            imageSrc="/images/stormglass-dashboard.png"
+            contain
+          />
+          <CreativeCard
+            title="Health Impact Forecast"
+            category="Condition Cards"
+            imageSrc="/images/stormglass-forecast.png"
+            contain
+          />
+          <CreativeCard
+            title="Condition Detail Modal"
+            category="POTS / Dysautonomia"
+            imageSrc="/images/stormglass-detail.png"
+            contain
+          />
+        </div>
+      </section>
     </main>
   );
 }
