@@ -15,6 +15,33 @@ export default function Stormglass() {
         Environmental health signals, turned into flare-risk forecasting.
       </p>
 
+      <div className={styles.status}>
+        <span className={styles.badge}>Status: Live</span>
+        <span className={styles.badge}>React</span>
+        <span className={styles.badge}>TypeScript</span>
+        <span className={styles.badge}>Fastify</span>
+        <span className={styles.badge}>PostgreSQL</span>
+        <span className={styles.badge}>Drizzle ORM</span>
+        <span className={styles.badge}>Recharts</span>
+        <span className={styles.badge}>PWA</span>
+        <a
+          href="https://mystormglass.xyz"
+          className={styles.liveLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Visit Live Site
+        </a>
+        <a
+          href="https://github.com/k8thompson134/Stormglass"
+          className={styles.githubLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View on GitHub
+        </a>
+      </div>
+
       <div className={styles.intro}>
         <p>
           Stormglass is a real-time environmental health tracker built for people
@@ -57,33 +84,6 @@ export default function Stormglass() {
             </a>
           </figcaption>
         </figure>
-
-        <div className={styles.status}>
-          <span className={styles.badge}>Status: Live</span>
-          <span className={styles.badge}>React</span>
-          <span className={styles.badge}>TypeScript</span>
-          <span className={styles.badge}>Fastify</span>
-          <span className={styles.badge}>PostgreSQL</span>
-          <span className={styles.badge}>Drizzle ORM</span>
-          <span className={styles.badge}>Recharts</span>
-          <span className={styles.badge}>PWA</span>
-          <a
-            href="https://mystormglass.xyz"
-            className={styles.liveLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Visit Live Site
-          </a>
-          <a
-            href="https://github.com/k8thompson134/Stormglass"
-            className={styles.githubLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View on GitHub
-          </a>
-        </div>
       </div>
 
       <div className={styles.panels}>
