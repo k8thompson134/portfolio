@@ -168,6 +168,8 @@ export default function WhereToApp() {
             return;
         }
 
+        const activeWaypoints = waypoints.filter((w) => w.value.trim().length > 0);
+
         setIsSearching(true);
         setStatusMessage("Searching for places...");
 
