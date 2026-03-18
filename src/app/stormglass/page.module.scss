@@ -1,0 +1,179 @@
+@use '../../styles/variables' as *;
+
+.main {
+  padding: $space-6;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: $space-4;
+  color: $console-teal;
+  text-decoration: none;
+  font-family: $font-mono;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.title {
+  font-family: $font-display;
+  font-size: 3rem;
+  margin-bottom: $space-2;
+  color: $text-primary;
+}
+
+.tagline {
+  font-size: 1.25rem;
+  color: $text-secondary;
+  margin-bottom: $space-7;
+  max-width: 700px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: $space-8;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info {
+  p {
+    line-height: 1.65;
+    margin-bottom: $space-4;
+    color: $text-secondary;
+  }
+}
+
+.inspiration {
+  color: $text-primary;
+}
+
+.reference {
+  margin: $space-5 0 $space-4;
+}
+
+.referenceLink {
+  display: block;
+  text-decoration: none;
+}
+
+.referenceImage {
+  width: 100%;
+  height: auto;
+  border-radius: $radius-md;
+  border: 1px solid rgba($border-gray, 0.5);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
+}
+
+.referenceCaption {
+  margin-top: $space-2;
+  font-size: 0.85rem;
+  color: $text-muted;
+  font-family: $font-mono;
+  line-height: 1.4;
+}
+
+.referenceLinkText {
+  color: $console-teal;
+  text-decoration: none;
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+}
+
+.status {
+  display: flex;
+  gap: $space-2;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: $space-2;
+}
+
+.badge {
+  @include dymo-label;
+  font-size: 0.8rem;
+}
+
+.links {
+  margin-left: auto;
+  display: flex;
+  gap: $space-3;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.primaryLink {
+  @include dymo-label;
+  background: rgba($console-teal, 0.15);
+  border: 1px solid rgba($console-teal, 0.45);
+  color: $console-teal;
+  text-decoration: none;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+
+  &::after {
+    content: '↗';
+    font-family: sans-serif;
+    margin-left: $space-2;
+  }
+
+  &:hover {
+    color: $nixie-orange;
+    border-color: rgba($nixie-orange, 0.6);
+  }
+}
+
+.githubLink {
+  color: $console-teal;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  transition: color $transition-fast;
+  white-space: nowrap;
+
+  &::after {
+    content: '↗';
+    font-family: sans-serif;
+  }
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+}
+
+.panels {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.panel {
+  @include panel;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.panelTitle {
+  font-family: $font-display;
+  font-size: 1.4rem;
+  margin-bottom: $space-2;
+  color: $text-primary;
+}
+
+.panelDescription {
+  line-height: 1.6;
+  color: $text-secondary;
+  font-size: 0.95rem;
+  margin: 0;
+}
