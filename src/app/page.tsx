@@ -45,12 +45,12 @@ export default function Home() {
             github="https://github.com/k8thompson134/Stormglass"
           />
           <ProjectCard
-            title="Magic Pace Ball"
-            description="Flutter running pacing oracle with on-device LLM for real-time pacing advice. No cloud dependency for privacy."
-            tech={['Flutter', 'Dart', 'On-Device LLM']}
+            title="Cream City Docket"
+            description="Milwaukee city government, made understandable. Monitors Common Council legislation and delivers plain-English summaries and email alerts so residents can act before votes happen."
+            tech={['React', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL', 'Claude API']}
             status="wip"
-            href="/magic-pace-ball"
-            github="https://github.com/k8thompson134/magic-pace-ball"
+            liveUrl="https://creamcitydocket.com"
+            github="https://github.com/k8thompson134/Cream-City-Docket"
           />
           <ProjectCard
             title="Where To?"
