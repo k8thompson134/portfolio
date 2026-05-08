@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Caprasimo, Quicksand, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.scss";
+import RiseEasterEgg from "@/components/RiseEasterEgg";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,6 +50,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${caprasimo.variable} ${quicksand.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable}`}>
         {children}
+        <RiseEasterEgg />
       </body>
     </html>
   );

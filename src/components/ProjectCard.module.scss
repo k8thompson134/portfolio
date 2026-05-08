@@ -99,24 +99,6 @@
   }
 }
 
-.githubIcon {
-  color: $text-muted;
-  transition: color $transition-fast;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    color: $nixie-orange;
-    filter: drop-shadow(0 0 4px rgba($nixie-orange, 0.5));
-  }
-
-  svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-  }
-}
 
 .designation {
   @include dymo-label;
@@ -184,9 +166,43 @@
 
 .footer {
   display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  margin-top: $space-4;
+  position: relative;
+  z-index: 2;
+}
+
+.tags {
+  display: flex;
   flex-wrap: wrap;
   gap: $space-1;
-  margin-top: $space-4;
+}
+
+.githubLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-family: $font-mono;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $nixie-orange;
+  transition: all $transition-fast;
+  width: fit-content;
+
+  svg {
+    width: 13px;
+    height: 13px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    filter: drop-shadow(0 0 5px rgba($nixie-orange, 0.6));
+    gap: $space-3;
+  }
 }
 
 .tag {

@@ -1,0 +1,98 @@
+@use '../styles/variables' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+  animation: overlayBg 5.8s ease forwards;
+}
+
+@keyframes overlayBg {
+  0%, 5%   { background: transparent; }
+  18%      { background: rgba(10, 14, 39, 0.9); }
+  72%      { background: rgba(10, 14, 39, 0.9); }
+  100%     { background: transparent; }
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle var(--d, 1.5s) ease-in-out infinite alternate;
+  animation-fill-mode: backwards;
+}
+
+@keyframes twinkle {
+  from { opacity: inherit; }
+  to   { opacity: 0.05; }
+}
+
+// Floats in from right, drifts with a gentle sine-wave bob, exits left.
+// left: 50% centers the origin so translateX values are symmetric around screen center.
+.riseContainer {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-3;
+  animation: riseFloat 5.8s linear forwards;
+}
+
+@keyframes riseFloat {
+  0% {
+    transform: translateX(62vw) translateY(-15px) rotate(12deg) scale(0.75);
+    opacity: 0;
+  }
+  10% {
+    transform: translateX(42vw) translateY(-5px) rotate(6deg) scale(1);
+    opacity: 1;
+  }
+  28% {
+    transform: translateX(20vw) translateY(28px) rotate(-8deg) scale(1.04);
+  }
+  46% {
+    transform: translateX(0vw) translateY(-18px) rotate(5deg) scale(1);
+  }
+  62% {
+    transform: translateX(-20vw) translateY(22px) rotate(-7deg) scale(1.03);
+  }
+  78% {
+    transform: translateX(-38vw) translateY(-10px) rotate(4deg) scale(0.98);
+    opacity: 1;
+  }
+  91% {
+    transform: translateX(-58vw) translateY(8px) rotate(10deg) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-65vw) translateY(8px) rotate(10deg) scale(0.8);
+    opacity: 0;
+  }
+}
+
+.rise {
+  display: block;
+}
+
+.label {
+  font-family: $font-mono;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: $led-green;
+  white-space: nowrap;
+  text-shadow: 0 0 8px rgba(0, 255, 156, 0.7);
+  animation: labelFade 5.8s ease forwards;
+}
+
+@keyframes labelFade {
+  0%, 18%  { opacity: 0; }
+  32%      { opacity: 1; }
+  72%      { opacity: 1; }
+  88%      { opacity: 0; }
+  100%     { opacity: 0; }
+}
