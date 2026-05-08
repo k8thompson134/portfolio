@@ -8,6 +8,7 @@ export default function Footer() {
             <p className={styles.copyright}>
                 © {currentYear} <span>K8 Control Panel</span> · Built with Next.js
             </p>
+            <p className={styles.hint}>k8_</p>
         </footer>
     );
 }

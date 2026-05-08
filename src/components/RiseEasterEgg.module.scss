@@ -1,19 +1,12 @@
 @use '../styles/variables' as *;
 
-.overlay {
+// Persistent starfield — stays after Rise exits
+.starfield {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 9998;
   pointer-events: none;
   overflow: hidden;
-  animation: overlayBg 5.8s ease forwards;
-}
-
-@keyframes overlayBg {
-  0%, 5%   { background: transparent; }
-  18%      { background: rgba(10, 14, 39, 0.9); }
-  72%      { background: rgba(10, 14, 39, 0.9); }
-  100%     { background: transparent; }
 }
 
 .star {
@@ -26,15 +19,34 @@
 
 @keyframes twinkle {
   from { opacity: inherit; }
-  to   { opacity: 0.05; }
+  to   { opacity: 0.03; }
 }
 
-// Floats in from right, drifts with a gentle sine-wave bob, exits left.
-// left: 50% centers the origin so translateX values are symmetric around screen center.
+// Temporary dark overlay — fades in and out with Rise
+.darkOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  pointer-events: none;
+  animation: overlayBg 5.8s ease forwards;
+}
+
+@keyframes overlayBg {
+  0%, 5%  { background: transparent; }
+  18%     { background: rgba(10, 14, 39, 0.9); }
+  72%     { background: rgba(10, 14, 39, 0.9); }
+  100%    { background: transparent; }
+}
+
+// Rise floats in from right, drifts with sine-wave bob, exits left.
+// position: fixed + left: 50% centers the origin so translateX values
+// are symmetric around screen center.
 .riseContainer {
-  position: absolute;
+  position: fixed;
   top: 40%;
   left: 50%;
+  z-index: 9999;
+  pointer-events: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,23 +88,4 @@
 
 .rise {
   display: block;
-}
-
-.label {
-  font-family: $font-mono;
-  font-size: 0.65rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: $led-green;
-  white-space: nowrap;
-  text-shadow: 0 0 8px rgba(0, 255, 156, 0.7);
-  animation: labelFade 5.8s ease forwards;
-}
-
-@keyframes labelFade {
-  0%, 18%  { opacity: 0; }
-  32%      { opacity: 1; }
-  72%      { opacity: 1; }
-  88%      { opacity: 0; }
-  100%     { opacity: 0; }
 }
