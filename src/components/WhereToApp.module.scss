@@ -281,3 +281,42 @@ $accent-color: #6B9DC2; // Brighter Earthy Blue
         border: 1px solid $border-gray;
     }
 }
+
+.routeTabs {
+    display: flex;
+    gap: $space-2;
+    margin-bottom: $space-4;
+}
+
+.routeTab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: $space-2 $space-3;
+    background: $panel-dark;
+    border: 1px solid $border-gray;
+    border-radius: $radius-md;
+    color: $text-secondary;
+    font-family: var(--font-body), 'Quicksand', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+
+    small {
+        font-size: 0.7rem;
+        opacity: 0.8;
+    }
+
+    &:hover {
+        border-color: $accent-color;
+        color: $text-primary;
+    }
+}
+
+.routeTabActive {
+    border-color: $accent-color;
+    color: $text-primary;
+    background: rgba($accent-color, 0.1);
+}

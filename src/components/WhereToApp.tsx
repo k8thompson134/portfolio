@@ -50,7 +50,8 @@ export default function WhereToApp() {
     // App State
     const [isSearching, setIsSearching] = useState(false);
     const [statusMessage, setStatusMessage] = useState('');
-    const [result, setResult] = useState<RouteResult | null>(null);
+    const [results, setResults] = useState<RouteResult[]>([]);
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     // Services
     const directionsService = useRef<google.maps.DirectionsService | null>(null);
@@ -62,7 +63,8 @@ export default function WhereToApp() {
     const endPlaceRef = useRef<google.maps.places.PlaceResult | null>(null);
 
     const mapInitRef = useRef(false);
-    const acInitRef = useRef(false);
+    const acStartRef = useRef<google.maps.places.Autocomplete | null>(null);
+    const acEndRef = useRef<google.maps.places.Autocomplete | null>(null);
 
     // Load Google Maps API using new functional API
     useEffect(() => {
@@ -105,40 +107,36 @@ export default function WhereToApp() {
         loadMaps();
     }, []);
 
-    // Handle Autocomplete Attachment
-    // We use a callback ref pattern or just standard refs for the inputs
     const startInputRef = useRef<HTMLInputElement>(null);
     const endInputRef = useRef<HTMLInputElement>(null);
 
+    // Start autocomplete — attach once
     useEffect(() => {
-        if (!googleInfo || !mapInstance) return;
-        if (acInitRef.current) return;
-        acInitRef.current = true;
-
-        if (startInputRef.current) {
-            const ac = new googleInfo.maps.places.Autocomplete(startInputRef.current);
-            ac.addListener('place_changed', () => {
-                const place = ac.getPlace();
-                startPlaceRef.current = place;
-                setStartQuery(place.formatted_address || place.name);
-
-                // Center map
-                if (place.geometry && place.geometry.location) {
-                    mapInstance.setCenter(place.geometry.location);
-                    mapInstance.setZoom(12);
-                }
-            });
-        }
-
-        if (endInputRef.current) {
-            const ac = new googleInfo.maps.places.Autocomplete(endInputRef.current);
-            ac.addListener('place_changed', () => {
-                const place = ac.getPlace();
-                endPlaceRef.current = place;
-                setEndQuery(place.formatted_address || place.name);
-            });
-        }
+        if (!googleInfo || !mapInstance || acStartRef.current || !startInputRef.current) return;
+        const ac = new googleInfo.maps.places.Autocomplete(startInputRef.current);
+        acStartRef.current = ac;
+        ac.addListener('place_changed', () => {
+            const place = ac.getPlace();
+            startPlaceRef.current = place;
+            setStartQuery(place.formatted_address || place.name || '');
+            if (place.geometry?.location) {
+                mapInstance.setCenter(place.geometry.location);
+                mapInstance.setZoom(12);
+            }
+        });
     }, [googleInfo, mapInstance]);
+
+    // End autocomplete — re-attach whenever end input becomes visible
+    useEffect(() => {
+        if (!googleInfo || !mapInstance || sameStartEnd || !endInputRef.current) return;
+        const ac = new googleInfo.maps.places.Autocomplete(endInputRef.current);
+        acEndRef.current = ac;
+        ac.addListener('place_changed', () => {
+            const place = ac.getPlace();
+            endPlaceRef.current = place;
+            setEndQuery(place.formatted_address || place.name || '');
+        });
+    }, [googleInfo, mapInstance, sameStartEnd]);
 
     const addWaypoint = () => {
         setWaypoints([...waypoints, { id: Date.now(), value: '' }]);
@@ -249,24 +247,34 @@ export default function WhereToApp() {
 
                         const filtered = finalIndices
                             .map(i => candidates[i])
-                            .filter(p => p !== undefined)
+                            .filter((p): p is google.maps.places.PlaceResult =>
+                                p !== undefined &&
+                                !!p.geometry?.location &&
+                                !!p.name &&
+                                !!p.vicinity
+                            )
                             .map(p => ({
                                 name: p.name!,
                                 vicinity: p.vicinity!,
                                 geometry: p.geometry!,
-                                place_id: p.place_id!
-                            })); // Safe casting as we checked status OK
+                                place_id: p.place_id ?? ''
+                            }));
 
                         resolve(filtered.slice(0, 5));
                     } catch (e) {
                         console.error("LLM Filter failed", e);
                         // Fallback
-                        const fallback = candidates.slice(0, 5).map(p => ({
-                            name: p.name!,
-                            vicinity: p.vicinity!,
-                            geometry: p.geometry!,
-                            place_id: p.place_id!
-                        }));
+                        const fallback = candidates
+                            .filter((p): p is google.maps.places.PlaceResult =>
+                                !!p.geometry?.location && !!p.name && !!p.vicinity
+                            )
+                            .slice(0, 5)
+                            .map(p => ({
+                                name: p.name!,
+                                vicinity: p.vicinity!,
+                                geometry: p.geometry!,
+                                place_id: p.place_id ?? ''
+                            }));
                         resolve(fallback);
                     }
                 } else {
@@ -317,27 +325,20 @@ export default function WhereToApp() {
             );
         }
 
-        // Limit combinations
-        if (combinations.length > 10) {
-            combinations = combinations.slice(0, 10);
-        }
+        combinations = combinations
+            .filter(combo => combo.every(place => !!place.geometry?.location))
+            .slice(0, 10);
 
-        let bestDuration = Infinity;
-        let bestRouteObj: RouteResult | null = null;
-        let checked = 0;
-
-        // We need to promisify the routing calls to await them or handle parallel
-        // Google Maps API has rate limits, so we should be careful. 
-        // Sequential is safer.
+        const allResults: RouteResult[] = [];
 
         for (const combo of combinations) {
             const waypts = combo.map(place => ({
-                location: place.geometry.location,
+                location: place.geometry.location!,
                 stopover: true
             }));
 
             try {
-                const result = await new Promise<google.maps.DirectionsResult>((resolve, reject) => {
+                const dirResult = await new Promise<google.maps.DirectionsResult>((resolve, reject) => {
                     directionsService.current!.route({
                         origin: start,
                         destination: end,
@@ -350,29 +351,23 @@ export default function WhereToApp() {
                     });
                 });
 
-                // Calculate duration
                 let duration = 0;
-                result.routes[0].legs.forEach(leg => duration += leg.duration?.value || 0);
-
-                if (duration < bestDuration) {
-                    bestDuration = duration;
-                    bestRouteObj = {
-                        response: result,
-                        places: combo,
-                        duration: duration
-                    };
-                }
+                dirResult.routes[0].legs.forEach(leg => duration += leg.duration?.value || 0);
+                allResults.push({ response: dirResult, places: combo, duration });
             } catch (e) {
                 console.warn("Route failed", e);
             }
-            checked++;
         }
 
-        if (bestRouteObj) {
-            setResult(bestRouteObj);
+        allResults.sort((a, b) => a.duration - b.duration);
+        const topResults = allResults.slice(0, 3);
+
+        if (topResults.length > 0) {
+            setResults(topResults);
+            setSelectedIndex(0);
             if (directionsRenderer.current) {
                 directionsRenderer.current.setMap(mapInstance);
-                directionsRenderer.current.setDirections(bestRouteObj.response);
+                directionsRenderer.current.setDirections(topResults[0].response);
             }
         } else {
             throw new Error("Could not calculate any valid route.");
@@ -380,18 +375,27 @@ export default function WhereToApp() {
     };
 
     const handleReset = () => {
-        setResult(null);
+        setResults([]);
+        setSelectedIndex(0);
         if (directionsRenderer.current) {
             directionsRenderer.current.setMap(null);
         }
     };
 
+    const handleSelectRoute = (index: number) => {
+        setSelectedIndex(index);
+        if (directionsRenderer.current && results[index]) {
+            directionsRenderer.current.setDirections(results[index].response);
+        }
+    };
+
     const getGoogleMapsLink = () => {
-        if (!result) return '#';
+        const current = results[selectedIndex];
+        if (!current) return '#';
         return buildGoogleMapsLink({
             origin: startQuery,
             destination: sameStartEnd ? startQuery : endQuery,
-            places: result.places.map((p) => ({ name: p.name, vicinity: p.vicinity })),
+            places: current.places.map((p) => ({ name: p.name, vicinity: p.vicinity })),
         });
     };
 
@@ -399,7 +403,7 @@ export default function WhereToApp() {
         <div className={styles.container}>
             {/* Sidebar / Panel */}
             <div className={styles.panel}>
-                {!result ? (
+                {results.length === 0 ? (
                     <>
                         <h2 className={styles.title}>Where To?</h2>
                         <p className={styles.subtitle}>Plan your errand run.</p>
@@ -472,12 +476,28 @@ export default function WhereToApp() {
                 ) : (
                     <>
                         <h2 className={styles.title}>Route Ready!</h2>
+
+                        {results.length > 1 && (
+                            <div className={styles.routeTabs}>
+                                {results.map((r, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => handleSelectRoute(i)}
+                                        className={`${styles.routeTab} ${i === selectedIndex ? styles.routeTabActive : ''}`}
+                                    >
+                                        Option {i + 1}
+                                        <small>{Math.round(r.duration / 60)} min</small>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+
                         <div className={styles.routeStats}>
-                            🕐 {Math.round(result.duration / 60)} min total
+                            🕐 {Math.round(results[selectedIndex].duration / 60)} min total
                         </div>
 
                         <ul className={styles.stopsList}>
-                            {result.places.map((p, i) => (
+                            {results[selectedIndex].places.map((p, i) => (
                                 <li key={i} className={styles.stopItem}>
                                     <strong>{i + 1}. {p.name}</strong>
                                     <small>{p.vicinity}</small>
