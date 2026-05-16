@@ -53,6 +53,20 @@ export default function Home() {
             github="https://github.com/k8thompson134/Cream-City-Docket"
           />
           <ProjectCard
+            title="Homelab Stack"
+            description="Local-first AI infrastructure with 8 services running on a Mac mini: Ollama LLM, Open WebUI chat, n8n workflow orchestration, ChromaDB vector search, SearXNG private search, plus Git hosting and file management. Demonstrates Docker Compose orchestration with tight memory constraints, privacy-first architecture, and cost-efficient resource allocation on modest hardware."
+            tech={['Docker', 'Docker Compose', 'Ollama', 'Open WebUI', 'n8n', 'ChromaDB']}
+            status="live"
+            href="/homelab"
+          />
+          <ProjectCard
+            title="Local Personal AI System"
+            description="A Flask + Discord bot system orchestrating multiple services (Ollama, n8n, external APIs) around a unified SQLite schema. Demonstrates patterns for cross-domain data correlation, heterogeneous input normalization, agentic self-improvement with safety guardrails, and privacy-by-architecture. Shows how unified data models enable emergent pattern detection without hardcoding rules."
+            tech={['Flask', 'Discord.py', 'SQLite', 'Ollama', 'n8n', 'Claude API', 'Gemini API']}
+            status="live"
+            href="/local-personal-ai"
+          />
+          <ProjectCard
             title="Where To?"
             description="I want to get coffee, go to a book store, hit a thrift shop, and get sushi for lunch. So many different coffee brands, so many thrift shops in the Milwaukee area, Where To helps you find the options that give you the itinerary that makes the best route. Scenic route feature coming soon!"
             tech={['JavaScript', 'Google Maps API']}
