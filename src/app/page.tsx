@@ -17,7 +17,7 @@ export default function Home() {
         <ProfileCard imageSrc="/images/avatar.png" />
         <p className={styles.bio}>
           <b>I'm a software engineering student at MSOE who takes projects from problem to production. </b><br />
-          My projects include RantTrack (a voice-first symptom tracker in React Native), contributions to the Progressive Learning Platform (an assembly language IDE for students), and eSubmit (a Ruby on Rails submission system with Docker deployment).
+          My projects span full-stack development and systems design: RantTrack (voice-first symptom tracker in React Native), Stormglass (environmental health forecasting with real-time API integration), a local-first AI system orchestrating multiple services around unified data models, homelab infrastructure with Docker Compose on constrained hardware, Cream City Docket (civic tech for Milwaukee government transparency), contributions to the Progressive Learning Platform (assembly language IDE for students), and eSubmit (Ruby on Rails submission system with Docker deployment).
           I approach projects methodically: understand the problem, research solutions, gather requirements, then plan implementation. I learned how to break down large problems from nearly a decade organizing technical events, Women in STEM meetups as a FIRST Ladies regional partner with my robotics team in high school, conference planning through SWE, and cultural celebrations as outreach chair of my sorority.
           I'm comfortable with the full project lifecycle: user research, requirements documentation, development, and knowledge transfer. Beyond coding, I've taught programming, write technical documentation that people actually use, present technical concepts clearly, and handle graphic design and visual communication.
         </p>
@@ -51,6 +51,20 @@ export default function Home() {
             status="wip"
             liveUrl="https://creamcitydocket.com"
             github="https://github.com/k8thompson134/Cream-City-Docket"
+          />
+          <ProjectCard
+            title="Homelab Stack"
+            description="Local-first AI infrastructure with 8 services running on a Mac mini: Ollama LLM, Open WebUI chat, n8n workflow orchestration, ChromaDB vector search, SearXNG private search, plus Git hosting and file management. Demonstrates Docker Compose orchestration with tight memory constraints, privacy-first architecture, and cost-efficient resource allocation on modest hardware."
+            tech={['Docker', 'Docker Compose', 'Ollama', 'Open WebUI', 'n8n', 'ChromaDB']}
+            status="live"
+            href="/homelab"
+          />
+          <ProjectCard
+            title="Local Personal AI System"
+            description="A Flask + Discord bot system orchestrating multiple services (Ollama, n8n, external APIs) around a unified SQLite schema. Demonstrates patterns for cross-domain data correlation, heterogeneous input normalization, agentic self-improvement with safety guardrails, and privacy-by-architecture. Shows how unified data models enable emergent pattern detection without hardcoding rules."
+            tech={['Flask', 'Discord.py', 'SQLite', 'Ollama', 'n8n', 'Claude API', 'Gemini API']}
+            status="live"
+            href="/local-personal-ai"
           />
           <ProjectCard
             title="Where To?"
