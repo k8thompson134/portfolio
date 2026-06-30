@@ -52,8 +52,14 @@ export default function RiseEasterEgg() {
       }
     };
 
+    const handleCustom = () => trigger();
+
     window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
+    window.addEventListener('rise:trigger', handleCustom);
+    return () => {
+      window.removeEventListener('keydown', handleKey);
+      window.removeEventListener('rise:trigger', handleCustom);
+    };
   }, [trigger]);
 
   return (

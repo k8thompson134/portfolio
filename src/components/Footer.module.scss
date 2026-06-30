@@ -112,6 +112,21 @@
     }
 }
 
+.hint {
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    color: $text-muted;
+    margin-top: $space-2;
+    opacity: 0.35;
+    letter-spacing: 0.15em;
+    user-select: none;
+    transition: opacity $transition-base;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
 .copyright {
     display: inline-block;
     padding: $space-2 $space-4;

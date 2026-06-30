@@ -49,15 +49,15 @@ export default function LocalPersonalAIPage() {
             <pre style={{ margin: 0, padding: 0, color: '#5C9EAD' }}>{`User Input (Discord Bot)
         ↓
     Flask API
-    ├── route: /activity/log     (normalize commits, messages, events)
-    ├── route: /briefing         (compose state → adaptive output)
-    ├── route: /agent/request    (queue self-improvement tasks)
-    └── route: /correlation      (cross-domain pattern analysis)
+    ├── activity normalization   (commits, messages, calendar events)
+    ├── adaptive briefing        (state-aware output composition)
+    ├── agentic task queue       (self-improvement pipeline)
+    └── correlation analysis     (cross-domain pattern detection)
         ↓
     Processing Layer
     ├── Ollama (local LLM inference)
     ├── Data Access (SQLite row_factory)
-    └── External APIs (optional: Stormglass, PubMed, Spotify)
+    └── External APIs (optional: PubMed, Spotify, weather)
         ↓
     Unified SQLite Schema
     ├── Event Tables (activity, observations, reflections, intentions)
@@ -255,12 +255,13 @@ export default function LocalPersonalAIPage() {
             {[
               'Flask', 'Discord.py', 'Python 3.9',
               'SQLite', 'sqlite3.Row',
-              'Ollama: Llama 3.2 (1b), Qwen 2.5-Coder (7b), Nomic Embed Text',
+              'Ollama: Gemma 3 12B (primary), Llama 3.2 1B (fog mode)',
               'n8n (orchestration)',
               'Kerykeion (astrology)',
+              'ChromaDB (semantic search)',
               'Claude API (Cipher planning)',
               'Gemini (bug review)',
-              'PubMed API', 'Spotify API', 'Stormglass API'
+              'PubMed API', 'Spotify API', 'Cloudflare Tunnel'
             ].map(tech => (
               <span key={tech} style={{
                 background: '#253557',

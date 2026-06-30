@@ -1,4 +1,5 @@
 import styles from './Footer.module.scss';
+import K8Tap from './K8Tap';
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -8,7 +9,9 @@ export default function Footer() {
             <p className={styles.copyright}>
                 © {currentYear} <span>K8 Control Panel</span> · Built with Next.js
             </p>
-            <p className={styles.hint}>k8_</p>
+            <p className={styles.hint}>
+                <K8Tap>k8_</K8Tap>
+            </p>
         </footer>
     );
 }

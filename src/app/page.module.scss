@@ -7,6 +7,10 @@
   position: relative;
   min-height: 100vh;
 
+  @media (max-width: $bp-sm) {
+    padding: $space-6 $space-4;
+  }
+
   // Technical Grid Background
   background-image:
     linear-gradient(rgba($console-teal, 0.03) 1px, transparent 1px),
@@ -108,13 +112,25 @@
   font-size: 1.05rem;
   line-height: 1.8;
   margin-bottom: $space-7;
-  max-width: 90%;
+
+  p + p {
+    margin-top: $space-4;
+  }
+
+  @media (max-width: $bp-md) {
+    font-size: 0.95rem;
+  }
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: $space-4;
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 1fr;
+    gap: $space-3;
+  }
 }
 
 .creativeGrid {
@@ -146,20 +162,17 @@
 }
 
 .backLink {
+  display: inline-flex;
+  align-items: center;
   margin-bottom: $space-5;
+  color: $led-green;
+  text-decoration: none;
+  font-family: $font-mono;
+  font-size: 0.9rem;
+  transition: color $transition-base;
 
-  a {
-    color: $led-green;
-    text-decoration: none;
-    font-family: $font-mono;
-    font-size: 0.9rem;
-    display: inline-flex;
-    align-items: center;
-    transition: color $transition-base;
-
-    &:hover {
-      color: $nixie-orange;
-      text-shadow: $shadow-glow-green; // subtle glow on hover
-    }
+  &:hover {
+    color: $nixie-orange;
+    text-shadow: $shadow-glow-green;
   }
 }
