@@ -358,6 +358,92 @@ export default function LocalPersonalAIPage() {
           </ul>
         </div>
 
+        {/* Live Features */}
+        <div style={{ marginBottom: '3rem' }}>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', color: '#5C9EAD', marginBottom: '1.5rem' }}>Live Demo</h2>
+          <div style={{
+            background: '#1C2541',
+            border: '1px solid #3A506B',
+            borderRadius: '4px',
+            padding: '1.5rem',
+            borderLeft: '3px solid #00FF9C'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.5rem' }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem', fontFamily: "'Space Grotesk', sans-serif", color: '#00FF9C' }}>
+                  Long COVID / ME/CFS Research Pipeline
+                </h3>
+
+                <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: '#A0A8C0', lineHeight: '1.7' }}>
+                  Long COVID and ME/CFS research is a moving target across at least 8 overlapping conditions — ME/CFS, POTS, EDS, MCAS,
+                  fibromyalgia, small fiber neuropathy, dysautonomia, and others — with new papers publishing faster than any patient
+                  can track manually. The literature also contains a persistent body of work promoting graded exercise therapy (GET) and
+                  CBT-as-cure: approaches that contradict the documented mechanisms of post-exertional malaise (PEM) and cause measurable
+                  harm in this population, often based on psychosomatic models predating current understanding, or on trials that excluded
+                  the most severely affected patients.
+                </p>
+
+                <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: '#A0A8C0', lineHeight: '1.7' }}>
+                  A daily PubMed agent scores incoming papers 1–10 for relevance using Gemma 3 12B via Ollama, with a patient-specific
+                  context prompt that classifies study type, population, and exercise framing. A keyword safety net runs post-scoring to
+                  catch GET-adjacent language the model misses (e.g. <em style={{ color: '#B8D4C8' }}>&ldquo;adapted physical activity&rdquo; + &ldquo;fatigue&rdquo;</em> without
+                  the exact phrase &ldquo;graded exercise therapy&rdquo;). Papers that recommend exercise-based interventions in the context of
+                  ME/CFS or Long COVID fatigue are flagged with a caution note — <strong style={{ color: '#B8D4C8' }}>visible and scored, not excluded</strong>,
+                  so the full picture of what&apos;s being published is preserved, not filtered into a false consensus.
+                </p>
+
+                <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: '#A0A8C0', lineHeight: '1.7' }}>
+                  Clinical trials are tracked via ClinicalTrials.gov API, filtered to exclude GET and CBT-as-cure protocols, and scored
+                  separately with plain-language eligibility criteria. Actively recruiting trials are surfaced at the top of the list.
+                  The pipeline also tracks watched researchers and a priority search queue for emerging treatments, so spikes in
+                  relevant publications — a new trial result, a mechanism paper — surface within 24 hours of indexing on PubMed.
+                </p>
+
+                <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: '#A0A8C0', lineHeight: '1.7' }}>
+                  The public page exposes a curated slice of the private pipeline via a sanitization layer (<code style={{ color: '#B8D4C8', fontSize: '0.85rem' }}>_sanitize_paper()</code> /
+                  {' '}<code style={{ color: '#B8D4C8', fontSize: '0.85rem' }}>_sanitize_trial()</code>) that strips personal fields before any response leaves the API.
+                  One deliberate exception: papers marked as saved in the private view are exposed as a{' '}
+                  <code style={{ color: '#B8D4C8', fontSize: '0.85rem' }}>kate_saved</code> boolean — a curation signal, not raw status data —
+                  surfaced as a <strong style={{ color: '#B8D4C8' }}>★ Kate&apos;s Picks</strong> filter and badge so visitors can see what was worth reading.
+                  Visitors can save papers to localStorage for their own reading list, and a <strong style={{ color: '#B8D4C8' }}>Recommend to Kate</strong> button
+                  opens a modal where a doctor or family member can flag a paper with their name and a note.
+                  That recommendation writes to the private DB and fires a Discord notification;
+                  on the private dashboard, recommended papers surface at the top of the unread queue with a banner showing who sent it and why.
+                  The page is exposed via Cloudflare Tunnel (outbound-only, no open ports) with a path-scoped ingress allowlist — everything outside
+                  {' '}<code style={{ color: '#B8D4C8', fontSize: '0.85rem' }}>/pub/*</code> returns 404 at the edge before touching the server.
+                </p>
+
+                <p style={{ margin: '0', fontSize: '0.8rem', color: '#5C9EAD', fontStyle: 'italic' }}>
+                  runs nightly via n8n cron → Flask API → Ollama (local, no cloud inference) · code on local Gitea
+                </p>
+              </div>
+              <a
+                href="https://research.k8thompson.dev/research-public"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: '#00FF9C',
+                  color: '#0D1B2A',
+                  padding: '0.75rem 1.25rem',
+                  borderRadius: '4px',
+                  textDecoration: 'none',
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontWeight: 700,
+                  fontSize: '0.9rem',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
+                  alignSelf: 'flex-start',
+                }}
+              >
+                View Live →
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* Footer */}
         <div style={{
           background: '#1C2541',

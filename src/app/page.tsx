@@ -61,10 +61,11 @@ export default function Home() {
           />
           <ProjectCard
             title="Local Personal AI System"
-            description="A Flask + Discord bot system orchestrating multiple services (Ollama, n8n, external APIs) around a unified SQLite schema. Demonstrates patterns for cross-domain data correlation, heterogeneous input normalization, agentic self-improvement with safety guardrails, and privacy-by-architecture. Shows how unified data models enable emergent pattern detection without hardcoding rules."
+            description="A Flask + Discord bot system orchestrating multiple services (Ollama, n8n, external APIs) around a unified SQLite schema. Demonstrates patterns for cross-domain data correlation, heterogeneous input normalization, agentic self-improvement with safety guardrails, and privacy-by-architecture. Includes a live research pipeline covering Long COVID, ME/CFS, and 6 comorbid conditions: daily PubMed agent scores papers 1–10 via local LLM, with safety flags for treatments that contradict post-exertional malaise mechanisms (graded exercise therapy, CBT-as-cure). clinical trials tracked alongside papers."
             tech={['Flask', 'Discord.py', 'SQLite', 'Ollama', 'n8n', 'Claude API', 'Gemini API']}
             status="live"
             href="/local-personal-ai"
+            liveUrl="https://research.k8thompson.dev/research-public"
           />
           <ProjectCard
             title="Where To?"
