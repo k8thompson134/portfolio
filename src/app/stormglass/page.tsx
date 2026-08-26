@@ -101,12 +101,27 @@ export default function Stormglass() {
         <section className={styles.panel}>
           <h2 className={styles.panelTitle}>Health Impact Forecast</h2>
           <p className={styles.panelDescription}>
-            Evaluates 7 health conditions against current environmental data:
-            POTS/Dysautonomia, Joint Pain, Migraine, ME/CFS/PEM, Air Quality,
-            Geomagnetic Storms, and Pollen &amp; Mold. Each condition gets a
-            Low/Moderate/High/Severe risk level with a plain-language explanation
-            of which factors are driving it. A composite &ldquo;Body Impact
-            Level&rdquo; bar summarizes overall flare risk at a glance.
+            Evaluates 13 health conditions against current environmental data:
+            POTS/Dysautonomia, Joint Pain, Migraine, ME/CFS/PEM, Fibromyalgia,
+            Sinus Pressure, Raynaud&apos;s, Sleep Quality, Cluster Headache, EDS,
+            Air Quality, Geomagnetic Storms, and Pollen &amp; Mold. Each condition
+            gets a Low/Moderate/High/Severe risk level with a plain-language
+            explanation of which factors are driving it, plus opt-in push
+            notifications for the conditions with a clear, actionable trigger.
+            A composite &ldquo;Body Impact Level&rdquo; bar summarizes overall
+            flare risk at a glance.
+          </p>
+        </section>
+
+        <section className={styles.panel}>
+          <h2 className={styles.panelTitle}>Air Quality &amp; Wildfire Smoke</h2>
+          <p className={styles.panelDescription}>
+            Blends a regional air-quality model with hyperlocal PurpleAir ground
+            sensors — whichever reading is higher drives the risk score, so a
+            nearby smoke plume the regional model misses still surfaces. Detects
+            worsening or improving smoke trends, forecasts upcoming windows where
+            air quality is expected to stay safe, and tracks cumulative exposure
+            burden over time.
           </p>
         </section>
 
@@ -124,10 +139,11 @@ export default function Stormglass() {
           <h2 className={styles.panelTitle}>Data Pipeline</h2>
           <p className={styles.panelDescription}>
             A Fastify backend polls Open-Meteo (pressure, temp, humidity, wind,
-            UV, AQI), NOAA Space Weather (Kp index, solar wind), and
-            Tomorrow.io (pollen) on a 30-minute cron. Readings are stored in
-            PostgreSQL via Drizzle ORM. All data sources are free — no paid
-            weather APIs, no cloud lock-in.
+            UV, regional AQI), PurpleAir (hyperlocal ground-sensor air quality),
+            NOAA Space Weather (Kp index, solar wind), and the Google Pollen API
+            on a 30-minute cron. Readings are stored in PostgreSQL via Drizzle
+            ORM. All data sources are free — no paid weather APIs, no cloud
+            lock-in.
           </p>
         </section>
 
@@ -160,6 +176,18 @@ export default function Stormglass() {
             title="Condition Detail Modal"
             category="POTS / Dysautonomia"
             imageSrc="/images/stormglass-detail.png"
+            contain
+          />
+          <CreativeCard
+            title="Air Quality & Safe-Window Forecast"
+            category="Wildfire Smoke Tracking"
+            imageSrc="/images/stormglass-air-quality.jpg"
+            contain
+          />
+          <CreativeCard
+            title="Exposure Burden Tracking"
+            category="Last 61 Days"
+            imageSrc="/images/stormglass-exposure-tracking.jpg"
             contain
           />
         </div>

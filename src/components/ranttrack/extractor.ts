@@ -5,7 +5,9 @@
  * with a curated subset of symptom patterns for demo purposes.
  *
  * Supports: phrase matching, lemma matching, negation detection,
- * severity scoring, pain qualifier/body part extraction.
+ * severity scoring, pain qualifier/body part extraction, and
+ * confidence scoring (mirroring the production pipeline's
+ * per-extraction confidence + multi-symptom corroboration boost).
  */
 
 import { ExtractedSymptom, ExtractionResult, Severity } from './types';
@@ -518,6 +520,32 @@ const COMPARATIVE_PATTERNS: Record<string, 'worse' | 'better'> = {
 };
 
 // ============================================================================
+// CONFIDENCE SCORING
+// ============================================================================
+//
+// Mirrors the real extraction pipeline's confidence model: a phrase match is
+// more specific than a single lemma (less ambiguous, so a higher base score),
+// and a symptom gets a small corroboration boost when other symptoms are
+// found in the same submission -- more context in the text to back it up.
+// The production system also averages in a tone-analysis confidence from the
+// NLP bridge, which this offline demo has no equivalent for.
+
+const BASE_CONFIDENCE_BY_METHOD: Record<'phrase' | 'lemma', number> = {
+  phrase: 0.75,
+  lemma: 0.6,
+};
+
+const CORROBORATION_BOOST = 0.1;
+const MAX_CONFIDENCE = 0.95;
+
+function applyCorroborationBoost(symptoms: ExtractedSymptom[]): void {
+  if (symptoms.length <= 1) return;
+  for (const s of symptoms) {
+    s.confidence = Math.min(MAX_CONFIDENCE, Math.round((s.confidence + CORROBORATION_BOOST) * 100) / 100);
+  }
+}
+
+// ============================================================================
 // PAIN DETAILS
 // ============================================================================
 
@@ -826,6 +854,7 @@ export function extractSymptoms(text: string): ExtractionResult {
         matched: painDetail.matchedText,
         method: 'phrase',
         severity: painDetail.severity || assignDefaultSeverity(painSymptom, text, null),
+        confidence: BASE_CONFIDENCE_BY_METHOD.phrase,
         painDetails: {
           qualifiers: painDetail.qualifiers,
           location: painDetail.location,
@@ -859,6 +888,7 @@ export function extractSymptoms(text: string): ExtractionResult {
         matched: phrase,
         method: 'phrase',
         severity: finalSeverity,
+        confidence: BASE_CONFIDENCE_BY_METHOD.phrase,
       });
       foundCategories.add(symptom);
     }
@@ -880,11 +910,14 @@ export function extractSymptoms(text: string): ExtractionResult {
           matched: token,
           method: 'lemma',
           severity: finalSeverity,
+          confidence: BASE_CONFIDENCE_BY_METHOD.lemma,
         });
         foundCategories.add(symptom);
       }
     }
   }
+
+  applyCorroborationBoost(foundSymptoms);
 
   return { text, symptoms: foundSymptoms };
 }

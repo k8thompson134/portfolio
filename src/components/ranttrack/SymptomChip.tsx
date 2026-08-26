@@ -18,6 +18,7 @@ export default function SymptomChip({ symptom, compact }: SymptomChipProps) {
   const label = [
     displayName,
     symptom.severity ? `severity: ${symptom.severity}` : '',
+    `confidence: ${Math.round(symptom.confidence * 100)}%`,
     symptom.painDetails?.location ? `location: ${symptom.painDetails.location}` : '',
     symptom.painDetails?.qualifiers.length ? `type: ${symptom.painDetails.qualifiers.join(', ')}` : '',
   ].filter(Boolean).join(', ');
@@ -37,6 +38,11 @@ export default function SymptomChip({ symptom, compact }: SymptomChipProps) {
       {!compact && (
         <span className={styles.severity} style={{ color: severityColor }}>
           {symptom.severity.toUpperCase()}
+        </span>
+      )}
+      {!compact && (
+        <span className={styles.confidence} title="Extraction confidence">
+          {Math.round(symptom.confidence * 100)}%
         </span>
       )}
       {!compact && hasPainDetails && (

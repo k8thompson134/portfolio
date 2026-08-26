@@ -43,6 +43,12 @@
   opacity: 0.9;
 }
 
+.confidence {
+  font-size: 0.55rem;
+  opacity: 0.65;
+  font-variant-numeric: tabular-nums;
+}
+
 .painDetails {
   display: inline-flex;
   align-items: center;

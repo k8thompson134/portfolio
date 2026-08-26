@@ -10,6 +10,7 @@ export interface ExtractedSymptom {
   matched: string;
   method: 'phrase' | 'lemma';
   severity: Severity;
+  confidence: number;
   painDetails?: PainDetails;
 }
 

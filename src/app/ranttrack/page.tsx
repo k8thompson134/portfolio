@@ -21,6 +21,8 @@ export default function RantTrack() {
                     RantTrack is a privacy-first symptom tracker built for people with chronic illness.
                     A custom NLP engine extracts symptoms, severity, pain details, and negation from natural speech
                     across 200+ patterns including medical terminology, spoon theory, and casual language.
+                    A service-layer architecture scores each extraction&apos;s confidence and filters out
+                    spurious matches with rule-based validation.
                     Designed for your worst flare days when navigating complex UI costs spoons you don't have.
                 </p>
                 <div className={styles.status}>
@@ -50,7 +52,8 @@ export default function RantTrack() {
             {activeTab === 'demo' && (
                 <div className={styles.demoSection}>
                     <p className={styles.demoNote}>
-                        Try the NLP extraction engine below. Type a symptom description or click an example to see real-time parsing.
+                        Try the NLP extraction engine below. Type a symptom description or click an example to see
+                        real-time parsing, including each detection&apos;s confidence score.
                     </p>
                     <div className={styles.demoContainer}>
                         <RantTrackApp />
