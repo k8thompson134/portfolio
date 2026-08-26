@@ -47,7 +47,8 @@ export default function Home() {
             title="Cream City Docket"
             description="Milwaukee city government, made understandable. Monitors Common Council legislation and delivers plain-English summaries and email alerts so residents can act before votes happen."
             tech={['React', 'TypeScript', 'Python', 'FastAPI', 'PostgreSQL', 'Claude API']}
-            status="wip"
+            status="live"
+            href="/docket"
             liveUrl="https://creamcitydocket.com"
             github="https://github.com/k8thompson134/Cream-City-Docket"
           />

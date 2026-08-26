@@ -1,0 +1,218 @@
+@use '../../styles/variables' as *;
+
+.main {
+  padding: $space-6;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: $space-4;
+  color: $console-teal;
+  text-decoration: none;
+  font-family: $font-mono;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.title {
+  font-family: $font-display;
+  font-size: 3rem;
+  margin-bottom: $space-2;
+  color: $text-primary;
+}
+
+.tagline {
+  font-size: 1.25rem;
+  color: $text-secondary;
+  margin-bottom: $space-5;
+  max-width: 680px;
+}
+
+.intro {
+  margin-bottom: $space-6;
+
+  p {
+    color: $text-secondary;
+    line-height: 1.6;
+    margin-bottom: $space-3;
+    max-width: 680px;
+  }
+}
+
+.reference {
+  margin: $space-4 0;
+  max-width: 680px;
+}
+
+.referenceLink {
+  display: block;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.referenceImage {
+  width: 100%;
+  height: auto;
+  border-radius: $radius-md;
+  border: 1px solid rgba($border-gray, 0.5);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
+  transition: transform $transition-base, filter $transition-base;
+
+  .referenceLink:hover & {
+    transform: scale(1.02);
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));
+  }
+}
+
+.referenceCaption {
+  margin-top: $space-2;
+  font-size: 0.85rem;
+  color: $text-muted;
+  font-family: $font-mono;
+  line-height: 1.3;
+}
+
+.referenceLinkText {
+  color: $console-teal;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  align-items: center;
+  margin-bottom: $space-6;
+}
+
+.badge {
+  @include dymo-label;
+  font-size: 0.8rem;
+}
+
+.liveLink {
+  margin-left: auto;
+  color: $console-teal;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  transition: color $transition-fast;
+  white-space: nowrap;
+
+  &::after {
+    content: '↗';
+    font-family: sans-serif;
+  }
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.githubLink {
+  color: $console-teal;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  transition: color $transition-fast;
+  white-space: nowrap;
+
+  &::after {
+    content: '↗';
+    font-family: sans-serif;
+  }
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-4;
+  margin-bottom: $space-8;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  @include panel;
+  background: rgba(0, 0, 0, 0.2);
+  padding: $space-4;
+}
+
+.panelTitle {
+  font-family: $font-display;
+  font-size: 1.4rem;
+  margin-bottom: $space-2;
+  color: $text-primary;
+}
+
+.panelDescription {
+  line-height: 1.6;
+  color: $text-secondary;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.gallery {
+  margin-top: $space-4;
+}
+
+.galleryTitle {
+  font-family: $font-display;
+  font-size: 1.5rem;
+  margin-bottom: $space-4;
+  color: $text-primary;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: $space-4;
+}
