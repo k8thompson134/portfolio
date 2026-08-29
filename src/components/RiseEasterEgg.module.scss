@@ -1,6 +1,9 @@
-@use '../styles/variables' as *;
+@use "../styles/variables" as *;
 
-// Persistent starfield — stays after Rise exits
+/* ==========================================================================
+   Starfield & Background Layer
+   ========================================================================== */
+
 .starfield {
   position: fixed;
   inset: 0;
@@ -18,11 +21,14 @@
 }
 
 @keyframes twinkle {
-  from { opacity: inherit; }
-  to   { opacity: 0.03; }
+  from {
+    opacity: inherit;
+  }
+  to {
+    opacity: 0.03;
+  }
 }
 
-// Temporary dark overlay — fades in and out with Rise
 .darkOverlay {
   position: fixed;
   inset: 0;
@@ -32,60 +38,202 @@
 }
 
 @keyframes overlayBg {
-  0%, 5%  { background: transparent; }
-  18%     { background: rgba(10, 14, 39, 0.9); }
-  72%     { background: rgba(10, 14, 39, 0.9); }
-  100%    { background: transparent; }
+  0%,
+  5% {
+    background: transparent;
+  }
+  18% {
+    background: rgba(10, 14, 39, 0.9);
+  }
+  72% {
+    background: rgba(10, 14, 39, 0.9);
+  }
+  100% {
+    background: transparent;
+  }
 }
 
-// Rise floats in from right, drifts with sine-wave bob, exits left.
-// position: fixed + left: 50% centers the origin so translateX values
-// are symmetric around screen center.
-.riseContainer {
+/* ==========================================================================
+   Ground Control Telemetry Console (Top Fixed HUD)
+   ========================================================================== */
+
+.telemetryConsole {
   position: fixed;
-  top: 40%;
+  top: 24px;
   left: 50%;
-  z-index: 9999;
+  transform: translateX(-50%);
+  z-index: 10000;
   pointer-events: none;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: $console-mint;
+  background: rgba($panel-dark, 0.94);
+  border: 1px solid $border-gray;
+  border-radius: $radius-md;
+  padding: $space-2 $space-5;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.6),
+    $shadow-panel;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  animation: consoleFadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  @include crt-glow($console-mint);
+  @include scanline;
+
+  &.newRecordConsole {
+    color: $nixie-orange;
+    border-color: rgba($nixie-orange, 0.7);
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.7),
+      $shadow-glow-orange;
+    @include crt-glow($nixie-orange);
+
+    .consoleDivider {
+      color: rgba($nixie-orange, 0.5);
+    }
+  }
+
+  &.isSummary {
+    border-color: rgba($nixie-orange, 0.5);
+  }
+}
+
+.consoleRow {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.consoleStatusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $led-green;
+  box-shadow: 0 0 8px $led-green;
+  display: inline-block;
+  animation: dotPulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes dotPulse {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.consoleScore {
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.consoleTag {
+  color: $nixie-orange;
+  font-weight: 700;
+}
+
+.consoleStatus {
+  font-size: 0.72rem;
+  opacity: 0.9;
+  letter-spacing: 0.1em;
+  transition: color 0.25s ease;
+
+  &.isElevatedStatus {
+    color: $nixie-orange;
+    font-weight: 700;
+    @include crt-glow($nixie-orange);
+    animation: statusPulse 0.5s ease-out;
+  }
+}
+
+@keyframes statusPulse {
+  0% {
+    transform: scale(1.15);
+    filter: brightness(1.4);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.consoleBest {
+  font-size: 0.72rem;
+  color: $led-green;
+  @include crt-glow($led-green);
+}
+
+.consoleDivider {
+  color: rgba($border-gray, 0.8);
+  font-weight: 400;
+}
+
+@keyframes consoleFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -15px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+/* ==========================================================================
+   Rise Interactive Physics Container & Asset
+   ========================================================================== */
+
+.risePhysicsContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: manipulation;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: $space-3;
-  animation: riseFloat 5.8s linear forwards;
-}
+  gap: $space-2;
+  will-change: transform;
+  outline: none;
+  transition: filter 0.15s ease;
 
-@keyframes riseFloat {
-  0% {
-    transform: translateX(62vw) translateY(-15px) rotate(12deg) scale(0.75);
-    opacity: 0;
+  &:hover {
+    filter: brightness(1.08);
   }
-  10% {
-    transform: translateX(42vw) translateY(-5px) rotate(6deg) scale(1);
-    opacity: 1;
+
+  &:active {
+    filter: brightness(1.2);
   }
-  28% {
-    transform: translateX(20vw) translateY(28px) rotate(-8deg) scale(1.04);
-  }
-  46% {
-    transform: translateX(0vw) translateY(-18px) rotate(5deg) scale(1);
-  }
-  62% {
-    transform: translateX(-20vw) translateY(22px) rotate(-7deg) scale(1.03);
-  }
-  78% {
-    transform: translateX(-38vw) translateY(-10px) rotate(4deg) scale(0.98);
-    opacity: 1;
-  }
-  91% {
-    transform: translateX(-58vw) translateY(8px) rotate(10deg) scale(0.8);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(-65vw) translateY(8px) rotate(10deg) scale(0.8);
-    opacity: 0;
+
+  &.isExiting {
+    pointer-events: none;
+    animation: fadeOutExit 2.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
 }
 
 .rise {
   display: block;
+}
+
+@keyframes fadeOutExit {
+  0% {
+    opacity: 1;
+    scale: 1;
+  }
+  70% {
+    opacity: 1;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 0.75;
+    translate: 0 30px;
+  }
 }

@@ -1,52 +1,277 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useCallback } from 'react';
-import Image from 'next/image';
-import styles from './RiseEasterEgg.module.scss';
+import { useEffect, useState, useCallback, useRef, memo } from "react";
+import Image from "next/image";
+import styles from "./RiseEasterEgg.module.scss";
+import {
+  BALL_WIDTH,
+  BALL_HEIGHT,
+  HIGH_SCORE_STORAGE_KEY,
+  MISSION_SUMMARY_DURATION_MS,
+  GameStatus,
+  Star,
+  PhysicsState,
+  getTelemetryStatus,
+  createStarfield,
+  calculateHitImpulse,
+  createInitialPhysicsState,
+} from "./risePhysicsEngine";
 
-interface Star {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  opacity: number;
-  duration: number;
-  delay: number;
-}
+const StarfieldBackground = memo(function StarfieldBackground({
+  stars,
+}: {
+  stars: Star[];
+}) {
+  return (
+    <div className={styles.starfield} aria-hidden="true">
+      {stars.map((star) => (
+        <span
+          key={star.id}
+          className={styles.star}
+          style={{
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            opacity: star.opacity,
+            animationDuration: `${star.duration}s`,
+            animationDelay: `${star.delay}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+});
 
 export default function RiseEasterEgg() {
-  const [riseActive, setRiseActive] = useState(false);
+  const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [starsVisible, setStarsVisible] = useState(false);
   const [stars, setStars] = useState<Star[]>([]);
+  const [combo, setCombo] = useState(0);
+  const [finalJuggles, setFinalJuggles] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [isNewRecord, setIsNewRecord] = useState(false);
+
+  // Mutable 60fps frame state to avoid React re-render overhead during animation loop
+  const posRef = useRef<PhysicsState>({
+    x: 0,
+    y: 0,
+    vx: 0,
+    vy: 0,
+    angle: 0,
+    vRot: 0,
+    t: 0,
+    combo: 0,
+  });
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const animFrameRef = useRef<number | null>(null);
+  const interactedRef = useRef(false);
+  const exitTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(HIGH_SCORE_STORAGE_KEY);
+      if (saved) setHighScore(parseInt(saved, 10) || 0);
+    }
+  }, []);
+
+  const startExitSequence = useCallback(() => {
+    if (gameStatus === GameStatus.EXITING || gameStatus === GameStatus.SUMMARY)
+      return;
+    setGameStatus(GameStatus.SUMMARY);
+
+    if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    exitTimerRef.current = setTimeout(() => {
+      setGameStatus(GameStatus.IDLE);
+    }, MISSION_SUMMARY_DURATION_MS);
+  }, [gameStatus]);
 
   const trigger = useCallback(() => {
-    if (riseActive) return;
+    if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+
     if (!starsVisible) {
-      setStars(
-        Array.from({ length: 65 }, (_, i) => ({
-          id: i,
-          x: Math.random() * 100,
-          y: Math.random() * 100,
-          size: Math.random() * 2.5 + 0.5,
-          opacity: Math.random() * 0.45 + 0.15,
-          duration: Math.random() * 2 + 1,
-          delay: Math.random() * 1.5,
-        }))
-      );
+      setStars(createStarfield());
       setStarsVisible(true);
     }
-    setRiseActive(true);
-    setTimeout(() => setRiseActive(false), 5800);
-  }, [riseActive, starsVisible]);
 
+    const screenW = typeof window !== "undefined" ? window.innerWidth : 1200;
+    const screenH = typeof window !== "undefined" ? window.innerHeight : 800;
+
+    posRef.current = createInitialPhysicsState(screenW, screenH);
+    interactedRef.current = false;
+    setCombo(0);
+    setFinalJuggles(0);
+    setIsNewRecord(false);
+    setGameStatus(GameStatus.PLAYING);
+  }, [starsVisible]);
+
+  // Main 60fps Physics & Boundary Collision Loop
+  useEffect(() => {
+    if (gameStatus !== GameStatus.PLAYING) {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      return;
+    }
+
+    const updatePhysics = () => {
+      const p = posRef.current;
+      const screenW = window.innerWidth;
+      const screenH = window.innerHeight;
+      p.t += 0.05;
+
+      if (!interactedRef.current) {
+        // Initial untouched float across top of screen
+        p.vy = Math.sin(p.t * 1.5) * 0.8;
+        p.vRot = -0.2;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -BALL_WIDTH - 60) {
+          startExitSequence();
+          return;
+        }
+      } else {
+        // Trans-lunar microgravity & wind turbulence
+        const gravityScale = 0.018 + Math.min(0.12, p.combo * 0.0018);
+        p.vy += gravityScale;
+
+        if (p.combo >= 5) {
+          const wind =
+            Math.sin(p.t * 2.5) *
+            (0.14 + Math.min(0.35, (p.combo - 5) * 0.005));
+          p.vx += wind * 0.08;
+        }
+
+        // Near-frictionless vacuum drag
+        p.vx *= 0.996;
+        p.vy *= 0.996;
+        p.vRot *= 0.985;
+
+        p.x += p.vx;
+        p.y += p.vy;
+        p.angle += p.vRot;
+
+        // Wall rebounds
+        if (p.x < 0) {
+          p.x = 0;
+          p.vx = Math.abs(p.vx) * 0.9;
+          p.vRot += p.vy * 0.12;
+        } else if (p.x > screenW - BALL_WIDTH) {
+          p.x = screenW - BALL_WIDTH;
+          p.vx = -Math.abs(p.vx) * 0.9;
+          p.vRot -= p.vy * 0.12;
+        }
+
+        // Ceiling rebound
+        if (p.y < 15) {
+          p.y = 15;
+          p.vy = Math.abs(p.vy) * 0.75;
+        }
+
+        // Floor touch is an instant mission fail
+        const maxFloorY = screenH - BALL_HEIGHT - 10;
+        if (p.y >= maxFloorY) {
+          p.y = maxFloorY;
+          p.vy = 0;
+          p.vx = 0;
+          startExitSequence();
+          return;
+        }
+      }
+
+      // GPU-accelerated inline transform
+      if (containerRef.current) {
+        containerRef.current.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) rotate(${p.angle}deg)`;
+      }
+
+      animFrameRef.current = requestAnimationFrame(updatePhysics);
+    };
+
+    animFrameRef.current = requestAnimationFrame(updatePhysics);
+
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [gameStatus, startExitSequence]);
+
+  const handleHit = (clientX: number, clientY: number) => {
+    if (gameStatus === GameStatus.SUMMARY) {
+      trigger();
+      return;
+    }
+    if (!containerRef.current || gameStatus !== GameStatus.PLAYING) return;
+    interactedRef.current = true;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const hitX = clientX - rect.left;
+    const hitY = clientY - rect.top;
+
+    const p = posRef.current;
+    const impulse = calculateHitImpulse(
+      hitX,
+      hitY,
+      rect.width,
+      rect.height,
+      p.combo,
+    );
+
+    p.vx = p.vx * 0.45 + impulse.impulseX;
+    p.vy = Math.max(-11, Math.min(-5.8, p.vy * 0.22 + impulse.upwardBoost));
+    p.vRot = p.vRot * 0.35 + impulse.impulseSpin;
+
+    setCombo((c) => {
+      const nextCombo = c + 1;
+      posRef.current.combo = nextCombo;
+      setFinalJuggles(nextCombo);
+
+      if (nextCombo > highScore) {
+        setHighScore(nextCombo);
+        setIsNewRecord(true);
+        if (typeof window !== "undefined") {
+          localStorage.setItem(HIGH_SCORE_STORAGE_KEY, String(nextCombo));
+        }
+      }
+      return nextCombo;
+    });
+  };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    e.stopPropagation();
+    handleHit(e.clientX, e.clientY);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.stopPropagation();
+      if (gameStatus === GameStatus.SUMMARY) {
+        trigger();
+        return;
+      }
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        handleHit(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      }
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    };
+  }, []);
+
+  // Global 'k8' keyboard shortcut & custom event listener
   useEffect(() => {
     const buffer: string[] = [];
 
     const handleKey = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement
+      )
+        return;
       buffer.push(e.key.toLowerCase());
       if (buffer.length > 2) buffer.shift();
-      if (buffer[0] === 'k' && buffer[1] === '8') {
+      if (buffer[0] === "k" && buffer[1] === "8") {
         buffer.length = 0;
         trigger();
       }
@@ -54,45 +279,98 @@ export default function RiseEasterEgg() {
 
     const handleCustom = () => trigger();
 
-    window.addEventListener('keydown', handleKey);
-    window.addEventListener('rise:trigger', handleCustom);
+    window.addEventListener("keydown", handleKey);
+    window.addEventListener("rise:trigger", handleCustom);
     return () => {
-      window.removeEventListener('keydown', handleKey);
-      window.removeEventListener('rise:trigger', handleCustom);
+      window.removeEventListener("keydown", handleKey);
+      window.removeEventListener("rise:trigger", handleCustom);
     };
   }, [trigger]);
 
+  const telemetryStatusText = getTelemetryStatus(combo);
+  const isPlaying = gameStatus === GameStatus.PLAYING;
+  const isSummary = gameStatus === GameStatus.SUMMARY;
+
   return (
     <>
-      {starsVisible && (
-        <div className={styles.starfield} aria-hidden="true">
-          {stars.map((star) => (
-            <span
-              key={star.id}
-              className={styles.star}
-              style={{
-                left: `${star.x}%`,
-                top: `${star.y}%`,
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                opacity: star.opacity,
-                animationDuration: `${star.duration}s`,
-                animationDelay: `${star.delay}s`,
-              }}
-            />
-          ))}
+      {starsVisible && <StarfieldBackground stars={stars} />}
+
+      {(isPlaying || isSummary) && (
+        <div
+          className={`${styles.telemetryConsole} ${
+            isNewRecord ? styles.newRecordConsole : ""
+          } ${isSummary ? styles.isSummary : ""}`}
+          onClick={isSummary ? trigger : undefined}
+          style={{
+            cursor: isSummary ? "pointer" : "default",
+            pointerEvents: "auto",
+          }}
+        >
+          {isSummary ? (
+            <div className={styles.consoleRow}>
+              <span className={styles.consoleStatusDot} aria-hidden="true" />
+              <span className={styles.consoleTag}>
+                {isNewRecord
+                  ? "MISSION STATUS // NEW RECORD"
+                  : "MISSION STATUS // COMPLETE"}
+              </span>
+              <span className={styles.consoleDivider}>|</span>
+              <span className={styles.consoleScore}>
+                {String(finalJuggles).padStart(2, "0")} VOLLEYS
+              </span>
+              <span className={styles.consoleDivider}>|</span>
+              <span className={styles.consoleBest}>
+                BEST: {String(highScore).padStart(2, "0")}
+              </span>
+            </div>
+          ) : (
+            <div className={styles.consoleRow}>
+              <span className={styles.consoleStatusDot} aria-hidden="true" />
+              <span className={styles.consoleScore}>
+                {isNewRecord
+                  ? `NEW RECORD // ${String(combo).padStart(2, "0")}`
+                  : `VOLLEYS // ${String(combo).padStart(2, "0")}`}
+              </span>
+              <span className={styles.consoleDivider}>|</span>
+              <span
+                key={telemetryStatusText}
+                className={`${styles.consoleStatus} ${
+                  combo >= 5 ? styles.isElevatedStatus : ""
+                }`}
+              >
+                STATUS: {telemetryStatusText}
+              </span>
+              {highScore > 0 && (
+                <>
+                  <span className={styles.consoleDivider}>|</span>
+                  <span className={styles.consoleBest}>
+                    BEST: {String(highScore).padStart(2, "0")}
+                  </span>
+                </>
+              )}
+            </div>
+          )}
         </div>
       )}
-      {riseActive && (
+
+      {isPlaying && (
         <>
           <div className={styles.darkOverlay} aria-hidden="true" />
-          <div className={styles.riseContainer} aria-hidden="true">
+          <div
+            ref={containerRef}
+            className={styles.risePhysicsContainer}
+            onPointerDown={handlePointerDown}
+            role="button"
+            tabIndex={0}
+            aria-label="Tap to bounce Rise"
+            onKeyDown={handleKeyDown}
+          >
             <Image
               src="/images/rise.png"
               alt="Rise the plushie floating in space"
               width={160}
               height={200}
-              style={{ width: '160px', height: 'auto' }}
+              style={{ width: "160px", height: "auto" }}
               className={styles.rise}
               priority
             />
