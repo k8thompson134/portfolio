@@ -1,0 +1,66 @@
+@use '../styles/variables' as *;
+
+.bio {
+  color: $text-secondary;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: $space-7;
+
+  p + p {
+    margin-top: $space-4;
+  }
+
+  @media (max-width: $bp-md) {
+    font-size: 0.95rem;
+  }
+}
+
+.expandable {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 400ms ease, opacity 300ms ease;
+
+  > div {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  &.expanded {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: $space-4;
+  }
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  margin-top: $space-4;
+  padding: 0;
+  background: none;
+  border: none;
+  color: $console-teal;
+  font-family: $font-mono;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $nixie-orange;
+    text-shadow: $shadow-glow-orange;
+  }
+}
+
+.chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform $transition-base;
+
+  .toggle[aria-expanded='true'] & {
+    transform: rotate(180deg);
+  }
+}

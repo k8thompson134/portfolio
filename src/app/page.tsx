@@ -1,6 +1,7 @@
 import styles from './page.module.scss';
 import HeroTitle from '@/components/HeroTitle';
 import ProfileCard from '@/components/ProfileCard';
+import Bio from '@/components/Bio';
 import TechStack from '@/components/TechStack';
 import ProjectCard from '@/components/ProjectCard';
 import ContactSection from '@/components/ContactSection';
@@ -15,11 +16,7 @@ export default function Home() {
       <section id="about">
         <h2 className={styles.sectionLabel}>About Me</h2>
         <ProfileCard imageSrc="/images/avatar.png" />
-        <div className={styles.bio}>
-          <p><b>I'm a software engineering student at MSOE who takes projects from problem to production.</b> My projects span full-stack development and systems design: RantTrack (voice-first symptom tracker in React Native), Stormglass (environmental health forecasting with real-time API integration), a local-first AI system orchestrating multiple services around unified data models, homelab infrastructure with Docker Compose on constrained hardware, Cream City Docket (civic tech for Milwaukee government transparency), contributions to the Progressive Learning Platform (assembly language IDE for students), and eSubmit (Ruby on Rails submission system with Docker deployment).</p>
-          <p>I approach projects methodically: understand the problem, research solutions, gather requirements, then plan implementation. I learned how to break down large problems from nearly a decade organizing technical events, Women in STEM meetups as a FIRST Ladies regional partner with my robotics team in high school, conference planning through SWE, and cultural celebrations as outreach chair of my sorority.</p>
-          <p>I'm comfortable with the full project lifecycle: user research, requirements documentation, development, and knowledge transfer. Beyond coding, I've taught programming, write technical documentation that people actually use, present technical concepts clearly, and handle graphic design and visual communication.</p>
-        </div>
+        <Bio />
         <TechStack />
       </section>
 

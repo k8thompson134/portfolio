@@ -107,21 +107,6 @@
   }
 }
 
-.bio {
-  color: $text-secondary;
-  font-size: 1.05rem;
-  line-height: 1.8;
-  margin-bottom: $space-7;
-
-  p + p {
-    margin-top: $space-4;
-  }
-
-  @media (max-width: $bp-md) {
-    font-size: 0.95rem;
-  }
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
