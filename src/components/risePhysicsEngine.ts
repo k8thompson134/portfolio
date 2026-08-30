@@ -1,5 +1,7 @@
 export const BALL_WIDTH = 160;
 export const BALL_HEIGHT = 200;
+export const MOBILE_BALL_WIDTH = 110;
+export const MOBILE_BALL_HEIGHT = 138;
 export const HIGH_SCORE_STORAGE_KEY = "k8_rise_high_score";
 export const MISSION_SUMMARY_DURATION_MS = 4000;
 export const STAR_COUNT = 65;
@@ -47,6 +49,14 @@ export function getTelemetryStatus(combo: number): string {
   return "ORBITAL FLOAT";
 }
 
+export function getBallDimensions(screenW: number) {
+  const isMobile = screenW < 640;
+  return {
+    width: isMobile ? MOBILE_BALL_WIDTH : BALL_WIDTH,
+    height: isMobile ? MOBILE_BALL_HEIGHT : BALL_HEIGHT,
+  };
+}
+
 export function createStarfield(): Star[] {
   return Array.from({ length: STAR_COUNT }, (_, i) => ({
     id: i,
@@ -72,10 +82,10 @@ export function calculateHitImpulse(
   const offsetX = hitX - centerX;
   const offsetY = hitY - centerY;
 
-  const impulseX = -offsetX * (0.08 + Math.min(0.06, combo * 0.004));
+  const impulseX = -offsetX * (0.1 + Math.min(0.08, combo * 0.005));
   const upwardBoost =
-    -6.8 - Math.max(0, (offsetY / centerY) * 2.5) - Math.min(3.5, combo * 0.15);
-  const impulseSpin = -offsetX * 0.12;
+    -8.5 - Math.max(0, (offsetY / centerY) * 3.0) - Math.min(4.0, combo * 0.18);
+  const impulseSpin = -offsetX * 0.08;
 
   return { impulseX, upwardBoost, impulseSpin };
 }
@@ -85,12 +95,12 @@ export function createInitialPhysicsState(
   screenH: number,
 ): PhysicsState {
   return {
-    x: screenW + 50,
+    x: screenW + 60,
     y: screenH * 0.35,
-    vx: -3.2,
+    vx: -2.8,
     vy: 0,
-    angle: 8,
-    vRot: -0.3,
+    angle: -8,
+    vRot: 0.12,
     t: 0,
     combo: 0,
   };

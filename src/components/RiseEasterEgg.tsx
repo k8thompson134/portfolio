@@ -12,6 +12,7 @@ import {
   Star,
   PhysicsState,
   getTelemetryStatus,
+  getBallDimensions,
   createStarfield,
   calculateHitImpulse,
   createInitialPhysicsState,
@@ -52,6 +53,9 @@ export default function RiseEasterEgg() {
   const [highScore, setHighScore] = useState(0);
   const [isNewRecord, setIsNewRecord] = useState(false);
 
+  const [hasInitiated, setHasInitiated] = useState(false);
+  const [isConsoleFadingOut, setIsConsoleFadingOut] = useState(false);
+
   // Mutable 60fps frame state to avoid React re-render overhead during animation loop
   const posRef = useRef<PhysicsState>({
     x: 0,
@@ -67,6 +71,7 @@ export default function RiseEasterEgg() {
   const animFrameRef = useRef<number | null>(null);
   const interactedRef = useRef(false);
   const exitTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const fadeOutTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -79,15 +84,25 @@ export default function RiseEasterEgg() {
     if (gameStatus === GameStatus.EXITING || gameStatus === GameStatus.SUMMARY)
       return;
     setGameStatus(GameStatus.SUMMARY);
+    setIsConsoleFadingOut(false);
 
     if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    if (fadeOutTimerRef.current) clearTimeout(fadeOutTimerRef.current);
+
+    // Trigger graceful CSS fade-out 600ms before summary ends
+    fadeOutTimerRef.current = setTimeout(() => {
+      setIsConsoleFadingOut(true);
+    }, MISSION_SUMMARY_DURATION_MS - 600);
+
     exitTimerRef.current = setTimeout(() => {
       setGameStatus(GameStatus.IDLE);
+      setIsConsoleFadingOut(false);
     }, MISSION_SUMMARY_DURATION_MS);
   }, [gameStatus]);
 
   const trigger = useCallback(() => {
     if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    if (fadeOutTimerRef.current) clearTimeout(fadeOutTimerRef.current);
 
     if (!starsVisible) {
       setStars(createStarfield());
@@ -99,6 +114,8 @@ export default function RiseEasterEgg() {
 
     posRef.current = createInitialPhysicsState(screenW, screenH);
     interactedRef.current = false;
+    setHasInitiated(false);
+    setIsConsoleFadingOut(false);
     setCombo(0);
     setFinalJuggles(0);
     setIsNewRecord(false);
@@ -118,15 +135,24 @@ export default function RiseEasterEgg() {
       const screenH = window.innerHeight;
       p.t += 0.05;
 
+      const { width: ballW, height: ballH } = getBallDimensions(screenW);
+
       if (!interactedRef.current) {
-        // Initial untouched float across top of screen
-        p.vy = Math.sin(p.t * 1.5) * 0.8;
-        p.vRot = -0.2;
+        // Initial entrance float: Taller and wider soaring zero-G space float trajectory
+        p.vy = Math.sin(p.t * 0.8) * 1.5;
+        p.vRot = 0.12;
         p.x += p.vx;
         p.y += p.vy;
+        p.angle += p.vRot;
 
-        if (p.x < -BALL_WIDTH - 60) {
-          startExitSequence();
+        // Ceiling clamp to keep Rise safely inside screen bounds
+        if (p.y < 25) {
+          p.y = 25;
+        }
+
+        // If untouched and floats off left edge, exit silently to IDLE without summary HUD
+        if (p.x < -ballW - 60) {
+          setGameStatus(GameStatus.IDLE);
           return;
         }
       } else {
@@ -141,10 +167,10 @@ export default function RiseEasterEgg() {
           p.vx += wind * 0.08;
         }
 
-        // Near-frictionless vacuum drag
+        // Comfortable, non-nauseating active rotation decay
         p.vx *= 0.996;
         p.vy *= 0.996;
-        p.vRot *= 0.985;
+        p.vRot *= 0.96;
 
         p.x += p.vx;
         p.y += p.vy;
@@ -154,11 +180,11 @@ export default function RiseEasterEgg() {
         if (p.x < 0) {
           p.x = 0;
           p.vx = Math.abs(p.vx) * 0.9;
-          p.vRot += p.vy * 0.12;
-        } else if (p.x > screenW - BALL_WIDTH) {
-          p.x = screenW - BALL_WIDTH;
+          p.vRot += p.vy * 0.08;
+        } else if (p.x > screenW - ballW) {
+          p.x = screenW - ballW;
           p.vx = -Math.abs(p.vx) * 0.9;
-          p.vRot -= p.vy * 0.12;
+          p.vRot -= p.vy * 0.08;
         }
 
         // Ceiling rebound
@@ -168,7 +194,7 @@ export default function RiseEasterEgg() {
         }
 
         // Floor touch is an instant mission fail
-        const maxFloorY = screenH - BALL_HEIGHT - 10;
+        const maxFloorY = screenH - ballH - 10;
         if (p.y >= maxFloorY) {
           p.y = maxFloorY;
           p.vy = 0;
@@ -200,6 +226,7 @@ export default function RiseEasterEgg() {
     }
     if (!containerRef.current || gameStatus !== GameStatus.PLAYING) return;
     interactedRef.current = true;
+    setHasInitiated(true);
 
     const rect = containerRef.current.getBoundingClientRect();
     const hitX = clientX - rect.left;
@@ -214,9 +241,9 @@ export default function RiseEasterEgg() {
       p.combo,
     );
 
-    p.vx = p.vx * 0.45 + impulse.impulseX;
-    p.vy = Math.max(-11, Math.min(-5.8, p.vy * 0.22 + impulse.upwardBoost));
-    p.vRot = p.vRot * 0.35 + impulse.impulseSpin;
+    p.vx = p.vx * 0.4 + impulse.impulseX;
+    p.vy = Math.max(-13.5, Math.min(-7.2, p.vy * 0.2 + impulse.upwardBoost));
+    p.vRot = p.vRot * 0.25 + impulse.impulseSpin;
 
     setCombo((c) => {
       const nextCombo = c + 1;
@@ -256,6 +283,7 @@ export default function RiseEasterEgg() {
   useEffect(() => {
     return () => {
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+      if (fadeOutTimerRef.current) clearTimeout(fadeOutTimerRef.current);
     };
   }, []);
 
@@ -290,16 +318,19 @@ export default function RiseEasterEgg() {
   const telemetryStatusText = getTelemetryStatus(combo);
   const isPlaying = gameStatus === GameStatus.PLAYING;
   const isSummary = gameStatus === GameStatus.SUMMARY;
+  const showTelemetryConsole = (isPlaying && hasInitiated) || isSummary;
 
   return (
     <>
       {starsVisible && <StarfieldBackground stars={stars} />}
 
-      {(isPlaying || isSummary) && (
+      {showTelemetryConsole && (
         <div
           className={`${styles.telemetryConsole} ${
             isNewRecord ? styles.newRecordConsole : ""
-          } ${isSummary ? styles.isSummary : ""}`}
+          } ${isSummary ? styles.isSummary : ""} ${
+            isConsoleFadingOut ? styles.isFadingOut : ""
+          }`}
           onClick={isSummary ? trigger : undefined}
           style={{
             cursor: isSummary ? "pointer" : "default",
@@ -354,28 +385,25 @@ export default function RiseEasterEgg() {
       )}
 
       {isPlaying && (
-        <>
-          <div className={styles.darkOverlay} aria-hidden="true" />
-          <div
-            ref={containerRef}
-            className={styles.risePhysicsContainer}
-            onPointerDown={handlePointerDown}
-            role="button"
-            tabIndex={0}
-            aria-label="Tap to bounce Rise"
-            onKeyDown={handleKeyDown}
-          >
-            <Image
-              src="/images/rise.png"
-              alt="Rise the plushie floating in space"
-              width={160}
-              height={200}
-              style={{ width: "160px", height: "auto" }}
-              className={styles.rise}
-              priority
-            />
-          </div>
-        </>
+        <div
+          ref={containerRef}
+          className={styles.risePhysicsContainer}
+          onPointerDown={handlePointerDown}
+          role="button"
+          tabIndex={0}
+          aria-label="Tap to bounce Rise"
+          onKeyDown={handleKeyDown}
+        >
+          <Image
+            src="/images/rise.png"
+            alt="Rise the plushie floating in space"
+            width={160}
+            height={200}
+            style={{ width: "160px", height: "auto" }}
+            className={styles.rise}
+            priority
+          />
+        </div>
       )}
     </>
   );

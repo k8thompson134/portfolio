@@ -44,7 +44,7 @@ describe("RiseEasterEgg Physics Engine & Custom Events", () => {
 
     // Hit bottom (hitY = 180, centerY = 100 -> offsetY = +80)
     const bottomHit = calculateHitImpulse(80, 180);
-    expect(bottomHit.upwardBoost).toBeLessThan(-6.8); // Should pop higher upward
+    expect(bottomHit.upwardBoost).toBeLessThan(-8.5); // Should pop higher upward
   });
 
   it("computes telemetry status thresholds correctly", () => {
