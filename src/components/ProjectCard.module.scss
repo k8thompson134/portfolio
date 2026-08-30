@@ -1,4 +1,4 @@
-@use '../styles/variables' as *;
+@use "../styles/variables" as *;
 
 .card {
   @include panel;
@@ -13,7 +13,7 @@
 
   // Tech Corner Accents
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -25,7 +25,7 @@
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     right: 0;
@@ -60,7 +60,8 @@
   align-items: center;
   margin-bottom: $space-3;
   position: relative;
-  z-index: 2; // Above the card link
+  z-index: 2;
+  pointer-events: none;
 }
 
 .cardLink {
@@ -79,6 +80,7 @@
   align-items: center;
   gap: $space-2;
   z-index: 3;
+  pointer-events: auto;
 }
 
 .liveIcon {
@@ -87,6 +89,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
 
   &:hover {
     color: $led-green;
@@ -98,7 +101,6 @@
     height: 18px;
   }
 }
-
 
 .designation {
   @include dymo-label;
@@ -117,7 +119,7 @@
 
   // The glowing dot — built with a pseudo-element
   &::before {
-    content: '';
+    content: "";
     width: 8px;
     height: 8px;
     border-radius: 50%;
@@ -171,12 +173,14 @@
   margin-top: $space-4;
   position: relative;
   z-index: 2;
+  pointer-events: none;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: $space-1;
+  pointer-events: none;
 }
 
 .githubLink {
@@ -191,6 +195,8 @@
   color: $nixie-orange;
   transition: all $transition-fast;
   width: fit-content;
+  pointer-events: auto;
+  z-index: 3;
 
   svg {
     width: 13px;
