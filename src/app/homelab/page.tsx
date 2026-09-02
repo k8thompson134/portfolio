@@ -15,7 +15,8 @@ export default function HomelabPage() {
         {/* Overview */}
         <div style={{ marginBottom: '3rem', color: '#A0A8C0', lineHeight: '1.8', fontSize: '1rem' }}>
           <p>
-            A containerized AI stack running 8 services with tight resource constraints on a Mac mini.
+            A local AI stack with tight resource constraints on a Mac mini: Docker-orchestrated services
+            alongside a natively-run Ollama inference engine.
             This is the runtime layer for any local-first application, specifically designed to support the <a href="/local-personal-ai" style={{ color: '#5C9EAD', textDecoration: 'underline' }}>Local Personal AI System</a>.
             Demonstrates cost-efficient orchestration, privacy-first design, and systems thinking for production services on modest hardware.
             Shows DevOps fundamentals: service orchestration, memory constraints, data persistence, and graceful degradation.
@@ -27,7 +28,7 @@ export default function HomelabPage() {
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', color: '#5C9EAD', marginBottom: '1rem' }}>The Challenge</h2>
           <p style={{ color: '#A0A8C0', lineHeight: '1.8', fontSize: '0.95rem' }}>
             Run a production-grade AI stack locally with privacy guarantees, no cloud lock-in, and minimal hardware cost.
-            Orchestrate multiple services (LLM inference, workflow orchestration, vector search, Git hosting, file management)
+            Orchestrate multiple services (LLM inference, workflow orchestration, vector search, Git hosting)
             within constrained memory while maintaining reliability and data persistence.
           </p>
         </div>
@@ -49,20 +50,20 @@ export default function HomelabPage() {
             <pre style={{ margin: 0, padding: 0, color: '#5C9EAD' }}>{`┌──────────────────────────────────────────────────────┐
 │         Homelab Stack (Mac mini)                     │
 ├──────────────────────────────────────────────────────┤
-│                                                       │
+│                                                      │
 │         AI/LLM Services                              │
-│      Ollama (11434)  Open WebUI (3000)               │
-│      Pipelines (9099)  n8n (5678)                    │
-│      ChromaDB (8000)  SearXNG (8888)                 │
-│                                                       │
+│      Ollama  Open WebUI                              │
+│      Pipelines  n8n                                  │
+│      ChromaDB  SearXNG                               │
+│                                                      │
 │              ▲ AI inference                          │
-│      ▲ Vector embeddings  ▲ Workflow                │
-│                                                       │
-│      Infrastructure & APIs                           │
-│      Gitea (3002)  FileBrowser (8081)                │
-│                                                       │
-│              ▲ Git hosting  ▲ File mgmt              │
-│                                                       │
+│      ▲ Vector embeddings  ▲ Workflow                 │
+│                                                      │
+│      Infrastructure                                  │
+│      Gitea                                           │
+│                                                      │
+│              ▲ Git hosting                           │
+│                                                      │
 └──────────────────────────────────────────────────────┘`}</pre>
           </div>
         </div>
@@ -76,7 +77,7 @@ export default function HomelabPage() {
                 name: 'Ollama',
                 purpose: 'LLM inference engine',
                 memory: '2GB',
-                key: 'Local language models: Llama 3.2 (1b) for fast inference, Qwen 2.5-Coder (7b) for code generation, Nomic Embed Text for embeddings. No external API calls.'
+                key: 'Runs natively, not containerized. Local language models: Gemma 3 (12b) for reasoning and extraction, Llama 3.2 (1b) for fast/lightweight tasks, Nomic Embed Text for embeddings. No external API calls.'
               },
               {
                 name: 'Open WebUI + Pipelines',
@@ -107,12 +108,6 @@ export default function HomelabPage() {
                 purpose: 'Self-hosted Git server',
                 memory: '512MB',
                 key: 'Local repository hosting for code and project management'
-              },
-              {
-                name: 'FileBrowser',
-                purpose: 'Web-based file manager',
-                memory: '256MB',
-                key: 'Browse projects and data without CLI'
               }
             ].map(service => (
               <div key={service.name} style={{
@@ -156,7 +151,7 @@ export default function HomelabPage() {
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Composable services:</strong> Each container is independent. Upgrade Ollama, replace n8n, add new services—without affecting others.
+              <strong style={{ color: '#B8D4C8' }}>Composable services:</strong> Each container is independent. Upgrade ChromaDB, replace n8n, add new services—without affecting others.
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
@@ -235,7 +230,7 @@ export default function HomelabPage() {
         <div style={{ marginBottom: '3rem' }}>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', color: '#5C9EAD', marginBottom: '1.5rem' }}>Tech Stack</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            {['Docker', 'Docker Compose', 'Ollama (Llama 3.2, Qwen 2.5-Coder)', 'Open WebUI', 'n8n', 'ChromaDB', 'SearXNG', 'Gitea', 'FileBrowser'].map(tech => (
+            {['Docker', 'Docker Compose', 'Ollama (Gemma 3, Llama 3.2)', 'Open WebUI', 'n8n', 'ChromaDB', 'SearXNG', 'Gitea'].map(tech => (
               <span key={tech} style={{
                 background: '#253557',
                 border: '1px solid #3A506B',

@@ -51,7 +51,7 @@ export default function Home() {
           />
           <ProjectCard
             title="Homelab Stack"
-            description="Local-first AI infrastructure with 8 services running on a Mac mini: Ollama LLM, Open WebUI chat, n8n workflow orchestration, ChromaDB vector search, SearXNG private search, plus Git hosting and file management. Demonstrates Docker Compose orchestration with tight memory constraints, privacy-first architecture, and cost-efficient resource allocation on modest hardware."
+            description="Local-first AI infrastructure running on a Mac mini: Ollama LLM inference, Open WebUI chat, n8n workflow orchestration, ChromaDB vector search, SearXNG private search, plus self-hosted Git. Demonstrates Docker Compose orchestration with tight memory constraints, privacy-first architecture, and cost-efficient resource allocation on modest hardware."
             tech={['Docker', 'Docker Compose', 'Ollama', 'Open WebUI', 'n8n', 'ChromaDB']}
             status="live"
             href="/homelab"
