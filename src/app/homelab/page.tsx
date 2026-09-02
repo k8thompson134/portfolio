@@ -1,5 +1,7 @@
 import styles from '../page.module.scss';
 import Link from 'next/link';
+import Image from 'next/image';
+import K8Tap from '@/components/K8Tap';
 
 export default function HomelabPage() {
   return (
@@ -276,6 +278,22 @@ export default function HomelabPage() {
             Built and deployed on a Mac mini. All services local; all data stays local unless explicitly shared.
           </p>
         </div>
+
+        <p style={{
+          opacity: 0.35,
+          textAlign: 'center',
+          marginTop: '1.5rem'
+        }}>
+          <K8Tap>
+            <Image
+              src="/images/k8-mark-xs.png"
+              alt="K8"
+              width={444}
+              height={128}
+              style={{ height: '20px', width: 'auto', display: 'inline-block' }}
+            />
+          </K8Tap>
+        </p>
       </section>
     </main>
   );

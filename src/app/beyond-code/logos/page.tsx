@@ -14,6 +14,12 @@ export default function LogosPage() {
 
             <div className={styles.creativeGrid}>
                 <CreativeCard
+                    title="K8 Mark"
+                    category="Official · This Site"
+                    imageSrc="/images/k8-mark-l.png"
+                    contain
+                />
+                <CreativeCard
                     title="eSubmit Logo"
                     category="Official · Adopted 2024"
                     imageSrc="/images/creative work/eSubmit Logo.png"
