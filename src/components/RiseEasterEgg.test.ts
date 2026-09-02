@@ -1,5 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
-import { calculateHitImpulse, getTelemetryStatus } from "./risePhysicsEngine";
+import {
+  calculateHitImpulse,
+  getTelemetryStatus,
+  getHeightScale,
+} from "./risePhysicsEngine";
 
 describe("RiseEasterEgg Physics Engine & Custom Events", () => {
   it("dispatches rise:trigger custom event correctly", () => {
@@ -55,5 +59,13 @@ describe("RiseEasterEgg Physics Engine & Custom Events", () => {
     expect(getTelemetryStatus(30)).toBe("GRAVITY 3.0X");
     expect(getTelemetryStatus(50)).toBe("DEEP TURBULENCE");
     expect(getTelemetryStatus(75)).toBe("MAX TURBULENCE");
+  });
+
+  it("scales gravity/impulse down on short screens and up on tall ones, within clamped bounds", () => {
+    expect(getHeightScale(900)).toBe(1); // reference height, no scaling
+    expect(getHeightScale(450)).toBeCloseTo(0.65); // short phone, clamped to the floor
+    expect(getHeightScale(2000)).toBeCloseTo(1.25); // tall display, clamped to the ceiling
+    expect(getHeightScale(667)).toBeLessThan(1); // short screen scales down
+    expect(getHeightScale(667)).toBeGreaterThan(0.65);
   });
 });

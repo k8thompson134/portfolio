@@ -6,6 +6,15 @@ export const HIGH_SCORE_STORAGE_KEY = "k8_rise_high_score";
 export const MISSION_SUMMARY_DURATION_MS = 4000;
 export const STAR_COUNT = 65;
 
+// Gravity/impulse are tuned in px/frame against this reference viewport height.
+// Shorter screens scale both down so a phone doesn't get proportionally less
+// reaction room than a laptop; clamped so very short/tall screens stay playable.
+export const REFERENCE_SCREEN_HEIGHT = 900;
+
+export function getHeightScale(screenH: number): number {
+  return Math.max(0.65, Math.min(1.25, screenH / REFERENCE_SCREEN_HEIGHT));
+}
+
 export enum GameStatus {
   IDLE = "IDLE",
   PLAYING = "PLAYING",

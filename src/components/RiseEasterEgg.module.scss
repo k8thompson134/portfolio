@@ -7,7 +7,9 @@
 .starfield {
   position: fixed;
   inset: 0;
-  z-index: 9998;
+  // Kept in the 40s instead of the max stacking range so a future modal/toast
+  // (which would naturally sit in the low hundreds) isn't fighting a leftover 9999
+  z-index: 40;
   pointer-events: none;
   overflow: hidden;
 }
@@ -37,7 +39,7 @@
   position: fixed;
   top: 140px;
   right: $space-5;
-  z-index: 10000;
+  z-index: 50;
   pointer-events: none;
   font-family: $font-mono;
   font-size: 0.8rem;
@@ -196,7 +198,11 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 45;
+  // Intentional: tapping Rise anywhere on the page is the whole game, so it
+  // must swallow clicks over whatever it's currently drifting above. It's
+  // small and only mounted while actively playing, so this is a short,
+  // self-limited interruption rather than a persistent blocker.
   pointer-events: auto;
   cursor: pointer;
   user-select: none;

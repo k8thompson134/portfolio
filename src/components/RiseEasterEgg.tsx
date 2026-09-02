@@ -13,6 +13,7 @@ import {
   PhysicsState,
   getTelemetryStatus,
   getBallDimensions,
+  getHeightScale,
   createStarfield,
   calculateHitImpulse,
   createInitialPhysicsState,
@@ -157,8 +158,10 @@ export default function RiseEasterEgg() {
           return;
         }
       } else {
-        // Trans-lunar microgravity & wind turbulence
-        const gravityScale = 0.018 + Math.min(0.12, p.combo * 0.0018);
+        // Trans-lunar microgravity & wind turbulence, scaled to viewport height so
+        // a short phone screen doesn't get proportionally less reaction room
+        const heightScale = getHeightScale(screenH);
+        const gravityScale = (0.018 + Math.min(0.12, p.combo * 0.0018)) * heightScale;
         p.vy += gravityScale;
 
         if (p.combo >= 5) {
@@ -201,7 +204,7 @@ export default function RiseEasterEgg() {
           if (!p.floorSaved) {
             p.floorSaved = true;
             p.y = maxFloorY;
-            p.vy = -Math.abs(p.vy) * 0.5 - 4;
+            p.vy = -Math.abs(p.vy) * 0.5 - 4 * heightScale;
             p.vx *= 0.7;
           } else {
             p.y = maxFloorY;
@@ -250,8 +253,14 @@ export default function RiseEasterEgg() {
       p.combo,
     );
 
+    // Scale the vertical pop to viewport height so a tap sends Rise a
+    // comparable fraction of the screen up, not a fixed pixel amount
+    const heightScale = getHeightScale(window.innerHeight);
     p.vx = p.vx * 0.4 + impulse.impulseX;
-    p.vy = Math.max(-13.5, Math.min(-7.2, p.vy * 0.2 + impulse.upwardBoost));
+    p.vy = Math.max(
+      -13.5 * heightScale,
+      Math.min(-7.2 * heightScale, p.vy * 0.2 + impulse.upwardBoost * heightScale),
+    );
     p.vRot = p.vRot * 0.25 + impulse.impulseSpin;
 
     setCombo((c) => {
