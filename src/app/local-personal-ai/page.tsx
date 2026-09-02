@@ -212,6 +212,13 @@ export default function LocalPersonalAIPage() {
                 solution: 'Briefing route reads system state (pacing score, recent events) and adjusts output: high stress → top-3 alerts only; low stress → full analysis + forecasts + recommendations.',
                 result: 'Briefing is useful under all conditions. No need to hard-code "if stressed, show less"; format adapts automatically.',
                 skills: 'State-driven logic, contextual presentation, adaptive UX'
+              },
+              {
+                title: 'Voice-Matched Drafting: Statistical Style Fingerprinting',
+                problem: 'Generic LLM output has a detectable "voice"—corporate hedging, heavy em-dash use, uniformly clean sentences—nothing like how a real person actually writes. Asking the model to imitate someone\'s style, or having it grade its own output, doesn\'t hold up.',
+                solution: 'Build a corpus of real writing samples and compute a deterministic statistical fingerprint per register (12 metrics: sentence-length mean/stdev, contraction rate, em-dash/semicolon rate, type-token ratio, opener/closer frequency—no LLM involved). Every generated draft runs through a gate before the user sees it: a hard fail on banned corporate phrases, plus a zero-tolerance check that forces a regen when a metric that\'s statistically ~zero across the real corpus (e.g. em-dash usage) shows up anyway. Retrieval-augmented generation pulls the 5 most similar real samples via ChromaDB before drafting multiple variants at different temperatures, ranked by gate pass and drift score.',
+                result: 'Verified live: zero em-dashes across repeated test generations post-fix, with the regen counter confirming the retry mechanism actually fired rather than getting lucky once. Every draft attempt—input, all variants, gate results, retrieval hits—logs for full auditability, and a chosen draft can be promoted back into the corpus to improve future fingerprints.',
+                skills: 'Statistical validation over LLM self-assessment, retrieval-augmented generation, empirical prompt engineering (fixing failures found via live testing, not guesswork), regen/ranking pipelines'
               }
             ].map((study, idx) => (
               <div key={idx} style={{
