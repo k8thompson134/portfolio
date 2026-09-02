@@ -1,6 +1,7 @@
 import styles from './page.module.scss';
 import WhereToApp from '@/components/WhereToApp';
 import Link from 'next/link';
+import Footer from '@/components/Footer';
 
 export default function WhereTo() {
     return (
@@ -21,6 +22,8 @@ export default function WhereTo() {
             <div className={styles.appContainer}>
                 <WhereToApp />
             </div>
+
+            <Footer />
         </main>
     );
 }

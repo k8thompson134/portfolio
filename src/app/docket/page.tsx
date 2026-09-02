@@ -1,6 +1,7 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
 import CreativeCard from '@/components/CreativeCard';
+import Footer from '@/components/Footer';
 
 export default function Docket() {
   return (
@@ -148,6 +149,8 @@ export default function Docket() {
           />
         </div>
       </section>
+
+      <Footer />
     </main>
   );
 }

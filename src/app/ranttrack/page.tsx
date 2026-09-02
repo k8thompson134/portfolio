@@ -4,6 +4,7 @@ import { useState } from 'react';
 import styles from './page.module.scss';
 import RantTrackApp from '@/components/ranttrack/RantTrackApp';
 import CreativeCard from '@/components/CreativeCard';
+import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -109,6 +110,8 @@ export default function RantTrack() {
                     </div>
                 </div>
             )}
+
+            <Footer />
         </main>
     );
 }

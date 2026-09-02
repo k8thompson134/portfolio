@@ -66,6 +66,7 @@ export default function RiseEasterEgg() {
     vRot: 0,
     t: 0,
     combo: 0,
+    floorSaved: false,
   });
   const containerRef = useRef<HTMLDivElement | null>(null);
   const animFrameRef = useRef<number | null>(null);
@@ -193,14 +194,22 @@ export default function RiseEasterEgg() {
           p.vy = Math.abs(p.vy) * 0.75;
         }
 
-        // Floor touch is an instant mission fail
+        // Floor touch: first grazing touch per run gets a soft forgiving bounce,
+        // any touch after that is mission fail
         const maxFloorY = screenH - ballH - 10;
         if (p.y >= maxFloorY) {
-          p.y = maxFloorY;
-          p.vy = 0;
-          p.vx = 0;
-          startExitSequence();
-          return;
+          if (!p.floorSaved) {
+            p.floorSaved = true;
+            p.y = maxFloorY;
+            p.vy = -Math.abs(p.vy) * 0.5 - 4;
+            p.vx *= 0.7;
+          } else {
+            p.y = maxFloorY;
+            p.vy = 0;
+            p.vx = 0;
+            startExitSequence();
+            return;
+          }
         }
       }
 

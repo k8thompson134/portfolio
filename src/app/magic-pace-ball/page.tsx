@@ -1,6 +1,7 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+import Footer from '@/components/Footer';
 
 export default function MagicPaceBall() {
     return (
@@ -34,6 +35,8 @@ export default function MagicPaceBall() {
                     />
                 </div>
             </div>
+
+            <Footer />
         </main>
     );
 }

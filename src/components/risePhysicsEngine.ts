@@ -32,6 +32,7 @@ export interface PhysicsState {
   vRot: number;
   t: number;
   combo: number;
+  floorSaved: boolean;
 }
 
 export interface HitImpulse {
@@ -103,5 +104,6 @@ export function createInitialPhysicsState(
     vRot: 0.12,
     t: 0,
     combo: 0,
+    floorSaved: false,
   };
 }

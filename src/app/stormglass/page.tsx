@@ -2,6 +2,7 @@ import styles from './page.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import CreativeCard from '@/components/CreativeCard';
+import Footer from '@/components/Footer';
 
 export default function Stormglass() {
   return (
@@ -192,6 +193,8 @@ export default function Stormglass() {
           />
         </div>
       </section>
+
+      <Footer />
     </main>
   );
 }
