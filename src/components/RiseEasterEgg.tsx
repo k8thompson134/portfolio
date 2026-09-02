@@ -359,9 +359,8 @@ export default function RiseEasterEgg() {
             <div className={styles.consoleRow}>
               <span className={styles.consoleStatusDot} aria-hidden="true" />
               <span className={styles.consoleTag}>
-                {isNewRecord
-                  ? "MISSION STATUS // NEW RECORD"
-                  : "MISSION STATUS // COMPLETE"}
+                <span className={styles.consoleTagPrefix}>MISSION STATUS // </span>
+                {isNewRecord ? "NEW RECORD" : "COMPLETE"}
               </span>
               <span className={styles.consoleDivider}>|</span>
               <span className={styles.consoleScore}>

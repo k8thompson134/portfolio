@@ -135,6 +135,12 @@
   font-weight: 700;
 }
 
+.consoleTagPrefix {
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
 .consoleStatus {
   font-size: 0.72rem;
   opacity: 0.9;
