@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Caprasimo, Quicksand, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.scss";
 import RiseEasterEgg from "@/components/RiseEasterEgg";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} ${caprasimo.variable} ${quicksand.variable} ${spaceGrotesk.variable} ${ibmPlexMono.variable}`}>
         {children}
         <RiseEasterEgg />
+        <Analytics />
       </body>
     </html>
   );
