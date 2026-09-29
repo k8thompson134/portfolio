@@ -18,6 +18,20 @@ const SAMPLERS = [
     chart: '/images/pattern-maker-cozy-corner-chart.jpg',
     phone: '/images/pattern-maker-cozy-corner-phone.jpg',
   },
+  {
+    name: 'Bee Kind',
+    detail: '60×56 stitches · Daisies border, scaled two-tone bee, block lettering, botanical flower row',
+    design: '/images/pattern-maker-bee-kind-design.jpg',
+    chart: '/images/pattern-maker-bee-kind-chart.jpg',
+    phone: '/images/pattern-maker-bee-kind-phone.jpg',
+  },
+  {
+    name: 'Star Chart',
+    detail: '60×60 stitches · Diamonds border, astronomical composition with 3× crescent moon, spiral galaxy, planet, and tiny lettering',
+    design: '/images/pattern-maker-star-chart-design.jpg',
+    chart: '/images/pattern-maker-star-chart-chart.jpg',
+    phone: '/images/pattern-maker-star-chart-phone.jpg',
+  },
 ];
 
 export default function PatternMaker() {
