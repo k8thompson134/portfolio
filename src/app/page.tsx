@@ -65,6 +65,15 @@ export default function Home() {
             liveUrl="https://research.k8thompson.dev/research-public"
           />
           <ProjectCard
+            title="Pattern Maker"
+            description="A browser-based tool for composing cross-stitch patterns from text, icons, borders, and freehand stitches instead of converting photos. Exports printable PDF charts with symbols and a DMC thread legend, works on mobile, and keeps every design local in the browser."
+            tech={['React', 'TypeScript', 'Vite', 'jsPDF', 'SVG Canvas']}
+            status="live"
+            href="/pattern-maker"
+            liveUrl="https://patterns.k8thompson.dev"
+            github="https://github.com/k8thompson134/pattern-maker"
+          />
+          <ProjectCard
             title="Where To?"
             description="I want to get coffee, go to a book store, hit a thrift shop, and get sushi for lunch. So many different coffee brands, so many thrift shops in the Milwaukee area, Where To helps you find the options that give you the itinerary that makes the best route. Scenic route feature coming soon!"
             tech={['JavaScript', 'Google Maps API']}
