@@ -78,7 +78,7 @@ export default function Home() {
             description="I want to get coffee, go to a book store, hit a thrift shop, and get sushi for lunch. So many different coffee brands, so many thrift shops in the Milwaukee area, Where To helps you find the options that give you the itinerary that makes the best route. Scenic route feature coming soon!"
             tech={['JavaScript', 'Google Maps API']}
             status="live"
-            href="/where-to"
+            liveUrl="https://whereto.k8thompson.dev"
             github="https://github.com/k8thompson134/where-to"
           />
           <ProjectCard
