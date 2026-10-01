@@ -74,6 +74,15 @@ export default function Home() {
             github="https://github.com/k8thompson134/pattern-maker"
           />
           <ProjectCard
+            title="Signal Tuner"
+            description="A signal decoder game played inside a working Winamp 2 player on a Windows 98 desktop at 3 AM. Tune through the static, clear the interference, and decode lyrics from songs nobody was meant to hear."
+            tech={['TypeScript', 'Vite', 'Webamp', 'Web Audio API', 'localStorage']}
+            status="live"
+            href="/signal-tuner"
+            liveUrl="https://tuner.k8thompson.dev"
+            github="https://github.com/k8thompson134/tuner-I-hardly-know-er-"
+          />
+          <ProjectCard
             title="Where To?"
             description="I want to get coffee, go to a book store, hit a thrift shop, and get sushi for lunch. So many different coffee brands, so many thrift shops in the Milwaukee area, Where To helps you find the options that give you the itinerary that makes the best route."
             tech={['Next.js', 'TypeScript', 'Google Maps API', 'Claude API']}
