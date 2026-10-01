@@ -82,10 +82,4 @@
         width: 14px;
         height: 14px;
     }
-
-    &.highlight {
-        color: $led-green;
-        border-color: rgba($led-green, 0.3);
-        background: rgba($led-green, 0.1);
-    }
 }

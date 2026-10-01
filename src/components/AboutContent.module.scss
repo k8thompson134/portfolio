@@ -1,0 +1,33 @@
+@use '../styles/variables' as *;
+
+.about {
+  color: $text-secondary;
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: $space-7;
+
+  p + p {
+    margin-top: $space-4;
+  }
+}
+
+.lede {
+  font-family: $font-display;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  line-height: 1.4;
+  color: $text-primary;
+
+  span {
+    color: $nixie-orange;
+  }
+}
+
+.link {
+  color: $led-green;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    color: $nixie-orange;
+  }
+}
