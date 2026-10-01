@@ -13,11 +13,12 @@ interface ProjectRowProps {
 
 export default function ProjectRow({ title, summary, tech, status, href, github, liveUrl }: ProjectRowProps) {
   return (
-    <article className={styles.row}>
+    <article className={`${styles.row} ${href ? styles.clickable : ''}`}>
+      {href && <Link href={href} className={styles.rowLink} aria-label={`View ${title} details`} />}
       <span className={`${styles.led} ${styles[status]}`} title={status.toUpperCase()} aria-label={status} />
       <div className={styles.body}>
         <h3 className={styles.title}>
-          {href ? <Link href={href} className={styles.titleLink}>{title}</Link> : title}
+          {title}
         </h3>
         <p className={styles.summary}>{summary}</p>
         <div className={styles.tags}>
