@@ -28,8 +28,8 @@ export default function Home() {
         <div className={styles.grid}>
           <ProjectCard
             title="RantTrack"
-            description="Voice-first symptom tracker for chronically ill users. A custom NLP engine turns natural speech into logged symptoms, severity, and pain details. 100% local."
-            tech={['React Native', 'TypeScript', 'SQLite', 'Expo']}
+            description="Voice-first symptom tracker for chronically ill users. A custom NLP engine turns natural speech into logged symptoms, severity, and pain details. Runs entirely in the browser."
+            tech={['React', 'TypeScript', 'Vite', 'Local-first']}
             status="live"
             href="/ranttrack"
             github="https://github.com/k8thompson134/rant-app"

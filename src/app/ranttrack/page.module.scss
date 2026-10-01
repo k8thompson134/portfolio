@@ -132,8 +132,15 @@
     color: $text-muted;
 }
 
-.demoContainer {
-    margin-top: $space-2;
+.demoFrame {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    height: 760px;
+    margin: $space-2 auto 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    background: #0d0d0d;
 }
 
 .gallerySection {
