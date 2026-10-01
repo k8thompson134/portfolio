@@ -143,6 +143,15 @@
     }
   }
 
+  &.coursework {
+    color: $console-teal;
+
+    &::before {
+      background: $console-teal;
+      box-shadow: 0 0 4px rgba($console-teal, 0.4);
+    }
+  }
+
   &.archived {
     color: $led-red;
 

@@ -161,3 +161,42 @@
     text-shadow: $shadow-glow-green;
   }
 }
+
+.intro {
+  color: $text-secondary;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: $space-4;
+
+  b {
+    color: $text-primary;
+  }
+}
+
+.moreLink {
+  display: inline-flex;
+  align-items: center;
+  margin-top: $space-3;
+  color: $led-green;
+  text-decoration: none;
+  font-family: $font-mono;
+  font-size: 0.85rem;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $nixie-orange;
+  }
+}
+
+.subLabel {
+  @include dymo-label;
+  display: inline-block;
+  margin-top: $space-7;
+  margin-bottom: $space-3;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}

@@ -1,0 +1,93 @@
+@use "../styles/variables" as *;
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  border: 1px solid rgba($console-teal, 0.2);
+  border-radius: $radius-sm;
+  transition: border-color $transition-fast;
+
+  &:hover {
+    border-color: rgba($console-teal, 0.5);
+  }
+}
+
+.led {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 0.5rem;
+
+  &.live { background: $led-green; box-shadow: 0 0 6px rgba($led-green, 0.6); }
+  &.wip { background: $led-yellow; box-shadow: 0 0 6px rgba($led-yellow, 0.5); }
+  &.archived { background: $led-red; box-shadow: 0 0 4px rgba($led-red, 0.4); }
+  &.coursework { background: $console-teal; box-shadow: 0 0 4px rgba($console-teal, 0.4); }
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: 1rem;
+  margin-bottom: $space-1;
+}
+
+.titleLink {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: $nixie-orange;
+  }
+}
+
+.summary {
+  font-size: 0.85rem;
+  color: $text-secondary;
+  line-height: 1.5;
+  margin-bottom: $space-2;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-1;
+}
+
+.tag {
+  font-family: $font-mono;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $console-teal;
+  padding: 2px $space-2;
+  border: 1px solid rgba($console-teal, 0.3);
+  border-radius: $radius-sm;
+}
+
+.links {
+  display: flex;
+  gap: $space-3;
+  flex-shrink: 0;
+
+  a {
+    color: $text-muted;
+    display: flex;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $nixie-orange;
+    }
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}

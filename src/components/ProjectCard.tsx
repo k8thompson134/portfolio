@@ -7,7 +7,7 @@ interface ProjectCardProps {
   title: string;
   description: string;
   tech: string[];
-  status: 'live' | 'wip' | 'archived';
+  status: 'live' | 'wip' | 'archived' | 'coursework';
   href?: string;
   github?: string;
   liveUrl?: string;

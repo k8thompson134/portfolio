@@ -2,14 +2,17 @@ import styles from './TechStack.module.scss';
 import TechBadge from './TechBadge';
 
 const technologies = [
-    'React Native',
-    'Flutter',
-    'Ruby on Rails',
-    'Java',
     'TypeScript',
+    'React',
+    'React Native',
+    'Next.js',
     'Python',
-    'Docker',
+    'PostgreSQL',
     'SQLite',
+    'Docker',
+    'Java',
+    'Ruby on Rails',
+    'Flutter',
 ];
 
 export default function TechStack() {
