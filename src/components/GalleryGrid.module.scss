@@ -1,0 +1,328 @@
+@use '../styles/variables' as *;
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: $space-3;
+    margin-bottom: $space-6;
+}
+
+.portraitGrid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: zoom-in;
+    border-radius: $radius-md;
+
+    &:focus-visible {
+        outline: 2px solid $led-green;
+        outline-offset: 2px;
+    }
+}
+
+.dialog {
+    // The global reset zeroes margins, which un-centers native <dialog>
+    margin: auto;
+    max-width: min(94vw, 1200px);
+    max-height: 92vh;
+    padding: 0;
+    border: 1px solid $border-gray;
+    border-radius: $radius-lg;
+    background: $deep-space;
+    color: $text-primary;
+    overflow: auto;
+    outline: none;
+
+    &::backdrop {
+        background: rgba($deep-space, 0.85);
+    }
+}
+
+.figure {
+    position: relative;
+    margin: 0;
+}
+
+.close {
+    position: absolute;
+    top: $space-2;
+    right: $space-2;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $border-gray;
+    border-radius: $radius-badge;
+    background: rgba($panel-dark, 0.9);
+    color: $text-primary;
+    cursor: pointer;
+
+    svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    &:hover,
+    &:focus-visible {
+        color: $nixie-orange;
+        border-color: $nixie-orange;
+    }
+}
+
+.fullImage {
+    display: block;
+    max-width: 100%;
+    max-height: 72vh;
+    margin: 0 auto;
+    object-fit: contain;
+    background: $panel-dark;
+}
+
+.caption {
+    padding: $space-4;
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+}
+
+.captionTitle {
+    font-family: $font-display;
+    font-size: 1.1rem;
+}
+
+.captionCategory {
+    @include dymo-label;
+    align-self: flex-start;
+    font-size: 0.65rem;
+}
+
+.captionText {
+    margin-top: $space-2;
+    color: $text-secondary;
+    line-height: 1.6;
+}
+
+.photoGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-5 $space-4;
+    margin-bottom: $space-7;
+
+    @media (max-width: $bp-sm) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.photo {
+    display: block;
+    padding: 0;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: zoom-in;
+    color: inherit;
+
+    img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        border-radius: $radius-sm;
+        transition: opacity $transition-base;
+    }
+
+    &:hover img {
+        opacity: 0.85;
+    }
+
+    // With an odd count, the first photo spans the row so the grid has no empty slot
+    &:first-child:nth-last-child(odd) {
+        grid-column: 1 / -1;
+
+        img {
+            aspect-ratio: 3 / 2;
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid $led-green;
+        outline-offset: 4px;
+    }
+}
+
+.photoCaption {
+    display: block;
+    margin-top: $space-2;
+    font-family: $font-display;
+    font-size: 0.9rem;
+    color: $text-primary;
+
+    span {
+        font-family: $font-mono;
+        font-size: 0.75rem;
+        color: $text-muted;
+    }
+}
+
+.stage {
+    position: relative;
+}
+
+.nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $border-gray;
+    border-radius: $radius-badge;
+    background: rgba($panel-dark, 0.85);
+    color: $text-primary;
+    cursor: pointer;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    &:hover,
+    &:focus-visible {
+        color: $nixie-orange;
+        border-color: $nixie-orange;
+    }
+}
+
+.prev {
+    left: $space-2;
+}
+
+.next {
+    right: $space-2;
+}
+
+.counter {
+    margin-top: $space-2;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: $text-muted;
+}
+
+// Pinned pieces (flyer wall, scrapbook): the artwork itself, uncropped, held up with tape
+.pinnedGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: $space-7 $space-5;
+    align-items: start;
+    padding-top: $space-3;
+    margin-bottom: $space-7;
+
+    &.portraitGrid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+.pinned {
+    display: block;
+    padding: 0;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: zoom-in;
+    color: inherit;
+
+    &:focus-visible {
+        outline: 2px solid $led-green;
+        outline-offset: 6px;
+    }
+}
+
+.paper {
+    position: relative;
+    display: block;
+    transition: transform $transition-base;
+
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    }
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        pointer-events: none;
+    }
+}
+
+.pinned:hover .paper,
+.pinned:focus-visible .paper {
+    transform: translateY(-4px);
+}
+
+// Flyer wall: straight, with a strip of masking tape across the top
+.wall .paper::after {
+    top: -11px;
+    left: 50%;
+    width: 76px;
+    height: 22px;
+    transform: translateX(-50%) rotate(-2deg);
+    background: rgba($nasa-cream, 0.55);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+// Scrapbook: slightly tilted, with space-print washi tape on two corners.
+// The zigzag clip-path gives the torn ends real washi tape has.
+$washi-clip: polygon(
+    0 0, 4% 15%, 0 30%, 4% 45%, 0 60%, 4% 75%, 0 90%, 0 100%,
+    100% 100%, 96% 85%, 100% 70%, 96% 55%, 100% 40%, 96% 25%, 100% 10%, 100% 0
+);
+
+.scrapbook .paper {
+    transform: rotate(var(--tilt));
+
+    &::before,
+    &::after {
+        width: 78px;
+        height: 22px;
+        opacity: 0.92;
+        clip-path: $washi-clip;
+        background-size: 26px 22px;
+    }
+
+    // Navy tape with cream and orange stars
+    &::before {
+        top: 2px;
+        left: -18px;
+        transform: rotate(-38deg);
+        background-color: #2B2F6B;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='22'%3E%3Cpath d='M6 2l1.2 2.8 3 .2-2.3 2 .7 3-2.6-1.6-2.6 1.6.7-3-2.3-2 3-.2z' fill='%23F5F1E3'/%3E%3Cpath d='M18 11l1.2 2.8 3 .2-2.3 2 .7 3-2.6-1.6-2.6 1.6.7-3-2.3-2 3-.2z' fill='%23FF6B35'/%3E%3Ccircle cx='19' cy='4' r='.9' fill='%23F5F1E3'/%3E%3Ccircle cx='4' cy='17' r='.7' fill='%23F5F1E3'/%3E%3C/svg%3E");
+    }
+
+    // Teal tape with ringed planets and moons
+    &::after {
+        bottom: 2px;
+        right: -18px;
+        transform: rotate(-38deg);
+        background-color: #5C9EAD;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='22'%3E%3Ccircle cx='8' cy='8' r='3.2' fill='%23FFD23F'/%3E%3Cellipse cx='8' cy='8' rx='6' ry='1.6' fill='none' stroke='%23F5F1E3' stroke-width='.9' transform='rotate(-20 8 8)'/%3E%3Ccircle cx='19' cy='16' r='2.2' fill='%23F5F1E3'/%3E%3Ccircle cx='20' cy='15.4' r='2' fill='%235C9EAD'/%3E%3Ccircle cx='21' cy='5' r='.8' fill='%23F5F1E3'/%3E%3Ccircle cx='3' cy='18' r='.7' fill='%23F5F1E3'/%3E%3C/svg%3E");
+    }
+}
+
+.scrapbook:hover .paper,
+.scrapbook:focus-visible .paper {
+    transform: rotate(0) translateY(-4px);
+}

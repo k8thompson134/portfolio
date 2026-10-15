@@ -4,7 +4,8 @@
     display: block;
     text-decoration: none;
     @include panel;
-    padding: $space-4;
+    display: flex;
+    flex-direction: column;
     border-radius: $radius-md;
     transition: all $transition-base;
     position: relative;
@@ -57,7 +58,31 @@
             transform: translateX(4px);
             color: $nixie-orange;
         }
+
+        .cover {
+            filter: none;
+        }
     }
+}
+
+.cover {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-bottom: 1px solid rgba($console-teal, 0.2);
+    filter: saturate(0.85) brightness(0.9);
+    transition: filter $transition-base;
+
+    &.contain {
+        object-fit: contain;
+        padding: $space-4;
+        background: $panel-dark;
+    }
+}
+
+.body {
+    padding: $space-4;
 }
 
 .header {

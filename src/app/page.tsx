@@ -122,7 +122,7 @@ export default function Home() {
       <section id="beyond-code">
         <h2 className={styles.sectionLabel}>Beyond Code</h2>
         <p className={styles.intro}>
-          Logo design, crafts, posters, and the events I&apos;ve organized outside of software.
+          Official campaign art, logo design, posters, photography, crafts, and the events I&apos;ve organized outside of software.
         </p>
         <Link href="/beyond-code" className={styles.moreLink}>Explore Beyond Code →</Link>
       </section>

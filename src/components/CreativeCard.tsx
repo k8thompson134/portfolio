@@ -4,30 +4,35 @@ interface CreativeCardProps {
     title: string;
     category: string;
     imageSrc?: string;
+    alt?: string;
     href?: string;
     contain?: boolean;
     imagePosition?: string; // e.g., "top", "center", "bottom", "left", "right"
     portrait?: boolean;
+    touchCaption?: boolean;
 }
 
 export default function CreativeCard({
     title,
     category,
     imageSrc,
+    alt,
     href,
     contain,
     imagePosition = 'center',
-    portrait
+    portrait,
+    touchCaption
 }: CreativeCardProps) {
     const CardWrapper = href ? 'a' : 'div';
     const wrapperProps = href ? { href, target: '_blank', rel: 'noopener noreferrer' } : {};
 
     return (
-        <CardWrapper className={`${styles.creativeCard} ${portrait ? styles.portrait : ''}`} {...wrapperProps}>
+        <CardWrapper className={`${styles.creativeCard} ${portrait ? styles.portrait : ''} ${touchCaption ? styles.touchCaption : ''}`} {...wrapperProps}>
             {imageSrc ? (
                 <img
                     src={imageSrc}
-                    alt={title}
+                    alt={alt ?? title}
+                    loading="lazy"
                     className={`${styles.image} ${contain ? styles.contain : ''}`}
                     style={{ objectPosition: imagePosition }}
                 />

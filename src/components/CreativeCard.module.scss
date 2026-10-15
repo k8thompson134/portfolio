@@ -97,3 +97,29 @@
     @include dymo-label;
     font-size: 0.6rem;
 }
+
+// Touch screens never hover, so the caption sits below the image instead of over it
+@media (hover: none) {
+    .creativeCard.touchCaption {
+        aspect-ratio: auto;
+
+        &::before {
+            display: none;
+        }
+
+        .image {
+            height: auto;
+            aspect-ratio: 4 / 3;
+        }
+
+        &.portrait .image {
+            aspect-ratio: 3 / 4;
+        }
+
+        .info {
+            position: static;
+            opacity: 1;
+            transform: none;
+        }
+    }
+}

@@ -125,6 +125,10 @@
   margin-bottom: $space-6;
 }
 
+.mainWide {
+  max-width: 1100px;
+}
+
 .pageTitle {
   font-family: $font-display;
   font-size: clamp(1.75rem, 4vw, 2.5rem);
@@ -142,7 +146,7 @@
 
 .categoryGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: $space-4;
 }
 
