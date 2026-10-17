@@ -419,12 +419,12 @@ export default function LocalPersonalAIPage() {
                   opens a modal where a doctor or family member can flag a paper with their name and a note.
                   That recommendation writes to the private DB and fires a Discord notification;
                   on the private dashboard, recommended papers surface at the top of the unread queue with a banner showing who sent it and why.
-                  The page is exposed via Cloudflare Tunnel (outbound-only, no open ports) with a path-scoped ingress allowlist — everything outside
+                  The page is exposed via Cloudflare Tunnel (outbound-only, no open ports) with a path-scoped ingress allowlist — everything except the public page and
                   {' '}<code style={{ color: '#B8D4C8', fontSize: '0.85rem' }}>/pub/*</code> returns 404 at the edge before touching the server.
                 </p>
 
                 <p style={{ margin: '0', fontSize: '0.8rem', color: '#5C9EAD', fontStyle: 'italic' }}>
-                  runs nightly via n8n cron → Flask API → Ollama (local, no cloud inference) · code on local Gitea
+                  runs daily at 8am via n8n cron → Flask API → Ollama (local, no cloud inference) · code on local Gitea
                 </p>
               </div>
               <a

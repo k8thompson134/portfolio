@@ -104,8 +104,8 @@ export default function Stormglass() {
           <p className={styles.panelDescription}>
             Evaluates 13 health conditions against current environmental data:
             POTS/Dysautonomia, Joint Pain, Migraine, ME/CFS/PEM, Fibromyalgia,
-            Sinus Pressure, Raynaud&apos;s, Sleep Quality, Cluster Headache, EDS,
-            Air Quality, Geomagnetic Storms, and Pollen &amp; Mold. Each condition
+            Sinus, Raynaud&apos;s, Sleep Quality, Cluster Headache, EDS,
+            Air Quality, Geomagnetic Storms, and Pollen. Each condition
             gets a Low/Moderate/High/Severe risk level with a plain-language
             explanation of which factors are driving it, plus opt-in push
             notifications for the conditions with a clear, actionable trigger.
@@ -143,8 +143,21 @@ export default function Stormglass() {
             UV, regional AQI), PurpleAir (hyperlocal ground-sensor air quality),
             NOAA Space Weather (Kp index, solar wind), and the Google Pollen API
             on a 30-minute cron. Readings are stored in PostgreSQL via Drizzle
-            ORM. All data sources are free — no paid weather APIs, no cloud
-            lock-in.
+            ORM. Every source has a free tier, and PurpleAir and Google Pollen
+            are optional: without their keys, the app falls back to the regional
+            air-quality model and skips pollen.
+          </p>
+        </section>
+
+        <section className={styles.panel}>
+          <h2 className={styles.panelTitle}>Symptom Logging &amp; Trends</h2>
+          <p className={styles.panelDescription}>
+            Logging a symptom records its severity and condition tags along with
+            the environmental snapshot at that moment: pressure, temperature,
+            humidity, air quality, geomagnetic activity, and more. Over time,
+            the trends view ranks which factors line up with each person&apos;s
+            own flares, highlights what tends to help them recover, and warns
+            when several of their high-risk factors align at once.
           </p>
         </section>
 

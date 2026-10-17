@@ -52,8 +52,7 @@ export default function HomelabPage() {
 ├──────────────────────────────────────────────────────┤
 │                                                      │
 │         AI/LLM Services                              │
-│      Ollama  Open WebUI                              │
-│      Pipelines  n8n                                  │
+│      Ollama  n8n                                     │
 │      ChromaDB  SearXNG                               │
 │                                                      │
 │              ▲ AI inference                          │
@@ -76,14 +75,8 @@ export default function HomelabPage() {
               {
                 name: 'Ollama',
                 purpose: 'LLM inference engine',
-                memory: '2GB',
-                key: 'Runs natively, not containerized. Local language models: Gemma 3 (12b) for reasoning and extraction, Llama 3.2 (1b) for fast/lightweight tasks, Nomic Embed Text for embeddings. No external API calls.'
-              },
-              {
-                name: 'Open WebUI + Pipelines',
-                purpose: 'Chat interface & custom LLM pipelines',
-                memory: '1GB + 512MB',
-                key: 'Web UI for chat interactions; Pipelines for custom request processing'
+                memory: '~8GB with Gemma 3 12B loaded',
+                key: 'Runs natively, not containerized, so it gets the Mac mini\'s unified memory directly. Local language models: Gemma 3 (12b) for reasoning and extraction, Llama 3.2 (1b) for fast/lightweight tasks, Nomic Embed Text for embeddings. No external API calls.'
               },
               {
                 name: 'n8n',
@@ -159,7 +152,7 @@ export default function HomelabPage() {
             </li>
             <li>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Docker Compose as infrastructure code:</strong> One YAML file is the single source of truth. No manual config, no lost setup knowledge.
+              <strong style={{ color: '#B8D4C8' }}>Docker Compose as infrastructure code:</strong> The whole AI stack is defined in one Compose file. No manual config, no lost setup knowledge.
             </li>
           </ul>
         </div>
@@ -188,7 +181,7 @@ export default function HomelabPage() {
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Docker Compose single source of truth:</strong> All configuration lives in one file; no manual steps, no lost setup knowledge
+              <strong style={{ color: '#B8D4C8' }}>Docker Compose single source of truth:</strong> Every container in the AI stack is configured in one file; no manual steps, no lost setup knowledge
             </li>
             <li>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
@@ -230,7 +223,7 @@ export default function HomelabPage() {
         <div style={{ marginBottom: '3rem' }}>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', color: '#5C9EAD', marginBottom: '1.5rem' }}>Tech Stack</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            {['Docker', 'Docker Compose', 'Ollama (Gemma 3, Llama 3.2)', 'Open WebUI', 'n8n', 'ChromaDB', 'SearXNG', 'Gitea'].map(tech => (
+            {['Docker', 'Docker Compose', 'Ollama (Gemma 3, Llama 3.2)', 'n8n', 'ChromaDB', 'SearXNG', 'Gitea'].map(tech => (
               <span key={tech} style={{
                 background: '#253557',
                 border: '1px solid #3A506B',

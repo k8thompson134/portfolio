@@ -66,7 +66,7 @@ export default function Home() {
         <div className={styles.rows}>
           <ProjectRow
             title="Homelab Stack"
-            summary="Local-first AI infrastructure on a Mac mini: Ollama, Open WebUI, n8n, ChromaDB, and SearXNG under tight memory limits."
+            summary="Local-first AI infrastructure on a Mac mini: Ollama, n8n, ChromaDB, SearXNG, and Gitea under tight memory limits."
             tech={['Docker Compose', 'Ollama', 'n8n', 'ChromaDB']}
             status="live"
             href="/homelab"
@@ -91,7 +91,7 @@ export default function Home() {
           />
           <ProjectRow
             title="Where To?"
-            summary="Plans the best Milwaukee errand route across coffee shops, bookstores, thrift shops, and restaurants."
+            summary="Errand route planner: enter generic stops like coffee, bank, or groceries, and it finds real places that fit and the shortest driving route through them."
             tech={['Next.js', 'TypeScript', 'Google Maps API', 'Claude API']}
             status="live"
             liveUrl="https://whereto.k8thompson.dev"

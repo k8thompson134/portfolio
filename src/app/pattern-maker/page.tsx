@@ -91,18 +91,20 @@ export default function PatternMaker() {
         <section className={styles.panel}>
           <h2 className={styles.panelTitle}>Text &amp; Icons</h2>
           <p className={styles.panelDescription}>
-            Bitmap fonts in several sizes and styles, including accented characters, plus a
-            growing icon library across themes like cozy, celebration, spooky, and care.
-            Custom icons can be drawn in an editor and saved for reuse.
+            More than fifteen bitmap typefaces, from tiny caps and cursive to blackletter, art
+            deco, stencil, and Braille, with accented characters. A searchable icon library
+            covers themes like cozy, celebration, spooky, care, and pride, and custom icons can
+            be drawn in an editor and saved for reuse.
           </p>
         </section>
 
         <section className={styles.panel}>
           <h2 className={styles.panelTitle}>Arrange &amp; Edit</h2>
           <p className={styles.panelDescription}>
-            Drag, resize, rotate, group, align, and layer objects, then paint individual
-            stitches for small details. Undo and redo cover every edit, and multiple designs
-            can be saved side by side.
+            Drag, resize, rotate, flip, group, and layer objects, with snapping guides and
+            alignment measured by actual stitches. Line, box, fill, and pipette tools handle
+            small details. Undo and redo cover every edit, multiple designs can be saved side
+            by side, and example samplers load from a dropdown to start from.
           </p>
         </section>
 

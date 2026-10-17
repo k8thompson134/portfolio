@@ -47,6 +47,14 @@ export default function SignalTuner() {
           meant to hear; finishing a transmission unlocks the song it came from. It runs inside
           a working Winamp 2 player on a Windows 98 desktop, and works on a phone.
         </p>
+        <p>
+          The desktop around the player carries the story. It opens with a dial-up connection,
+          a buddy sends instant messages that react as you decode, and the Recycle Bin holds
+          unsent letters. The rest of the desktop works too: an editable Notepad, an MS-DOS
+          Prompt and Start &rarr; Run box, Display Properties for wallpapers, color schemes, and
+          CRT effects, and a starfield screen saver. Progress saves automatically, so the night
+          picks up where you left it.
+        </p>
       </div>
 
       <section className={styles.gallery}>
