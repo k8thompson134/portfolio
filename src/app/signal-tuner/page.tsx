@@ -1,6 +1,6 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
-import CreativeCard from '@/components/CreativeCard';
+import ScreenshotGallery from '@/components/ScreenshotGallery';
 import Footer from '@/components/Footer';
 
 export default function SignalTuner() {
@@ -59,33 +59,15 @@ export default function SignalTuner() {
 
       <section className={styles.gallery}>
         <h2 className={styles.galleryTitle}>Screenshots</h2>
-        <div className={styles.galleryGrid}>
-          <CreativeCard
-            title="Tuning a Transmission"
-            category="Decoded words in the marquee and playlist"
-            imageSrc="/images/signal-tuner-player.jpg"
-            contain
-          />
-          <CreativeCard
-            title="Clearing the Static"
-            category="NOISE filter warning, Transmission 2"
-            imageSrc="/images/signal-tuner-noise-filter.jpg"
-            contain
-          />
-          <CreativeCard
-            title="Unsent Letters"
-            category="Recycle Bin and Notepad"
-            imageSrc="/images/signal-tuner-unsent-letter.jpg"
-            contain
-          />
-          <CreativeCard
-            title="On a Phone"
-            category="Tap a slider, swipe to tune"
-            imageSrc="/images/signal-tuner-phone.jpg"
-            portrait
-            contain
-          />
-        </div>
+        <ScreenshotGallery
+          className={styles.galleryGrid}
+          items={[
+            { title: 'Tuning a Transmission', category: 'Decoded words in the marquee and playlist', image: '/images/signal-tuner-player.jpg' },
+            { title: 'Clearing the Static', category: 'NOISE filter warning, Transmission 2', image: '/images/signal-tuner-noise-filter.jpg' },
+            { title: 'Unsent Letters', category: 'Recycle Bin and Notepad', image: '/images/signal-tuner-unsent-letter.jpg' },
+            { title: 'On a Phone', category: 'Tap a slider, swipe to tune', image: '/images/signal-tuner-phone.jpg', portrait: true },
+          ]}
+        />
         <p className={styles.referenceCaption}>
           The unlockable songs are by Kevin MacLeod (incompetech.com, CC BY 4.0) and Alex
           McCulloch. In-game titles and bands are fictional; the real credits are listed in the

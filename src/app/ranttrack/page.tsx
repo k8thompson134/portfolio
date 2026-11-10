@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styles from './page.module.scss';
-import CreativeCard from '@/components/CreativeCard';
+import ScreenshotGallery from '@/components/ScreenshotGallery';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 
@@ -72,71 +72,20 @@ export default function RantTrack() {
 
             {activeTab === 'gallery' && (
                 <div className={styles.gallerySection}>
-                    <div className={styles.galleryGrid}>
-                        <CreativeCard
-                            title="Rant Input"
-                            category="Web App"
-                            imageSrc="/images/ranttrack-web-rant.png"
-                            portrait
-                            contain
-                        />
-                        <CreativeCard
-                            title="History"
-                            category="Web App"
-                            imageSrc="/images/ranttrack-web-history.png"
-                            portrait
-                            contain
-                        />
-                        <CreativeCard
-                            title="Insights"
-                            category="Web App"
-                            imageSrc="/images/ranttrack-web-insights.png"
-                            portrait
-                            contain
-                        />
-                        <CreativeCard
-                            title="Home Screen"
-                            category="Daily Tracking"
-                            imageSrc="/images/ranthome.png"
-                            portrait
-                            contain
-                        />
-                        <CreativeCard
-                            title="Insights"
-                            category="Data Visualization"
-                            imageSrc="/images/rant insights.png"
-                            portrait
-                            contain
-                        />
-                        <CreativeCard
-                            title="Monthly View"
-                            category="Calendar"
-                            imageSrc="/images/rant month.png"
-                            portrait
-                            contain
-                        />
-                        <CreativeCard
-                            title="User Guide"
-                            category="Help & Resources"
-                            imageSrc="/images/rantguide.png"
-                            portrait
-                            contain
-                        />
-                        <CreativeCard
-                            title="Settings"
-                            category="Configuration"
-                            imageSrc="/images/rantsettings.png"
-                            portrait
-                            contain
-                        />
-                        <CreativeCard
-                            title="Settings"
-                            category="Customization"
-                            imageSrc="/images/rantsettings2.png"
-                            portrait
-                            contain
-                        />
-                    </div>
+                    <ScreenshotGallery
+                      className={styles.galleryGrid}
+                      items={[
+                        { title: 'Rant Input', category: 'Web App', image: '/images/ranttrack-web-rant.png', portrait: true },
+                        { title: 'History', category: 'Web App', image: '/images/ranttrack-web-history.png', portrait: true },
+                        { title: 'Insights', category: 'Web App', image: '/images/ranttrack-web-insights.png', portrait: true },
+                        { title: 'Home Screen', category: 'Daily Tracking', image: '/images/ranthome.png', portrait: true },
+                        { title: 'Insights', category: 'Data Visualization', image: '/images/rant insights.png', portrait: true },
+                        { title: 'Monthly View', category: 'Calendar', image: '/images/rant month.png', portrait: true },
+                        { title: 'User Guide', category: 'Help & Resources', image: '/images/rantguide.png', portrait: true },
+                        { title: 'Settings', category: 'Configuration', image: '/images/rantsettings.png', portrait: true },
+                        { title: 'Settings', category: 'Customization', image: '/images/rantsettings2.png', portrait: true },
+                      ]}
+                    />
                 </div>
             )}
 

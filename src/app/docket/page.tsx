@@ -1,6 +1,6 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
-import CreativeCard from '@/components/CreativeCard';
+import ScreenshotGallery from '@/components/ScreenshotGallery';
 import Footer from '@/components/Footer';
 
 export default function Docket() {
@@ -122,32 +122,15 @@ export default function Docket() {
 
       <section className={styles.gallery}>
         <h2 className={styles.galleryTitle}>Screenshots</h2>
-        <div className={styles.galleryGrid}>
-          <CreativeCard
-            title="Bill Feed"
-            category="Discovery & Filtering"
-            imageSrc="/images/docket-bill-feed.jpg"
-            contain
-          />
-          <CreativeCard
-            title="Bill Detail"
-            category="Timeline & Plain-Language Summary"
-            imageSrc="/images/docket-bill-detail.jpg"
-            contain
-          />
-          <CreativeCard
-            title="Alder Profile"
-            category="Vote Records & Legislative Focus"
-            imageSrc="/images/docket-alder-profile.jpg"
-            contain
-          />
-          <CreativeCard
-            title="Email Alerts"
-            category="Subscribe & Digest Settings"
-            imageSrc="/images/docket-subscribe.jpg"
-            contain
-          />
-        </div>
+        <ScreenshotGallery
+          className={styles.galleryGrid}
+          items={[
+            { title: 'Bill Feed', category: 'Discovery & Filtering', image: '/images/docket-bill-feed.jpg' },
+            { title: 'Bill Detail', category: 'Timeline & Plain-Language Summary', image: '/images/docket-bill-detail.jpg' },
+            { title: 'Alder Profile', category: 'Vote Records & Legislative Focus', image: '/images/docket-alder-profile.jpg' },
+            { title: 'Email Alerts', category: 'Subscribe & Digest Settings', image: '/images/docket-subscribe.jpg' },
+          ]}
+        />
       </section>
 
       <Footer />

@@ -1,7 +1,7 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-import CreativeCard from '@/components/CreativeCard';
+import ScreenshotGallery from '@/components/ScreenshotGallery';
 import Footer from '@/components/Footer';
 
 export default function Stormglass() {
@@ -173,38 +173,16 @@ export default function Stormglass() {
 
       <section className={styles.gallery}>
         <h2 className={styles.galleryTitle}>Screenshots</h2>
-        <div className={styles.galleryGrid}>
-          <CreativeCard
-            title="Pressure Dynamics & Current Conditions"
-            category="Dashboard"
-            imageSrc="/images/stormglass-dashboard.png"
-            contain
-          />
-          <CreativeCard
-            title="Health Impact Forecast"
-            category="Condition Cards"
-            imageSrc="/images/stormglass-forecast.png"
-            contain
-          />
-          <CreativeCard
-            title="Condition Detail Modal"
-            category="POTS / Dysautonomia"
-            imageSrc="/images/stormglass-detail.png"
-            contain
-          />
-          <CreativeCard
-            title="Air Quality & Safe-Window Forecast"
-            category="Wildfire Smoke Tracking"
-            imageSrc="/images/stormglass-air-quality.jpg"
-            contain
-          />
-          <CreativeCard
-            title="Exposure Burden Tracking"
-            category="Last 61 Days"
-            imageSrc="/images/stormglass-exposure-tracking.jpg"
-            contain
-          />
-        </div>
+        <ScreenshotGallery
+          className={styles.galleryGrid}
+          items={[
+            { title: 'Pressure Dynamics & Current Conditions', category: 'Dashboard', image: '/images/stormglass-dashboard.png' },
+            { title: 'Health Impact Forecast', category: 'Condition Cards', image: '/images/stormglass-forecast.png' },
+            { title: 'Condition Detail Modal', category: 'POTS / Dysautonomia', image: '/images/stormglass-detail.png' },
+            { title: 'Air Quality & Safe-Window Forecast', category: 'Wildfire Smoke Tracking', image: '/images/stormglass-air-quality.jpg' },
+            { title: 'Exposure Burden Tracking', category: 'Last 61 Days', image: '/images/stormglass-exposure-tracking.jpg' },
+          ]}
+        />
       </section>
 
       <Footer />

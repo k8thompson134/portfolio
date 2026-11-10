@@ -1,6 +1,6 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
-import CreativeCard from '@/components/CreativeCard';
+import ScreenshotGallery from '@/components/ScreenshotGallery';
 import Footer from '@/components/Footer';
 
 const SAMPLERS = [
@@ -124,11 +124,14 @@ export default function PatternMaker() {
           <div key={s.name}>
             <h3 className={styles.samplerName}>{s.name}</h3>
             <p className={styles.samplerDetail}>{s.detail}</p>
-            <div className={styles.galleryGrid}>
-              <CreativeCard title={s.name} category="Design" imageSrc={s.design} contain />
-              <CreativeCard title={`${s.name} chart`} category="Exported PDF with DMC legend" imageSrc={s.chart} contain />
-              <CreativeCard title={`${s.name} on mobile`} category="Editing on a phone" imageSrc={s.phone} contain />
-            </div>
+            <ScreenshotGallery
+              className={styles.galleryGrid}
+              items={[
+                { title: s.name, category: 'Design', image: s.design },
+                { title: `${s.name} chart`, category: 'Exported PDF with DMC legend', image: s.chart },
+                { title: `${s.name} on mobile`, category: 'Editing on a phone', image: s.phone },
+              ]}
+            />
           </div>
         ))}
       </section>
