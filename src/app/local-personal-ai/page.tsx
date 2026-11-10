@@ -10,14 +10,16 @@ export default function LocalPersonalAIPage() {
         <Link href="/" className={styles.backLink}>← Back to Home</Link>
 
         <h1 className={styles.pageTitle}>Local Personal AI System</h1>
-        <p className={styles.pageDescription}>Architecture for privacy-first adaptation & autonomous improvement</p>
+        <p className={styles.pageDescription}>A local-first assistant for health tracking, research, and daily life, running on a 16 GB Mac mini</p>
 
         {/* Overview */}
         <div style={{ marginBottom: '3rem', color: '#A0A8C0', lineHeight: '1.8', fontSize: '1rem' }}>
           <p>
-            A Flask + Discord bot system that orchestrates multiple services (Ollama, n8n, external APIs) around a unified SQLite schema.
-            Demonstrates patterns for cross-domain data correlation, heterogeneous input normalization, agentic self-improvement with safety guardrails,
-            and privacy-by-architecture (all processing local, swappable backends, optional cloud integrations).
+            Lair is a Flask API with around 80 route modules over a single SQLite database, running on a Mac mini M4. A phone-first
+            web app with a ranked feed and push notifications is the main interface; a Discord bot and a hands-free Android Auto
+            voice agent sit alongside it. Local models through Ollama handle extraction, scoring, and summarization; a routing
+            table sends conversation and writing to Claude. Everything private is reachable only over Tailscale, and a single
+            public research page is served through a Cloudflare Tunnel.
           </p>
         </div>
 
@@ -25,11 +27,11 @@ export default function LocalPersonalAIPage() {
         <div style={{ marginBottom: '3rem' }}>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', color: '#5C9EAD', marginBottom: '1rem' }}>The Problem</h2>
           <p style={{ color: '#A0A8C0', lineHeight: '1.8', fontSize: '0.95rem' }}>
-            Personal productivity & context tools are fragmented: activity scattered across Slack, GitHub, Spotify;
-            environmental data siloed in separate APIs; insights buried in unconnected data sources.
-            Most AI systems require cloud lock-in and expose personal data. The goal:
-            a single coherent system where data converges on one schema, patterns emerge from correlation,
-            and the system can improve itself without vendor dependency.
+            Living with a chronic illness means tracking symptoms, weather, medications, appointments, and research across
+            a dozen apps that never talk to each other, on days when energy for any of it is scarce. Commercial tools either
+            ignore that context or require handing sensitive health data to a cloud service. The goal: one system where every
+            data source lands in the same schema, patterns surface from the data rather than hardcoded rules, sensitive records
+            stay on hardware I own, and the interface gets simpler on bad days instead of harder.
           </p>
         </div>
 
@@ -48,34 +50,32 @@ export default function LocalPersonalAIPage() {
             overflowX: 'auto',
             marginBottom: '1.5rem'
           }}>
-            <pre style={{ margin: 0, padding: 0, color: '#5C9EAD' }}>{`User Input (Discord Bot)
+            <pre style={{ margin: 0, padding: 0, color: '#5C9EAD' }}>{`Interfaces
+├── Phone web app (feed, push, logging)
+├── Discord bot (commands, guest Q&A)
+└── Android Auto voice (whisper.cpp)
         ↓
-    Flask API
-    ├── activity normalization   (commits, messages, calendar events)
-    ├── adaptive briefing        (state-aware output composition)
-    ├── agentic task queue       (self-improvement pipeline)
-    └── correlation analysis     (cross-domain pattern detection)
+Flask API (gunicorn)
+├── Inference router
+│   ├── local: Gemma 3 12B, Llama 3.2 1B
+│   └── remote: Claude (chat, writing)
+├── Output guardrails
+└── ChromaDB retrieval
         ↓
-    Processing Layer
-    ├── Ollama (local LLM inference)
-    ├── Data Access (SQLite row_factory)
-    └── External APIs (optional: PubMed, Spotify, weather)
+SQLite (one schema) + Obsidian vault
         ↓
-    Unified SQLite Schema
-    ├── Event Tables (activity, observations, reflections, intentions)
-    ├── Computed Tables (trends, forecasts, correlations)
-    └── Agent State (staging dir, task queue, deployment history)
-        ↓
-    Composition Layer
-    ├── n8n (orchestrate cron workflows)
-    ├── Discord Bot (user interaction)
-    └── Dashboard (visualization)`}</pre>
+Scheduled jobs (launchd)
+├── research agent, daily
+├── dream cycle, nightly
+└── push reminder sweep, every 30 min`}</pre>
           </div>
 
           <p style={{ color: '#A0A8C0', lineHeight: '1.8', fontSize: '0.95rem' }}>
-            The key insight: <strong style={{ color: '#B8D4C8' }}>data convergence enables correlation without hardcoding rules.</strong>
-            Instead of &quot;if pressure drops, send alert,&quot; the system correlates pressure observations with other event types
-            and detects patterns statistically. New data types integrate into the same schema; existing analysis applies automatically.
+            The key insight: <strong style={{ color: '#B8D4C8' }}>one definition per concept, shared by every feature.</strong>{' '}
+            A pressure swing is a day with a 9+ hPa hourly range or an 8+ hPa shift from the day before, and that single function
+            drives the feed&apos;s advance warnings, the symptom correlation charts, and the nightly pattern analysis. Symptoms,
+            journal entries, pressure, air quality, pollen, steps, and screen time all land in the same database, so a new signal
+            joins the existing analysis instead of needing its own.
           </p>
         </div>
 
@@ -87,28 +87,28 @@ export default function LocalPersonalAIPage() {
             {[
               {
                 title: 'Unified Schema for Cross-Domain Correlation',
-                description: 'Multiple event types (commits, messages, calendar events, API observations) feed a single database. Computed columns (trends, baselines, correlations) emerge from statistical analysis, not explicit rules. Adding a new data source requires schema change + analysis pipeline auto-applies.',
-                example: 'Commits (0–10 scale), messages (0–50), calendar events (0–5) → unified intensity scores (1–10). Baseline calculated from 14-day history; alerts trigger when current > baseline + 20% for 3+ days.'
+                description: 'Symptoms, journal entries, mood, medications, weather, air quality, pollen, steps, and phone screen time feed one SQLite database. Shared helpers define each concept once (what counts as a crash, a pressure swing, a data gap), and every chart, alert, and nightly analysis reads the same definition.',
+                example: 'Pressure comes from Open-Meteo every 30 minutes, ground-sensor AQI from PurpleAir, and pollen through Stormglass. All three land in a daily weather table that the correlation charts and the nightly analysis query directly.'
               },
               {
-                title: 'Heterogeneous Input Normalization',
-                description: 'Different sources produce different scales. Normalization logic in the API ensures all inputs map to comparable units before storage. Enables apples-to-apples comparison across sources.',
-                example: 'Stormglass (pressure in hPa), Spotify (play count), GitHub (commits/day) → all normalized to 0–1 relative to baseline before correlation analysis.'
+                title: 'Tiered Inference Routing',
+                description: 'Every model call goes through one router with a named task. Extraction, scoring, classification, and summarization run on local models; conversation and writing go to Claude, where quality matters most. Fog mode reroutes everything to a 1B model with short, bulleted answers. Each call is logged with its tier, latency, and token count.',
+                example: 'Daily paper scoring, symptom extraction from journal text, and the nightly dream cycle all run on Gemma 3 12B locally. Chat and message drafting are the deliberate exceptions routed to Claude.'
+              },
+              {
+                title: 'LLM Output Guardrails',
+                description: 'A free-text field from a model is never stored as fact without checking it against the source. Validators run after generation and either drop the claim or force a retry.',
+                example: 'Email triage only keeps an extracted date, address, or prep note when it can be found in the original email. Research safety flags are confirmed by word-boundary matching against the paper text, not the model\'s summary of it.'
               },
               {
                 title: 'Context-Aware Composition',
-                description: 'Same underlying data, different output based on system state. Flask routes decide output format (brief vs. detailed, confidence thresholds, alert frequency) based on current capacity/stress.',
-                example: 'High-stress state: briefing shows only top-3 alerts, skips recommendations. Low-stress: full analysis, forecasts, suggestions.'
+                description: 'The same data renders differently depending on the day. The daily briefing has three versions chosen from that morning\'s stress and capacity check-in, and fog mode hides whole sections of every page and shortens model answers.',
+                example: 'Stress 7+ with capacity 4 or below: the briefing shows the single most urgent item and a reminder to rest. On a normal day it includes weather risk, symptom trends, research, and upcoming events.'
               },
               {
-                title: 'Agentic Loop with Safety Guardrails',
-                description: 'Agent writes code → stages in isolated directory → human reviews diff → deploy triggers integration. Prevents production breakage; enables autonomous improvement.',
-                example: 'Agent decides system needs correlation analysis for new data type: writes SQL migration + API endpoint + test → stages → human reviews + approves → deploys → integrated into live system.'
-              },
-              {
-                title: 'Privacy-First by Architecture',
-                description: 'All processing happens locally. External APIs (Stormglass, PubMed, Spotify) are optional integrations; removing them doesn\'t break the system. Backends are swappable (Ollama → Claude API, SQLite → PostgreSQL, n8n → custom orchestrator).',
-                example: 'Stormglass integration is one optional route. If API goes down, system degrades gracefully; local analysis continues. Different user could swap Ollama for OpenAI without changing schema.'
+                title: 'Privacy by Architecture',
+                description: 'Health records, journals, and labs live in a SQLite file on the Mac mini. The private app is only reachable over Tailscale. The one public surface goes through a sanitization layer that returns an explicit allowlist of fields.',
+                example: 'Cloudflare Tunnel ingress lists exactly two paths for the public research page; every other path returns 404 at the edge, so private routes are unreachable from the internet regardless of app-level bugs.'
               }
             ].map((pattern, idx) => (
               <div key={idx} style={{
@@ -142,20 +142,20 @@ export default function LocalPersonalAIPage() {
           <div style={{ display: 'grid', gap: '1rem' }}>
             {[
               {
-                loop: 'Environmental Context Loop',
-                flow: 'External APIs → computed table (pressure, air quality, geomagnetic) → briefing logic reads computed values → user sees contextualized alerts'
+                loop: 'Weather Warning Loop',
+                flow: '36-hour pressure forecast + AQI forecast → swing detection → feed card and push notification before the swing arrives → symptoms logged → correlation charts show whether swings actually line up with bad days'
               },
               {
                 loop: 'Trend Detection Loop',
-                flow: 'Event logged → baseline calculated from 14-day history → current vs. baseline → alert if > threshold for 3+ days → user acknowledges alert → trend marked resolved'
+                flow: 'Symptom logged → baseline from the prior 14 days (excluding the most recent 5) → current vs. baseline → alert after 3+ consecutive days more than 20% above → acknowledged alerts stay quiet for 7 days'
               },
               {
-                loop: 'Outcome Tracking Loop',
-                flow: 'User sets intention → system provides context → user logs reflection + outcome → system learns what actually happened vs. predicted → briefing accuracy improves'
+                loop: 'Dream Cycle and Weekly Hypotheses',
+                flow: 'Nightly local-model pass over symptoms, activity, pressure, and mood → findings written to the vault and a rolling weekly summary injected into chat → weekly synthesis drafts falsifiable hypotheses with 4-sample self-consistency and an adversarial critique → hypotheses tracked week over week'
               },
               {
-                loop: 'Self-Improvement Loop (Cipher Agent)',
-                flow: 'System detects missing feature → agent proposes code → stages in isolation → human reviews → deploy on approval → agent integrates into own codebase → system gains capability'
+                loop: 'Research Curation Loop',
+                flow: 'Daily agent scores new papers and trials → saved papers become public picks → visitors recommend papers back → recommendations jump to the top of the private reading queue with a push notification'
               }
             ].map((item, idx) => (
               <div key={idx} style={{
@@ -186,31 +186,24 @@ export default function LocalPersonalAIPage() {
           <div style={{ display: 'grid', gap: '1.5rem' }}>
             {[
               {
-                title: 'Intensity Normalization & Comparative Analysis',
-                problem: 'Activity sources emit different scales: commits (0–10), messages (0–50), calendar events (0–5). Can\'t compare directly.',
-                solution: 'Each source has normalization thresholds (e.g., 3 commits = low, 10+ = high). API endpoint /activity/log accepts source + metric + value, computes normalized 1–10 score. All stored as "intensity" in unified table.',
-                result: 'Dashboard shows daily activity across sources in one view. User can see "Tuesday was 7/10 intensity (mostly commits), Wednesday was 3/10 (light Slack)"—apples-to-apples comparison.',
-                skills: 'Data normalization, threshold tuning, aggregation logic'
-              },
-              {
                 title: 'Trend Detection from Unified Schema',
-                problem: 'Multiple event types feed the database. How do you detect when any type is trending up/down without hardcoding each?',
-                solution: 'Compute table stores baseline (14-day avg excluding recent 5) + current value + % change + direction (improving/stable/worsening). Alert logic: if > baseline + 20% for 3+ consecutive days, flag. Works for any numeric column.',
-                result: 'Add new data source (e.g., external API)? Schema change + compute pipeline auto-applies. No new hardcoded rules.',
+                problem: 'Dozens of symptoms are logged in free text. How do you notice one quietly getting worse without writing a rule for each?',
+                solution: 'A shared routine computes a baseline per symptom (14-day average, excluding the most recent 5 days so a bad week does not hide itself), compares current severity, and labels each trend improving, stable, or worsening. An alert fires after 3+ consecutive days more than 20% above baseline.',
+                result: 'New symptoms are covered the day they are first logged. Alerts can be acknowledged for 7 days, so a known flare does not keep re-alerting.',
                 skills: 'Statistical baselines, generic alerting patterns, schema extensibility'
               },
               {
-                title: 'Agentic Self-Improvement with Safety',
-                problem: 'Want autonomous agents to write code, but can\'t let them ship directly to production.',
-                solution: 'Agent writes code → stages in data/pending/{task_id}/ → human reviews staged diff → /deploy endpoint copies staged files → git commit → service restart. Staging dir is isolated; nothing hits real files until approval.',
-                result: 'Agent can write features (API routes, database migrations, Discord commands) safely. Staging architecture enables rollback; git history tracks all deployments.',
-                skills: 'Staging architectures, human-in-the-loop validation, safe deployment patterns'
+                title: 'Agentic Coding with a Staging Gate (Cipher)',
+                problem: 'Could a coding agent take feature requests from a Discord channel and ship them into a live system without breaking it?',
+                solution: 'Gemini drafts a file/anchor/code plan, Claude Haiku executes it with insert-only edits, and every write lands in a per-task staging directory that mirrors the repo. A second model reviews the diff for bugs, and nothing touches real files until a /deploy command copies the staged files, commits, and restarts services.',
+                result: '30 of 148 requests deployed. The rest mostly failed safely in staging, the most common cause being requests too broad for one pass, which led to a pre-flight breadth check that rejects them up front. Staging made failure cheap; the takeaway was that small, well-scoped requests succeed and open-ended ones do not. The pipeline is paused in favor of supervised coding sessions.',
+                skills: 'Staging architectures, human-in-the-loop review, measuring agent reliability honestly'
               },
               {
                 title: 'Adaptive Briefing Based on System State',
                 problem: 'Same data, but users need different detail levels depending on capacity/stress.',
-                solution: 'Briefing route reads system state (pacing score, recent events) and adjusts output: high stress → top-3 alerts only; low stress → full analysis + forecasts + recommendations.',
-                result: 'Briefing is useful under all conditions. No need to hard-code "if stressed, show less"; format adapts automatically.',
+                solution: 'The briefing reads that morning\'s stress and capacity check-in and picks a version: minimal (stress 7+ and capacity 4 or below) shows only the most urgent item; core (stress 5+ or capacity 6 or below) keeps the health snapshot and urgent items; full adds weather risk, research, trials, and the provider pipeline.',
+                result: 'The briefing stays readable on the days it is most needed, instead of being skipped because it is too long.',
                 skills: 'State-driven logic, contextual presentation, adaptive UX'
               },
               {
@@ -219,6 +212,13 @@ export default function LocalPersonalAIPage() {
                 solution: 'Build a corpus of real writing samples and compute a deterministic statistical fingerprint per register (12 metrics: sentence-length mean/stdev, contraction rate, em-dash/semicolon rate, type-token ratio, opener/closer frequency—no LLM involved). Every generated draft runs through a gate before the user sees it: a hard fail on banned corporate phrases, plus a zero-tolerance check that forces a regen when a metric that\'s statistically ~zero across the real corpus (e.g. em-dash usage) shows up anyway. Retrieval-augmented generation pulls the 5 most similar real samples via ChromaDB before drafting multiple variants at different temperatures, ranked by gate pass and drift score.',
                 result: 'Verified live: zero em-dashes across repeated test generations post-fix, with the regen counter confirming the retry mechanism actually fired rather than getting lucky once. Every draft attempt—input, all variants, gate results, retrieval hits—logs for full auditability, and a chosen draft can be promoted back into the corpus to improve future fingerprints.',
                 skills: 'Statistical validation over LLM self-assessment, retrieval-augmented generation, empirical prompt engineering (fixing failures found via live testing, not guesswork), regen/ranking pipelines'
+              },
+              {
+                title: 'Hands-Free Voice Agent for the Car',
+                problem: 'After an appointment is exactly when logging symptoms or notes matters most, and exactly when driving makes the phone off-limits. Android Auto wires the steering-wheel voice button to Google Assistant only; custom assistants and web apps cannot project to the car screen.',
+                solution: 'A native Kotlin companion app turns "call Lair" into a VoIP call: it intercepts a dummy contact and opens a Jetpack Core-Telecom call session, which makes the car apply its hardware echo cancellation. Audio streams over Tailscale to the Mac mini, where whisper.cpp transcribes it on the GPU and spoken replies come back over the call.',
+                result: 'Symptom logging, post-appointment debriefs, and quick questions work without touching the phone. Any write needs a spoken yes/no confirmation, and a 3-second timeout abandons a turn rather than guess. The transcription server starts on the first audio turn and stops after 10 idle minutes to save memory.',
+                skills: 'Working around platform constraints, Android telecom APIs, local speech-to-text, safety-first voice UX'
               }
             ].map((study, idx) => (
               <div key={idx} style={{
@@ -262,15 +262,17 @@ export default function LocalPersonalAIPage() {
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', color: '#5C9EAD', marginBottom: '1.5rem' }}>Tech Stack</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             {[
-              'Flask', 'Discord.py', 'Python 3.9',
-              'SQLite', 'sqlite3.Row',
+              'Python 3.9', 'Flask', 'gunicorn', 'Discord.py',
+              'SQLite', 'Vanilla JS PWA', 'Web Push (VAPID)',
               'Ollama: Gemma 3 12B (primary), Llama 3.2 1B (fog mode)',
-              'n8n (orchestration)',
-              'Kerykeion (astrology)',
+              'whisper.cpp',
               'ChromaDB (semantic search)',
-              'Claude API (Cipher planning)',
-              'Gemini (bug review)',
-              'PubMed API', 'Spotify API', 'Cloudflare Tunnel'
+              'Claude API (chat, writing)',
+              'Gemini (Cipher planning)',
+              'Kotlin (Android Auto app)',
+              'launchd', 'n8n',
+              'PubMed API', 'ClinicalTrials.gov API', 'Open-Meteo', 'Kerykeion (astrology)',
+              'Tailscale', 'Cloudflare Tunnel'
             ].map(tech => (
               <span key={tech} style={{
                 background: '#253557',
@@ -295,7 +297,7 @@ export default function LocalPersonalAIPage() {
             {[
               {
                 title: 'Privacy by Design',
-                description: 'Journaling, health tracking, mood logs, calendar data—sensitive personal information stays on your hardware. No cloud sync, no terms of service, no data harvesting. You own your data completely.'
+                description: 'Journals, symptom logs, labs, and medications stay in a database on hardware I own, with no third-party sync and no terms of service that can change. When a conversation does go to a cloud model, it is a deliberate, per-task routing decision, not the default.'
               },
               {
                 title: 'Customization Over Convention',
@@ -303,7 +305,7 @@ export default function LocalPersonalAIPage() {
               },
               {
                 title: 'Better AI Context',
-                description: 'Local models let you control context deeply. Instead of an LLM hallucinating from billions of tokens, your model understands your specific patterns, your language, your priorities. The system adapts to you, not the other way around.'
+                description: 'Models do not learn your life on their own; context does. Retrieval over the vault, a persistent memory file, and a rolling weekly summary are assembled into every chat, so answers start from what has actually been happening instead of generic advice.'
               },
               {
                 title: 'Environmental Responsibility',
@@ -351,15 +353,15 @@ export default function LocalPersonalAIPage() {
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Normalization is the foundation.</strong> Heterogeneous inputs (commits, messages, API readings) need common units before analysis. Invest in mapping functions early.
+              <strong style={{ color: '#B8D4C8' }}>Validate model output against the source.</strong> A plausible invented detail is the most dangerous kind of error. Checking each extracted field against the original text catches what prompt tuning alone misses.
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Staging architecture enables safe autonomy.</strong> Agents (or junior devs) can propose code safely when it lands in an isolated directory first. Human review + approval before production.
+              <strong style={{ color: '#B8D4C8' }}>Staging makes agent failure cheap.</strong> When agent-written code lands in an isolated directory first, a 20% success rate is an interesting result instead of an outage. Measure the rate before trusting the loop.
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Privacy-first beats privacy-later.</strong> If you design for local-first + swappable backends from day one, you&apos;re not retrofitting later. Optional cloud integrations stay optional.
+              <strong style={{ color: '#B8D4C8' }}>Privacy-first beats privacy-later.</strong> Designing the private surface as Tailscale-only and the public surface as an explicit allowlist from day one means nothing has to be retrofitted later.
             </li>
             <li>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
@@ -417,14 +419,14 @@ export default function LocalPersonalAIPage() {
                   surfaced as a <strong style={{ color: '#B8D4C8' }}>★ Kate&apos;s Picks</strong> filter and badge so visitors can see what was worth reading.
                   Visitors can save papers to localStorage for their own reading list, and a <strong style={{ color: '#B8D4C8' }}>Recommend to Kate</strong> button
                   opens a modal where a doctor or family member can flag a paper with their name and a note.
-                  That recommendation writes to the private DB and fires a Discord notification;
+                  That recommendation writes to the private DB and sends a push notification;
                   on the private dashboard, recommended papers surface at the top of the unread queue with a banner showing who sent it and why.
                   The page is exposed via Cloudflare Tunnel (outbound-only, no open ports) with a path-scoped ingress allowlist — everything except the public page and
                   {' '}<code style={{ color: '#B8D4C8', fontSize: '0.85rem' }}>/pub/*</code> returns 404 at the edge before touching the server.
                 </p>
 
                 <p style={{ margin: '0', fontSize: '0.8rem', color: '#5C9EAD', fontStyle: 'italic' }}>
-                  runs daily at 8am via n8n cron → Flask API → Ollama (local, no cloud inference) · code on local Gitea
+                  runs daily at 8am via launchd → Flask API → Ollama (paper scoring and summaries run locally) · 3,000+ papers and 60 trials tracked · code on self-hosted Gitea
                 </p>
               </div>
               <a
@@ -466,12 +468,11 @@ export default function LocalPersonalAIPage() {
           lineHeight: '1.6'
         }}>
           <p style={{ margin: '0 0 1rem 0' }}>
-            This is a personal project—a testbed for system design patterns, agentic loops, and privacy-first architecture.
-            The architectural principles apply to any domain: activity tracking, health monitoring, research tools, personal knowledge management,
-            autonomous systems that improve themselves safely.
+            This is a personal project and a daily-use tool: a testbed for system design, model guardrails, and privacy-first architecture
+            that also has to work on a bad day. The principles carry over to any domain where data is sensitive and model output has to be trusted.
           </p>
           <p style={{ margin: '0' }}>
-            Built and deployed on a Mac mini. All code local; all data stays local unless explicitly shared.
+            Built and deployed on a Mac mini. Code is hosted on a self-hosted Gitea; personal data stays on the machine unless a task is explicitly routed out.
           </p>
         </div>
 

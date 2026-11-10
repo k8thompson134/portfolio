@@ -9,17 +9,17 @@ export default function HomelabPage() {
       <section>
         <Link href="/" className={styles.backLink}>← Back to Home</Link>
 
-        <h1 className={styles.pageTitle}>Homelab AI Infrastructure</h1>
-        <p className={styles.pageDescription}>Docker Compose orchestration for local-first applications</p>
+        <h1 className={styles.pageTitle}>Homelab Infrastructure</h1>
+        <p className={styles.pageDescription}>A local AI stack, media server, and 50+ scheduled jobs on one 16 GB Mac mini</p>
 
         {/* Overview */}
         <div style={{ marginBottom: '3rem', color: '#A0A8C0', lineHeight: '1.8', fontSize: '1rem' }}>
           <p>
-            A local AI stack with tight resource constraints on a Mac mini: Docker-orchestrated services
-            alongside a natively-run Ollama inference engine.
-            This is the runtime layer for any local-first application, specifically designed to support the <a href="/local-personal-ai" style={{ color: '#5C9EAD', textDecoration: 'underline' }}>Local Personal AI System</a>.
-            Demonstrates cost-efficient orchestration, privacy-first design, and systems thinking for production services on modest hardware.
-            Shows DevOps fundamentals: service orchestration, memory constraints, data persistence, and graceful degradation.
+            A Mac mini M4 with 16 GB of memory runs everything: the <a href="/local-personal-ai" style={{ color: '#5C9EAD', textDecoration: 'underline' }}>Local Personal AI System</a>,
+            a local language model, speech-to-text, a vector database, self-hosted Git, workflow automation, a media server with
+            custom live-TV channels, and more than 50 launchd jobs. Some services run in Docker; the ones that need the GPU,
+            hardware video encoding, or the external drive run natively. Private access goes over Tailscale, and a single
+            public page is served through a Cloudflare Tunnel with no open router ports.
           </p>
         </div>
 
@@ -27,9 +27,10 @@ export default function HomelabPage() {
         <div style={{ marginBottom: '3rem' }}>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', color: '#5C9EAD', marginBottom: '1rem' }}>The Challenge</h2>
           <p style={{ color: '#A0A8C0', lineHeight: '1.8', fontSize: '0.95rem' }}>
-            Run a production-grade AI stack locally with privacy guarantees, no cloud lock-in, and minimal hardware cost.
-            Orchestrate multiple services (LLM inference, workflow orchestration, vector search, Git hosting)
-            within constrained memory while maintaining reliability and data persistence.
+            A 12B-parameter model alone wants about half the machine&apos;s memory. Fitting it alongside a Docker VM, a media
+            server, live-TV transcoding, and dozens of background jobs means treating memory as a budget: measuring where it
+            actually goes, deciding which services earn a permanent slot, and starting the rest only when they are needed.
+            All of it has to recover on its own after the frequent power outages, without anyone on site.
           </p>
         </div>
 
@@ -47,23 +48,19 @@ export default function HomelabPage() {
             overflowX: 'auto',
             marginBottom: '1.5rem'
           }}>
-            <pre style={{ margin: 0, padding: 0, color: '#5C9EAD' }}>{`┌──────────────────────────────────────────────────────┐
-│         Homelab Stack (Mac mini)                     │
-├──────────────────────────────────────────────────────┤
-│                                                      │
-│         AI/LLM Services                              │
-│      Ollama  n8n                                     │
-│      ChromaDB  SearXNG                               │
-│                                                      │
-│              ▲ AI inference                          │
-│      ▲ Vector embeddings  ▲ Workflow                 │
-│                                                      │
-│      Infrastructure                                  │
-│      Gitea                                           │
-│                                                      │
-│              ▲ Git hosting                           │
-│                                                      │
-└──────────────────────────────────────────────────────┘`}</pre>
+            <pre style={{ margin: 0, padding: 0, color: '#5C9EAD' }}>{`Mac mini M4 · 16 GB
+├── Native (launchd)
+│   ├── Lair API + Discord bot
+│   ├── Ollama (Metal GPU)
+│   ├── whisper.cpp (on demand)
+│   └── Jellyfin + ErsatzTV
+├── Docker Desktop VM (2.5 GB)
+│   ├── n8n · ChromaDB · Gitea
+│   ├── SearXNG (optional profile)
+│   └── media library services
+└── Network
+    ├── Tailscale (private)
+    └── Cloudflare Tunnel (public page)`}</pre>
           </div>
         </div>
 
@@ -74,33 +71,45 @@ export default function HomelabPage() {
             {[
               {
                 name: 'Ollama',
-                purpose: 'LLM inference engine',
-                memory: '~8GB with Gemma 3 12B loaded',
-                key: 'Runs natively, not containerized, so it gets the Mac mini\'s unified memory directly. Local language models: Gemma 3 (12b) for reasoning and extraction, Llama 3.2 (1b) for fast/lightweight tasks, Nomic Embed Text for embeddings. No external API calls.'
+                purpose: 'Local LLM inference',
+                memory: '~7.3 GB model file, memory-mapped',
+                key: 'Runs natively so it gets Metal acceleration and unified memory. The primary model is a text-only Gemma 3 12B tag built from the same weights without the vision projector, so it loads memory-mapped (reclaimable) instead of as ~9 GB of swappable memory; the vision version loads only for image calls. Llama 3.2 1B handles light tasks. Keep-alive is set by priority: 30 minutes after interactive use, 10 after batch jobs. Flash attention and a q8_0 KV cache trim the footprint further.'
+              },
+              {
+                name: 'whisper.cpp',
+                purpose: 'Local speech-to-text',
+                memory: '~600 MB while running',
+                key: 'Metal-accelerated transcription for voice notes and the car voice agent. Started on the first audio request and stopped after 10 idle minutes, instead of holding memory all day.'
               },
               {
                 name: 'n8n',
-                purpose: 'Workflow orchestration',
-                memory: '1GB',
-                key: 'Coordinates all service integrations; automation and data routing'
+                purpose: 'Workflow automation',
+                memory: '768 MB cap',
+                key: 'Handles a few timed jobs and the Discord message webhooks. Most nightly data jobs run as launchd agents instead, so they do not depend on Docker being up.'
               },
               {
                 name: 'ChromaDB',
                 purpose: 'Vector database',
-                memory: '512MB',
-                key: 'Stores embeddings for semantic search and RAG (Retrieval-Augmented Generation)'
-              },
-              {
-                name: 'SearXNG',
-                purpose: 'Private search engine',
-                memory: '512MB',
-                key: 'Meta-search across multiple engines; no tracking, all processing local'
+                memory: '512 MB cap',
+                key: 'Embeddings for semantic search over the notes vault, symptom history, and writing samples (retrieval for chat and voice-matched drafting).'
               },
               {
                 name: 'Gitea',
-                purpose: 'Self-hosted Git server',
-                memory: '512MB',
-                key: 'Local repository hosting for code and project management'
+                purpose: 'Self-hosted Git',
+                memory: '512 MB cap',
+                key: 'Hosts the Lair repository and other private projects.'
+              },
+              {
+                name: 'SearXNG',
+                purpose: 'Private metasearch',
+                memory: '512 MB cap, off by default',
+                key: 'Behind a Compose profile and started only when web search is needed; features that use it log a warning and degrade instead of failing.'
+              },
+              {
+                name: 'Jellyfin + ErsatzTV',
+                purpose: 'Media server and custom live-TV channels',
+                memory: '~1 GB combined',
+                key: 'Native rather than containerized: the Docker VM cannot use VideoToolbox hardware encoding, so a container would transcode every stream on the CPU. ErsatzTV builds always-on channels from smart collections, with Jellyfin as the guide and player.'
               }
             ].map(service => (
               <div key={service.name} style={{
@@ -144,15 +153,15 @@ export default function HomelabPage() {
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Composable services:</strong> Each container is independent. Upgrade ChromaDB, replace n8n, add new services—without affecting others.
+              <strong style={{ color: '#B8D4C8' }}>Native where it matters:</strong> Containers by default; native for anything that needs the GPU, hardware video encoding, or the external drive.
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Resource-aware design:</strong> Every service has explicit memory limits. Proves you can run production workloads on modest hardware without waste.
+              <strong style={{ color: '#B8D4C8' }}>Measured memory budget:</strong> Memory use is measured per service, and a service that rarely runs gets started on demand instead of holding a permanent slot.
             </li>
             <li>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Docker Compose as infrastructure code:</strong> The whole AI stack is defined in one Compose file. No manual config, no lost setup knowledge.
+              <strong style={{ color: '#B8D4C8' }}>Configuration as files:</strong> Each stack has its own Compose file and every native service has a launchd plist, so the machine can be rebuilt from what is on disk.
             </li>
           </ul>
         </div>
@@ -169,23 +178,23 @@ export default function HomelabPage() {
           }}>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Memory limits enforced per-service:</strong> Each service has strict <code style={{ background: '#0A0E27', color: '#5C9EAD', padding: '0.2rem 0.4rem', borderRadius: '2px', fontFamily: "'IBM Plex Mono', monospace" }}>mem_limit</code> + <code style={{ background: '#0A0E27', color: '#5C9EAD', padding: '0.2rem 0.4rem', borderRadius: '2px', fontFamily: "'IBM Plex Mono', monospace" }}>memswap_limit</code> to prevent resource starvation
+              <strong style={{ color: '#B8D4C8' }}>Memory caps on containers:</strong> <code style={{ background: '#0A0E27', color: '#5C9EAD', padding: '0.2rem 0.4rem', borderRadius: '2px', fontFamily: "'IBM Plex Mono', monospace" }}>mem_limit</code> + <code style={{ background: '#0A0E27', color: '#5C9EAD', padding: '0.2rem 0.4rem', borderRadius: '2px', fontFamily: "'IBM Plex Mono', monospace" }}>memswap_limit</code> on each container so one runaway service cannot starve the rest
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Restart policies tuned:</strong> Critical services use <code style={{ background: '#0A0E27', color: '#5C9EAD', padding: '0.2rem 0.4rem', borderRadius: '2px', fontFamily: "'IBM Plex Mono', monospace" }}>always</code> restart; non-critical use <code style={{ background: '#0A0E27', color: '#5C9EAD', padding: '0.2rem 0.4rem', borderRadius: '2px', fontFamily: "'IBM Plex Mono', monospace" }}>unless-stopped</code>
+              <strong style={{ color: '#B8D4C8' }}>Optional profiles for rarely used services:</strong> services used a few times a week sit behind a Compose <code style={{ background: '#0A0E27', color: '#5C9EAD', padding: '0.2rem 0.4rem', borderRadius: '2px', fontFamily: "'IBM Plex Mono', monospace" }}>profiles</code> entry and are started by hand, which shrank the Docker VM from 3 GB to 2.5 GB
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Named external volumes:</strong> Data persists across container restarts; enables safe updates without data loss
+              <strong style={{ color: '#B8D4C8' }}>launchd for scheduled work:</strong> nightly data jobs, backups, and watchdogs are launchd agents rather than n8n workflows, so they still run when Docker does not
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Docker Compose single source of truth:</strong> Every container in the AI stack is configured in one file; no manual steps, no lost setup knowledge
+              <strong style={{ color: '#B8D4C8' }}>Watchdogs and backups:</strong> a health check every 5 minutes, a Tailscale watchdog every 2, a nightly database backup copied to a second drive, and a guard that stops media containers if the external drive is not mounted rather than letting them fill an empty folder
             </li>
             <li>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>No cloud dependencies:</strong> All processing stays local; privacy by architecture, not policy
+              <strong style={{ color: '#B8D4C8' }}>Two networks, two audiences:</strong> everything private is Tailscale-only; the one public page goes through a Cloudflare Tunnel whose ingress lists two paths and returns 404 for everything else
             </li>
           </ul>
         </div>
@@ -202,19 +211,23 @@ export default function HomelabPage() {
           }}>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Memory limits are hard constraints:</strong> Without them, a runaway process can OOM-kill the host. Swaplimit prevents disk thrashing.
+              <strong style={{ color: '#B8D4C8' }}>Check the runtime before the service:</strong> OrbStack and Docker Desktop once ran side by side, each with its own copy of the stack and same-named volumes. Three separate &quot;duplicated&quot; or &quot;unreachable but running&quot; bugs traced back to that, and consolidating onto one runtime fixed all three.
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Named volumes are essential:</strong> Ephemeral containers with bind mounts = data loss on restart. External volumes survive container lifecycle.
+              <strong style={{ color: '#B8D4C8' }}>macOS privacy controls apply to daemons too:</strong> a bare binary launched by launchd is silently denied access to an external drive; a library scan just sits at 0% CPU. Launching the app bundle&apos;s wrapper instead gives it an identity that can hold the permission.
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Restart policies need thought:</strong> <code style={{ background: '#0A0E27', color: '#5C9EAD', padding: '0.2rem 0.4rem', borderRadius: '2px', fontFamily: "'IBM Plex Mono', monospace" }}>always</code> creates restart loops on bad config; <code style={{ background: '#0A0E27', color: '#5C9EAD', padding: '0.2rem 0.4rem', borderRadius: '2px', fontFamily: "'IBM Plex Mono', monospace" }}>unless-stopped</code> respects manual stops.
+              <strong style={{ color: '#B8D4C8' }}>The parts of a model you do not use still cost memory:</strong> loading Gemma 3 with its vision projector pushed the machine hard enough to crash the window server. A text-only tag of the same weights fits the GPU estimate, loads memory-mapped, and leaves vision for the calls that send images.
+            </li>
+            <li style={{ marginBottom: '1rem' }}>
+              <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
+              <strong style={{ color: '#B8D4C8' }}>A read timeout is not a deadline:</strong> a model that streams slowly keeps resetting an HTTP read timeout, and one request sat open for over three hours. Every local model call now runs under a hard wall-clock limit.
             </li>
             <li>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Port allocation matters:</strong> Avoid conflicts with host services. Document all port mappings in one place.
+              <strong style={{ color: '#B8D4C8' }}>Measure before cutting:</strong> when swap hit 7 GB, per-process measurements showed a transcription server idling at 600 MB and two containers handling a few requests a week. Moving those to on-demand freed more than any tuning of the busy services would have.
             </li>
           </ul>
         </div>
@@ -223,7 +236,7 @@ export default function HomelabPage() {
         <div style={{ marginBottom: '3rem' }}>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.3rem', color: '#5C9EAD', marginBottom: '1.5rem' }}>Tech Stack</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            {['Docker', 'Docker Compose', 'Ollama (Gemma 3, Llama 3.2)', 'n8n', 'ChromaDB', 'SearXNG', 'Gitea'].map(tech => (
+            {['macOS launchd', 'Docker Desktop', 'Docker Compose', 'Ollama (Gemma 3, Llama 3.2)', 'whisper.cpp', 'n8n', 'ChromaDB', 'Gitea', 'SearXNG', 'Jellyfin', 'ErsatzTV', 'Tailscale', 'Cloudflare Tunnel'].map(tech => (
               <span key={tech} style={{
                 background: '#253557',
                 border: '1px solid #3A506B',
@@ -243,7 +256,7 @@ export default function HomelabPage() {
         <div style={{ marginBottom: '3rem', padding: '1.5rem', background: '#1C2541', border: '1px solid #3A506B', borderRadius: '4px' }}>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.1rem', color: '#5C9EAD', marginBottom: '1rem', marginTop: '0' }}>See Also</h2>
           <p style={{ color: '#A0A8C0', margin: '0' }}>
-            <strong style={{ color: '#B8D4C8' }}>Local Personal AI System:</strong> See how this infrastructure is used to build a coherent, unified system with feedback loops and emergent intelligence. <a href="/local-personal-ai" style={{ color: '#5C9EAD', textDecoration: 'underline' }}>Read about the architecture →</a>
+            <strong style={{ color: '#B8D4C8' }}>Local Personal AI System:</strong> The application this infrastructure exists to run: inference routing, output guardrails, feedback loops, and a public research pipeline. <a href="/local-personal-ai" style={{ color: '#5C9EAD', textDecoration: 'underline' }}>Read about the architecture →</a>
           </p>
         </div>
 
@@ -259,11 +272,10 @@ export default function HomelabPage() {
           lineHeight: '1.6'
         }}>
           <p style={{ margin: '0 0 1rem 0' }}>
-            <strong style={{ color: '#B8D4C8' }}>DevOps + Infrastructure:</strong> This page showcases Docker orchestration, memory management, service coordination, and deployment patterns on constrained hardware.
-            It&apos;s the foundation that enables higher-level systems thinking.
+            <strong style={{ color: '#B8D4C8' }}>Operations on constrained hardware:</strong> container and native service management, memory budgeting, scheduled jobs, watchdogs, and private versus public networking on a single machine.
           </p>
           <p style={{ margin: '0' }}>
-            Built and deployed on a Mac mini. All services local; all data stays local unless explicitly shared.
+            Built and run on a Mac mini. All services are self-hosted; personal data stays on the machine.
           </p>
         </div>
 

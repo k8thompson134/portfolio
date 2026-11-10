@@ -54,8 +54,8 @@ export default function Home() {
           />
           <ProjectCard
             title="Local Personal AI System"
-            description="A Flask and Discord bot system orchestrating Ollama, n8n, and external APIs around one SQLite schema, including a live daily research pipeline for Long COVID and ME/CFS papers."
-            tech={['Flask', 'Ollama', 'n8n', 'Claude API']}
+            description="A local-first assistant for health tracking, research, and daily life: a phone web app, Discord bot, and car voice agent over one SQLite schema, with a live daily research pipeline for Long COVID and ME/CFS papers."
+            tech={['Flask', 'Ollama', 'ChromaDB', 'Claude API']}
             status="live"
             href="/local-personal-ai"
             liveUrl="https://research.k8thompson.dev/research-public"
@@ -66,8 +66,8 @@ export default function Home() {
         <div className={styles.rows}>
           <ProjectRow
             title="Homelab Stack"
-            summary="Local-first AI infrastructure on a Mac mini: Ollama, n8n, ChromaDB, SearXNG, and Gitea under tight memory limits."
-            tech={['Docker Compose', 'Ollama', 'n8n', 'ChromaDB']}
+            summary="A local AI stack, media server, and 50+ scheduled jobs on one 16 GB Mac mini, run on a measured memory budget."
+            tech={['Docker Compose', 'launchd', 'Ollama', 'Tailscale']}
             status="live"
             href="/homelab"
           />
