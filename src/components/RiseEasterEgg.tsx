@@ -51,7 +51,12 @@ export default function RiseEasterEgg() {
   const [stars, setStars] = useState<Star[]>([]);
   const [combo, setCombo] = useState(0);
   const [finalJuggles, setFinalJuggles] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+  // Read during the first render: the score only shows mid-game, so it's never in server HTML to mismatch
+  const [highScore, setHighScore] = useState(() =>
+    typeof window === "undefined"
+      ? 0
+      : parseInt(localStorage.getItem(HIGH_SCORE_STORAGE_KEY) ?? "", 10) || 0,
+  );
   const [isNewRecord, setIsNewRecord] = useState(false);
 
   const [hasInitiated, setHasInitiated] = useState(false);
@@ -74,13 +79,6 @@ export default function RiseEasterEgg() {
   const interactedRef = useRef(false);
   const exitTimerRef = useRef<NodeJS.Timeout | null>(null);
   const fadeOutTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(HIGH_SCORE_STORAGE_KEY);
-      if (saved) setHighScore(parseInt(saved, 10) || 0);
-    }
-  }, []);
 
   const startExitSequence = useCallback(() => {
     if (gameStatus === GameStatus.EXITING || gameStatus === GameStatus.SUMMARY)

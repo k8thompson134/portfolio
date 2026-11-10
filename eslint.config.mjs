@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Prebuilt RantTrack bundle embedded as a static asset
+    "public/ranttrack-app/**",
   ]),
 ]);
 

@@ -260,7 +260,7 @@ export default function HomelabPage() {
         }}>
           <p style={{ margin: '0 0 1rem 0' }}>
             <strong style={{ color: '#B8D4C8' }}>DevOps + Infrastructure:</strong> This page showcases Docker orchestration, memory management, service coordination, and deployment patterns on constrained hardware.
-            It's the foundation that enables higher-level systems thinking.
+            It&apos;s the foundation that enables higher-level systems thinking.
           </p>
           <p style={{ margin: '0' }}>
             Built and deployed on a Mac mini. All services local; all data stays local unless explicitly shared.

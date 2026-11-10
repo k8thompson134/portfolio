@@ -7,14 +7,15 @@ import {
 
 describe("RiseEasterEgg Physics Engine & Custom Events", () => {
   it("dispatches rise:trigger custom event correctly", () => {
-    const listeners: Record<string, Function[]> = {};
+    type Listener = (event: { type: string }) => void;
+    const listeners: Record<string, Listener[]> = {};
 
     const mockWindow = {
-      addEventListener: (event: string, fn: Function) => {
+      addEventListener: (event: string, fn: Listener) => {
         listeners[event] = listeners[event] || [];
         listeners[event].push(fn);
       },
-      removeEventListener: (event: string, fn: Function) => {
+      removeEventListener: (event: string, fn: Listener) => {
         if (listeners[event]) {
           listeners[event] = listeners[event].filter((f) => f !== fn);
         }

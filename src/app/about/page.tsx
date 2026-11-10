@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from '../page.module.scss';
 import ProfileCard from '@/components/ProfileCard';
 import AboutContent from '@/components/AboutContent';
@@ -9,7 +10,7 @@ export default function AboutPage() {
   return (
     <main className={styles.main}>
       <div className={styles.backLink}>
-        <a href="/">← Back to Command Center</a>
+        <Link href="/">← Back to Command Center</Link>
       </div>
       <h1 className={styles.pageTitle}>About Me</h1>
       <ProfileCard imageSrc="/images/avatar.png" />

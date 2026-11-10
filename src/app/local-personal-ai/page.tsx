@@ -74,7 +74,7 @@ export default function LocalPersonalAIPage() {
 
           <p style={{ color: '#A0A8C0', lineHeight: '1.8', fontSize: '0.95rem' }}>
             The key insight: <strong style={{ color: '#B8D4C8' }}>data convergence enables correlation without hardcoding rules.</strong>
-            Instead of "if pressure drops, send alert," the system correlates pressure observations with other event types
+            Instead of &quot;if pressure drops, send alert,&quot; the system correlates pressure observations with other event types
             and detects patterns statistically. New data types integrate into the same schema; existing analysis applies automatically.
           </p>
         </div>
@@ -347,7 +347,7 @@ export default function LocalPersonalAIPage() {
           }}>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Unified schema enables emergent patterns.</strong> You don't hardcode "if A and B, then alert." Instead, you store observations, compute baselines, and let statistical correlations appear.
+              <strong style={{ color: '#B8D4C8' }}>Unified schema enables emergent patterns.</strong> You don&apos;t hardcode &quot;if A and B, then alert.&quot; Instead, you store observations, compute baselines, and let statistical correlations appear.
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
@@ -359,11 +359,11 @@ export default function LocalPersonalAIPage() {
             </li>
             <li style={{ marginBottom: '1rem' }}>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Privacy-first beats privacy-later.</strong> If you design for local-first + swappable backends from day one, you're not retrofitting later. Optional cloud integrations stay optional.
+              <strong style={{ color: '#B8D4C8' }}>Privacy-first beats privacy-later.</strong> If you design for local-first + swappable backends from day one, you&apos;re not retrofitting later. Optional cloud integrations stay optional.
             </li>
             <li>
               <span style={{ color: '#00FF9C', marginRight: '0.5rem' }}>▸</span>
-              <strong style={{ color: '#B8D4C8' }}>Feedback loops make systems smart.</strong> Not the LLM prompt—the data flow. Intent → context → outcome → learning loop. That's what enables adaptation.
+              <strong style={{ color: '#B8D4C8' }}>Feedback loops make systems smart.</strong> Not the LLM prompt—the data flow. Intent → context → outcome → learning loop. That&apos;s what enables adaptation.
             </li>
           </ul>
         </div>
