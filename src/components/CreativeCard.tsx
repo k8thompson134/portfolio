@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './CreativeCard.module.scss';
 
 interface CreativeCardProps {
@@ -29,10 +30,12 @@ export default function CreativeCard({
     return (
         <CardWrapper className={`${styles.creativeCard} ${portrait ? styles.portrait : ''} ${touchCaption ? styles.touchCaption : ''}`} {...wrapperProps}>
             {imageSrc ? (
-                <img
+                <Image
                     src={imageSrc}
                     alt={alt ?? title}
-                    loading="lazy"
+                    width={800}
+                    height={600}
+                    sizes="(max-width: 640px) 100vw, 400px"
                     className={`${styles.image} ${contain ? styles.contain : ''}`}
                     style={{ objectPosition: imagePosition }}
                 />

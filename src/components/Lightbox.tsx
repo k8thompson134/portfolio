@@ -54,6 +54,8 @@ export default function Lightbox({ items, index, onIndexChange }: LightboxProps)
                         </svg>
                     </button>
                     <div className={styles.stage}>
+                        {/* Plain img: the expanded view shows the original file at full resolution */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={active.image} alt={active.alt ?? active.title} className={styles.fullImage} />
                         {items.length > 1 && (
                             <>

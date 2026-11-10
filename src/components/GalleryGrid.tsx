@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import CreativeCard from './CreativeCard';
 import Lightbox from './Lightbox';
 import type { GallerySection } from '@/app/beyond-code/data';
@@ -43,7 +44,13 @@ export default function GalleryGrid({ sections, variant, headingClassName, intro
                                         onClick={() => open(start + i)}
                                         aria-label={`View ${item.title}`}
                                     >
-                                        <img src={item.image} alt={item.alt} loading="lazy" />
+                                        <Image
+                                            src={item.image}
+                                            alt={item.alt}
+                                            width={1200}
+                                            height={900}
+                                            sizes="(max-width: 640px) 100vw, 50vw"
+                                        />
                                         <span className={styles.photoCaption}>
                                             {item.title} <span>· {item.category}</span>
                                         </span>
@@ -62,6 +69,8 @@ export default function GalleryGrid({ sections, variant, headingClassName, intro
                                         aria-label={`View ${item.title}`}
                                     >
                                         <span className={styles.paper}>
+                                            {/* Plain img: pinned pieces keep their natural aspect ratio, which varies per piece */}
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img src={item.image} alt={item.alt} loading="lazy" />
                                         </span>
                                         <span className={styles.photoCaption}>

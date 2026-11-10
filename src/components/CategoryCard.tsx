@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import styles from './CategoryCard.module.scss';
 
@@ -13,10 +14,12 @@ export default function CategoryCard({ title, description, count, href, cover }:
     return (
         <Link href={href} className={styles.categoryCard}>
             {cover && (
-                <img
+                <Image
                     src={cover.image}
                     alt=""
-                    loading="lazy"
+                    width={900}
+                    height={600}
+                    sizes="(max-width: 640px) 100vw, 450px"
                     className={`${styles.cover} ${cover.contain ? styles.contain : ''}`}
                 />
             )}

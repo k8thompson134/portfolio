@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './ProfileCard.module.scss';
 
 interface ProfileCardProps {
@@ -9,7 +10,7 @@ export default function ProfileCard({ imageSrc }: ProfileCardProps) {
         <div className={styles.profileCard}>
             <div className={styles.avatarWrapper}>
                 {imageSrc ? (
-                    <img src={imageSrc} alt="Profile" className={styles.avatar} />
+                    <Image src={imageSrc} alt="Profile" width={120} height={120} className={styles.avatar} />
                 ) : (
                     <div className={styles.placeholder}>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

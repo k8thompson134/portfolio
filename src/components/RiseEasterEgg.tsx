@@ -4,8 +4,6 @@ import { useEffect, useState, useCallback, useRef, memo } from "react";
 import Image from "next/image";
 import styles from "./RiseEasterEgg.module.scss";
 import {
-  BALL_WIDTH,
-  BALL_HEIGHT,
   HIGH_SCORE_STORAGE_KEY,
   MISSION_SUMMARY_DURATION_MS,
   GameStatus,
