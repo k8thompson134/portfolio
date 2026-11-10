@@ -54,7 +54,7 @@ export default function Home() {
           />
           <ProjectCard
             title="Local Personal AI System"
-            description="A local-first assistant for health tracking, research, and daily life: a phone web app, Discord bot, and car voice agent over one SQLite schema, with a live daily research pipeline for Long COVID and ME/CFS papers."
+            description="A local-first assistant for health tracking, research, and daily life: a phone web app and car voice agent over one SQLite schema, with a live daily research pipeline for Long COVID and ME/CFS papers."
             tech={['Flask', 'Ollama', 'ChromaDB', 'Claude API']}
             status="live"
             href="/local-personal-ai"

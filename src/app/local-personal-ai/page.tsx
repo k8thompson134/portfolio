@@ -52,7 +52,7 @@ export default function LocalPersonalAIPage() {
           }}>
             <pre style={{ margin: 0, padding: 0, color: '#5C9EAD' }}>{`Interfaces
 ├── Phone web app (feed, push, logging)
-├── Discord bot (commands, guest Q&A)
+├── Discord bot (slash commands)
 └── Android Auto voice (whisper.cpp)
         ↓
 Flask API (gunicorn)
