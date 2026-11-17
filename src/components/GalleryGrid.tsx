@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import CreativeCard from './CreativeCard';
+import Journal from './Journal';
 import Lightbox from './Lightbox';
 import type { GallerySection } from '@/app/beyond-code/data';
 import styles from './GalleryGrid.module.scss';
@@ -34,7 +35,9 @@ export default function GalleryGrid({ sections, variant, headingClassName, intro
                     <section key={section.heading ?? s}>
                         {section.heading && <h2 className={headingClassName}>{section.heading}</h2>}
                         {section.intro && <p className={introClassName}>{section.intro}</p>}
-                        {variant === 'photo' ? (
+                        {section.journal ? (
+                            <Journal items={section.items} onOpen={(i) => open(start + i)} />
+                        ) : variant === 'photo' ? (
                             <div className={styles.photoGrid}>
                                 {section.items.map((item, i) => (
                                     <button

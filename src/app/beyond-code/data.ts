@@ -5,6 +5,8 @@ export interface GalleryItem {
   alt: string;
   description?: string;
   link?: { href: string; label: string };
+  // Flattened page scans, in order, for sections shown as a journal
+  pages?: string[];
   // Read only by the hub cover; gallery thumbnails always show the whole piece
   contain?: boolean;
 }
@@ -13,6 +15,7 @@ export interface GallerySection {
   heading?: string;
   intro?: string;
   portrait?: boolean;
+  journal?: boolean;
   items: GalleryItem[];
 }
 
@@ -28,6 +31,8 @@ export interface BeyondCategory {
 }
 
 const img = (name: string) => `/images/beyond-code/${name}.webp`;
+const page = (name: string) => `/images/beyond-code/journal/${name}.webp`;
+const spread = (name: string) => [page(`${name}-left`), page(`${name}-right`)];
 
 export const categories: BeyondCategory[] = [
   {
@@ -361,11 +366,13 @@ export const categories: BeyondCategory[] = [
       },
       {
         heading: 'Collage Journals',
+        journal: true,
         items: [
           {
             title: 'San Francisco',
             category: 'Travel Journal',
             image: img('collage-san-francisco'),
+            pages: spread('san-francisco'),
             alt: 'Travel journal spread from San Francisco with a Fog Cats sticker, a Japan Center receipt, a United boarding pass, washi tape, an SF City Wear clothing tag, and a United Priority tag.',
             description: 'A trip with my sister and dad. Fog Cats is an all-cat store we found, and most of the Japanese stationery here came from the Japantown mall, including the receipt from its stationery shop. That stationery is what got me into junk journaling, and this was my first spread.',
           },
@@ -373,6 +380,7 @@ export const categories: BeyondCategory[] = [
             title: 'Fish',
             category: 'Collage',
             image: img('collage-fish'),
+            pages: [page('fish')],
             alt: 'Collage page of cut-out Swedish Fish candy packaging, fish stickers, and a fish skeleton on purple paper.',
             description: 'The fish stickers are from a Japanese sticker book of fish I picked up in San Francisco, and everything else is cut from a Swedish Fish box.',
           },
@@ -380,6 +388,7 @@ export const categories: BeyondCategory[] = [
             title: 'Sept',
             category: 'Collage',
             image: img('collage-sept'),
+            pages: [page('sept')],
             alt: 'Collage page on pink patterned paper: ransom-note letters spelling Sept, cut-out perfume bottles, stickers, and a $69.99 price tag.',
             description: 'Both perfumes were travel-size decants from my Scentbird subscription that month. Love-O-Matic smells like a strawberry laundromat, and Bo is a sweet, woody scent inspired by a redwood forest. Both were lovely. The stickers are from Magic Hands Art Reuse. The “MESS” is cut from a Tom Tiffany brochure claiming Wisconsin can’t afford Milwaukee’s mess, combined with a Swedish Fish box to make “MESSish,” because my house was kind of a mess-ish that month.',
           },
@@ -387,6 +396,7 @@ export const categories: BeyondCategory[] = [
             title: 'Oct.',
             category: 'Collage',
             image: img('collage-october'),
+            pages: spread('october'),
             alt: 'Spread on watercolor pumpkin paper: ransom-note letters spelling Oct., a Commodity Spice perfume label, a Snoopy witch sticker over carved pumpkins, a sepia cemetery photo, a ghost sticker, a Glorioso’s Italian Market tag, and a Polish Flat antiques stamp from Milwaukee.',
             description: 'The whole month on one spread. The Polish Flat, one of my favorite antique stores in Milwaukee, had a cute Halloween market. The stickers are from Magic Hands Art Reuse, a secondhand art supply store in a Milwaukee art studio, where I can pick up low-cost supplies for any project and their ’90s and early-2000s stationery always gets me. The little Culver’s guy is from Curd-toberfest, Commodity Spice is a perfume I tried that month, and the cemetery cutouts are from the Ghost Tours of Cedarburg brochure.',
           },
@@ -394,6 +404,7 @@ export const categories: BeyondCategory[] = [
             title: 'Don’t Dream It, Be It',
             category: 'Collage',
             image: img('collage-tim-curry'),
+            pages: spread('tim-curry'),
             alt: 'Tim Curry as Frank-N-Furter on a striped tag over a sepia graveyard, with gold stars and a Haunted label, facing a black starry page with embossed label tape reading “Don’t dream it, be it. Tim Curry 8/25/26.”',
             description: 'I found this Tim Curry sticker at an estate sale shortly after he passed away in August. I’m a big Rocky Horror fan and have been to the midnight showings with a shadow cast, props, and audience participation many times, so it became a memorial spread. It was Halloween season, so I went spooky with it. The graveyard background is from a Ghost Tours of Cedarburg flyer. “Don’t dream it, be it” is from Frank-N-Furter’s last big number in the show.',
           },
@@ -401,6 +412,7 @@ export const categories: BeyondCategory[] = [
             title: 'You Can See Everything',
             category: 'Collage',
             image: img('collage-see-everything'),
+            pages: spread('see-everything'),
             alt: 'Spread on a red popcorn bag: ransom-note letters reading “you can see everything” over a cut-out film camera, facing Cookie Dough Bites and Sno Caps candy box logos with heart-shaped cutouts.',
             description: 'Made after seeing the movie You Can See Everything at the Oriental Theatre, Milwaukee’s gorgeous historic movie palace. That is the real popcorn bag from that night, and those are the boxes of candy I ate. The camera is from a Target magazine, and the letters are from all over, like Tom Tiffany junk mail, travel brochures, and a perfume box.',
           },
@@ -408,6 +420,7 @@ export const categories: BeyondCategory[] = [
             title: 'I ♥ Sushi',
             category: 'Collage',
             image: img('collage-sushi'),
+            pages: spread('sushi'),
             alt: 'A large yellow smiley face facing an illustrated sushi menu card held with pink grid washi tape, with fish stamps and a fish sticker.',
             description: 'The sushi postcard was a free gift with a purchase at the Japantown mall. The fish stickers are from a fish-themed Japanese sticker book, the fish stamps are from Magic Hands Art Reuse, and the smiley face is cut from a sushi takeout bag. I like sushi, lol.',
           },
@@ -415,6 +428,7 @@ export const categories: BeyondCategory[] = [
             title: 'Hole-Punch Rainbow',
             category: 'Collage',
             image: img('collage-dots'),
+            pages: spread('dots'),
             alt: 'A page of hole-punched paper dots arranged in a rainbow gradient from red to purple, facing scalloped black-and-white patterned circles.',
             description: 'Every dot is punched from mail that piled up, like junk mail, magazines still delivered for past tenants of my apartment, hospital mailers, and Costco and Sendik’s magazines and promos. I hunted through them for colors, textures, and small variations, which turned into an exercise in classifying color. The line between yellow, orange, and red, or green, blue, and purple, is blurrier than it sounds. The facing page collects large, mostly monochrome patterns, like the security tint printed inside envelopes, packaging, and a QR code. It was a peaceful couch craft, and the tiny decisions I agonized over at the time disappear when I look at the finished page.',
           },
@@ -422,6 +436,7 @@ export const categories: BeyondCategory[] = [
             title: 'Tom Tiffany Farted in My Soup',
             category: 'Collage · Election',
             image: img('collage-tiffany'),
+            pages: spread('tiffany'),
             alt: 'Ransom-note letters reading “Tom Tiffany farted in my soup” beside his campaign-mailer photo doodled with a clown wig, nose, and cheeks, facing an orange NRA endorsement mailer.',
             description: 'Inspired by a TikTok that grew into a series of political cartoons showing Tom Tiffany doing comically evil things ahead of the election, like farting in your soup. The letters and his photo are cut from the stacks of junk mail about Tiffany I was getting at the time, and the facing page is the NRA mailer that showed up asking me to vote for him.',
             link: { href: 'https://www.tiktok.com/t/ZPNJEH8ds/', label: 'The TikTok that started it' },
@@ -430,6 +445,7 @@ export const categories: BeyondCategory[] = [
             title: 'Blusconsin',
             category: 'Collage · Election',
             image: img('collage-blusconsin'),
+            pages: spread('blusconsin'),
             alt: 'Spread framed in polka-dot washi tape: a torn-paper Wisconsin collage reading “for Wisconsin” over repeating Blusconsin type, facing a hand-lettered Governor Crowley bingo card with an I Voted sticker in the center square, captioned “Oh boy a trifecta! But will anything change?”',
             description: 'Made after Democrats’ big midterm win in Wisconsin. I designed the Blusconsin background and state outline in Affinity and laser-printed them on blue construction paper, then filled the outline with scraps like a Milwaukee skyline from the Shepherd Express, offcuts from this page and an earlier one, stickers, and a torn-up medication box. The “for Wisconsin,” “Milwaukee,” and the W all came from Tom Tiffany junk mail, which felt right. The bingo card tracks Governor Crowley’s campaign promises. I designed it in Affinity too and laser-printed it onto tissue paper taped to printer paper, then laid it over a Wisconsin Votes postcard of cows in a field so both show through. My I Voted sticker is the free space, and I’ll add a sticker to each square as promises get kept. I’m excited about the trifecta, but now they have to actually deliver.',
           },
@@ -437,6 +453,7 @@ export const categories: BeyondCategory[] = [
             title: 'Austin',
             category: 'Travel Journal',
             image: img('collage-austin'),
+            pages: spread('austin'),
             alt: 'Travel journal spread from Austin on green paper: cell therapy prep instructions from Ways2Well, a United boarding pass, a Paperwork Austin sticker, a Google guest badge, a Truluck’s tag, a Bird Bird Biscuit menu, and a Clippy sticker saying “The work is mysterious and important.”',
             description: 'A trip to Ways2Well in Austin for a Dezawa Muse stem cell treatment for my long COVID. I cut the rules from my prep handouts into strips, like no anti-inflammatories for a week, no alcohol, and no injury-prone activities like heavy lifting or rollerblading, which I thought was funny. Around the treatment I got to visit the Google office and eat well at Bird Bird Biscuit and Truluck’s. I flew during the weekend of the FAA ground stop, so the boarding pass earned its spot. The Clippy sticker had been waiting for the right page. It matched the colors, and “the work is mysterious and important” is the mantra from Severance. A little “no pain, no growth” sticker sits by the rules. They were hard to follow, but I’m hopeful about the treatment.',
           },

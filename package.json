@@ -13,6 +13,7 @@
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "next": "16.1.6",
+    "page-flip": "^2.0.7",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sass": "^1.97.3"

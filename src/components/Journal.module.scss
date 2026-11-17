@@ -1,0 +1,196 @@
+@use '../styles/variables' as *;
+
+.journal {
+    margin-bottom: $space-7;
+    outline: none;
+
+    &:focus-visible .book {
+        outline: 2px solid $led-green;
+        outline-offset: 6px;
+    }
+}
+
+.book {
+    // Pages are 7:10, so a spread is 1.4x as wide as it is tall; capping the width
+    // by viewport height keeps the book and its caption on screen together
+    max-width: min(1040px, 72svh);
+    margin: 0 auto;
+    transform-origin: top center;
+    transition: transform 500ms ease;
+    touch-action: pan-y;
+
+    // Shift the visible half to the middle and enlarge it
+    &.closedFront {
+        transform: translateX(calc(-25% * var(--closed-scale))) scale(var(--closed-scale));
+    }
+
+    &.closedBack {
+        transform: translateX(calc(25% * var(--closed-scale))) scale(var(--closed-scale));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+// Holds the space the enlarged closed book needs, so it pushes the controls down
+// instead of covering them. Pages are 7:10, so the spread's height is width / 1.4.
+.bookFrame {
+    // How much a closed book is enlarged; a lone cover is half the spread's width
+    --closed-scale: 1;
+    max-width: min(1040px, 72svh);
+    margin: 0 auto;
+    transition: padding-bottom 500ms ease;
+
+    @media (max-width: $bp-sm) {
+        --closed-scale: 1.9;
+    }
+
+    &.closed {
+        padding-bottom: calc((var(--closed-scale) - 1) / 1.4 * 100%);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+.page {
+    background: $nasa-cream;
+    overflow: hidden;
+
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.cover {
+    background: $panel-dark;
+}
+
+.coverHint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 3%;
+    text-align: center;
+    font-family: $font-mono;
+    // Undo the closed-book enlargement so the hint stays small
+    font-size: calc(0.7rem / var(--closed-scale, 1));
+    color: rgba($nasa-cream, 0.7);
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-4;
+    margin-top: $space-4;
+
+    button {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid $border-gray;
+        border-radius: $radius-badge;
+        background: $panel-dark;
+        color: $text-primary;
+        cursor: pointer;
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        &:hover:not(:disabled),
+        &:focus-visible {
+            color: $nixie-orange;
+            border-color: $nixie-orange;
+        }
+
+        &:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+    }
+}
+
+.counter {
+    min-width: 7rem;
+    text-align: center;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: $text-muted;
+}
+
+.captions {
+    max-width: 720px;
+    // A floor on the height so turning to a shorter caption doesn't pull the page up;
+    // no inner scrolling, which trapped vertical swipes on phones
+    min-height: clamp(10rem, 32svh, 17rem);
+    margin: $space-4 auto 0;
+    display: grid;
+    align-content: start;
+    gap: $space-4;
+}
+
+.caption {
+    padding: $space-4;
+    border: 1px solid $border-gray;
+    border-radius: $radius-md;
+    background: $panel-dark;
+}
+
+.captionHeader {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $space-2;
+}
+
+.captionTitle {
+    font-family: $font-display;
+    font-size: 1.05rem;
+}
+
+.captionCategory {
+    @include dymo-label;
+    font-size: 0.6rem;
+}
+
+.captionText {
+    margin-top: $space-2;
+    color: $text-secondary;
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.captionLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-4;
+    margin-top: $space-3;
+
+    button,
+    a {
+        padding: 0;
+        border: none;
+        background: none;
+        font-family: $font-mono;
+        font-size: 0.75rem;
+        color: $console-teal;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover,
+        &:focus-visible {
+            color: $nixie-orange;
+            text-decoration: underline;
+        }
+    }
+}
