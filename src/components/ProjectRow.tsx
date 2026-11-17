@@ -5,17 +5,15 @@ interface ProjectRowProps {
   title: string;
   summary: string;
   tech: string[];
-  status: 'live' | 'wip' | 'archived' | 'coursework';
   href?: string;
   github?: string;
   liveUrl?: string;
 }
 
-export default function ProjectRow({ title, summary, tech, status, href, github, liveUrl }: ProjectRowProps) {
+export default function ProjectRow({ title, summary, tech, href, github, liveUrl }: ProjectRowProps) {
   return (
     <article className={`${styles.row} ${href ? styles.clickable : ''}`}>
       {href && <Link href={href} className={styles.rowLink} aria-label={`View ${title} details`} />}
-      <span className={`${styles.led} ${styles[status]}`} title={status.toUpperCase()} aria-label={status} />
       <div className={styles.body}>
         <h3 className={styles.title}>
           {title}

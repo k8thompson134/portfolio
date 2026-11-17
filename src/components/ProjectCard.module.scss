@@ -55,11 +55,11 @@
 }
 
 .header {
+  position: absolute;
+  top: $space-5;
+  right: $space-5;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: $space-3;
-  position: relative;
   z-index: 2;
   pointer-events: none;
 }
@@ -106,66 +106,12 @@
   @include dymo-label;
 }
 
-// Status LED — the dot + label
-.led {
-  font-family: $font-mono;
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: $space-2;
-
-  // The glowing dot — built with a pseudo-element
-  &::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-
-  &.live {
-    color: $led-green;
-
-    &::before {
-      background: $led-green;
-      box-shadow: 0 0 6px rgba($led-green, 0.6);
-    }
-  }
-
-  &.wip {
-    color: $led-yellow;
-
-    &::before {
-      background: $led-yellow;
-      box-shadow: 0 0 6px rgba($led-yellow, 0.5);
-    }
-  }
-
-  &.coursework {
-    color: $console-teal;
-
-    &::before {
-      background: $console-teal;
-      box-shadow: 0 0 4px rgba($console-teal, 0.4);
-    }
-  }
-
-  &.archived {
-    color: $led-red;
-
-    &::before {
-      background: $led-red;
-      box-shadow: 0 0 4px rgba($led-red, 0.4);
-    }
-  }
-}
-
 .title {
   font-family: $font-display;
   font-size: 1.15rem;
   margin-bottom: $space-2;
+  // Keeps long titles clear of the corner link icon
+  padding-right: $space-6;
 }
 
 .description {

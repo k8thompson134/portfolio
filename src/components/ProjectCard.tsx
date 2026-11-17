@@ -7,7 +7,6 @@ interface ProjectCardProps {
   title: string;
   description: string;
   tech: string[];
-  status: 'live' | 'wip' | 'archived' | 'coursework';
   href?: string;
   github?: string;
   liveUrl?: string;
@@ -17,7 +16,6 @@ export default function ProjectCard({
   title,
   description,
   tech,
-  status,
   href,
   github,
   liveUrl,
@@ -29,8 +27,6 @@ export default function ProjectCard({
       )}
 
       <header className={styles.header}>
-        <span className={`${styles.led} ${styles[status]}`}>{status.toUpperCase()}</span>
-
         <div className={styles.headerIcons}>
           {liveUrl && (
             <a

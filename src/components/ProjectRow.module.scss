@@ -34,19 +34,6 @@
   }
 }
 
-.led {
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-top: 0.5rem;
-
-  &.live { background: $led-green; box-shadow: 0 0 6px rgba($led-green, 0.6); }
-  &.wip { background: $led-yellow; box-shadow: 0 0 6px rgba($led-yellow, 0.5); }
-  &.archived { background: $led-red; box-shadow: 0 0 4px rgba($led-red, 0.4); }
-  &.coursework { background: $console-teal; box-shadow: 0 0 4px rgba($console-teal, 0.4); }
-}
-
 .body {
   flex: 1;
   min-width: 0;

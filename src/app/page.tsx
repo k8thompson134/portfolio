@@ -30,7 +30,6 @@ export default function Home() {
             title="RantTrack"
             description="Voice-first symptom tracker for chronically ill users. A custom NLP engine turns natural speech into logged symptoms, severity, and pain details. Runs entirely in the browser."
             tech={['React', 'TypeScript', 'Vite', 'Local-first']}
-            status="live"
             href="/ranttrack"
             github="https://github.com/k8thompson134/rant-app"
           />
@@ -38,7 +37,6 @@ export default function Home() {
             title="Stormglass"
             description="Environmental health tracker that correlates barometric pressure, air quality, geomagnetic activity, and pollen with symptoms to forecast flare risk for ME/CFS, POTS, and migraines."
             tech={['React', 'TypeScript', 'Fastify', 'PostgreSQL']}
-            status="live"
             href="/stormglass"
             liveUrl="https://mystormglass.xyz"
             github="https://github.com/k8thompson134/Stormglass"
@@ -47,7 +45,6 @@ export default function Home() {
             title="Cream City Docket"
             description="Milwaukee city government, made understandable. Plain-English summaries and email alerts for Common Council legislation, so residents can act before votes happen."
             tech={['React', 'FastAPI', 'PostgreSQL', 'Claude API']}
-            status="live"
             href="/docket"
             liveUrl="https://creamcitydocket.com"
             github="https://github.com/k8thompson134/Cream-City-Docket"
@@ -56,7 +53,6 @@ export default function Home() {
             title="Local Personal AI System"
             description="A local-first assistant for health tracking, research, and daily life: a phone web app and car voice agent over one SQLite schema, with a live daily research pipeline for Long COVID and ME/CFS papers."
             tech={['Flask', 'Ollama', 'ChromaDB', 'Claude API']}
-            status="live"
             href="/local-personal-ai"
             liveUrl="https://research.k8thompson.dev/research-public"
           />
@@ -68,14 +64,12 @@ export default function Home() {
             title="Homelab Stack"
             summary="A local AI stack, media server, and 50+ scheduled jobs on one 16 GB Mac mini, run on a measured memory budget."
             tech={['Docker Compose', 'launchd', 'Ollama', 'Tailscale']}
-            status="live"
             href="/homelab"
           />
           <ProjectRow
             title="Pattern Maker"
             summary="Compose cross-stitch patterns from text, icons, and borders, then export printable PDF charts with a DMC thread legend."
             tech={['React', 'TypeScript', 'Vite', 'jsPDF']}
-            status="live"
             href="/pattern-maker"
             liveUrl="https://patterns.k8thompson.dev"
             github="https://github.com/k8thompson134/pattern-maker"
@@ -84,7 +78,6 @@ export default function Home() {
             title="Signal Tuner"
             summary="A signal decoder game played inside a working Winamp 2 player on a Windows 98 desktop at 3 AM."
             tech={['TypeScript', 'Vite', 'Webamp', 'Web Audio API']}
-            status="live"
             href="/signal-tuner"
             liveUrl="https://tuner.k8thompson.dev"
             github="https://github.com/k8thompson134/tuner-I-hardly-know-er-"
@@ -93,7 +86,6 @@ export default function Home() {
             title="Where To?"
             summary="Errand route planner: enter generic stops like coffee, bank, or groceries, and it finds real places that fit and the shortest driving route through them."
             tech={['Next.js', 'TypeScript', 'Google Maps API', 'Claude API']}
-            status="live"
             liveUrl="https://whereto.k8thompson.dev"
             github="https://github.com/k8thompson134/where-to"
           />
@@ -101,20 +93,17 @@ export default function Home() {
             title="Portfolio Website"
             summary="The site you are visiting, built with a custom control-panel design."
             tech={['Next.js', 'React', 'TypeScript', 'SCSS']}
-            status="live"
             github="https://github.com/k8thompson134/portfolio"
           />
           <ProjectRow
             title="Progressive Learning Platform"
             summary="Assembly language IDE that replaces outdated software in computer architecture courses with modern editor features."
             tech={['Java', 'JavaFX', 'JUnit', 'MIPS Assembly']}
-            status="coursework"
           />
           <ProjectRow
             title="eSubmit"
             summary="Assignment submission tool and autograder for programming courses; I worked on the Docker infrastructure and the student and instructor views."
             tech={['Ruby on Rails', 'AngularJS', 'Docker', 'RSpec']}
-            status="coursework"
           />
         </div>
       </section>
