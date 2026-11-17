@@ -9,6 +9,7 @@ export interface LightboxItem {
     image: string;
     alt?: string;
     description?: string;
+    link?: { href: string; label: string };
 }
 
 interface LightboxProps {
@@ -86,6 +87,11 @@ export default function Lightbox({ items, index, onIndexChange }: LightboxProps)
                         <span className={styles.captionTitle}>{active.title}</span>
                         <span className={styles.captionCategory}>{active.category}</span>
                         {active.description && <p className={styles.captionText}>{active.description}</p>}
+                        {active.link && (
+                            <a href={active.link.href} target="_blank" rel="noopener noreferrer" className={styles.captionLink}>
+                                {active.link.label} ↗
+                            </a>
+                        )}
                         <span className={styles.counter}>
                             {index! + 1} / {items.length}
                         </span>

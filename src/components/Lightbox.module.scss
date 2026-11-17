@@ -128,3 +128,18 @@
     font-size: 0.75rem;
     color: $text-muted;
 }
+
+.captionLink {
+    align-self: flex-start;
+    margin-top: $space-1;
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    color: $console-teal;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        color: $nixie-orange;
+        text-decoration: underline;
+    }
+}

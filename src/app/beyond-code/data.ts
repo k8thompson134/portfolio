@@ -4,6 +4,7 @@ export interface GalleryItem {
   image: string;
   alt: string;
   description?: string;
+  link?: { href: string; label: string };
   // Read only by the hub cover; gallery thumbnails always show the whole piece
   contain?: boolean;
 }
@@ -40,7 +41,7 @@ export const categories: BeyondCategory[] = [
       {
         heading: 'Lotería Deck',
         intro:
-          'Lotería is a Mexican game a lot like bingo: everyone plays on a board, and a caller draws cards from a deck. This deck was played at ticketed fundraisers, and every time a card was drawn, it kicked off a conversation about the policy on it. Each ticket came with a board to play on, and afterward the card art sold as posters to raise more money for the campaign.',
+          'Lotería is a Mexican game a lot like bingo. Everyone plays on a board and a caller draws cards from a deck. This deck was played at ticketed fundraisers, and every time a card was drawn, it kicked off a conversation about the policy on it. Each ticket came with a board to play on, and afterward the card art sold as posters to raise more money for the campaign. I first learned Lotería playing it at the Día de los Muertos celebrations I hosted for my sorority, so I was thrilled to see the campaign doing a deck.',
         portrait: true,
         items: [
           {
@@ -62,7 +63,7 @@ export const categories: BeyondCategory[] = [
             category: 'Lotería · BadgerCare Public Option',
             image: img('campaign-loteria-tejon'),
             alt: 'Lotería card titled El Tejón: a badger in a white doctor’s coat with a name tag reading Hello my name is Dr. Care, next to a medical bag, under a speech burst reading ¡Opción Pública!',
-            description: 'Meet Dr. Care: a badger in a little doctor’s coat. First name Badger, last name Care. He’s here for the BadgerCare public option.',
+            description: 'Meet Dr. Care, a badger in a little doctor’s coat. First name Badger, last name Care. He’s here for the BadgerCare public option.',
           },
           {
             title: 'Electricidad Asequible',
@@ -76,7 +77,7 @@ export const categories: BeyondCategory[] = [
             category: 'Lotería · Immigration',
             image: img('campaign-loteria-ice'),
             alt: 'Lotería card reading ¡Terminar la colaboración con ICE en Wisconsin! End the collaboration with ICE in Wisconsin!: a cooler full of ice crossed out over a dotted map of Wisconsin on green.',
-            description: 'A crossed-out cooler of ice over a dotted map of Wisconsin: end state collaboration with ICE.',
+            description: 'A crossed-out cooler of ice over a dotted map of Wisconsin, for ending state collaboration with ICE.',
           },
         ],
       },
@@ -110,6 +111,7 @@ export const categories: BeyondCategory[] = [
             category: 'Official · This Site',
             image: '/images/k8-mark-l.png',
             alt: 'The K8 monogram used as this site’s mark.',
+            description: 'I was messing around with effects in Affinity and wanted it to look like a retro computer screen, with scan lines, a little texture, and some dimension.',
             contain: true,
           },
           {
@@ -125,6 +127,7 @@ export const categories: BeyondCategory[] = [
             category: 'Official · Adopted',
             image: img('logo-plips'),
             alt: 'PLiPS logo: the word PLIPS in a rounded orange badge.',
+            description: 'An application mark for the Progressive Learning Platform, a teaching processor and toolchain that started at Oklahoma State University, to give it more polish. I made it in Canva and kept it fun on purpose. Assembly language is intimidating enough already, so I wanted it to feel approachable and memorable, not sterile.',
             contain: true,
           },
         ],
@@ -182,7 +185,7 @@ export const categories: BeyondCategory[] = [
             category: 'MSOE YDSA + SAGA',
             image: img('poster-pumpkin-carving'),
             alt: 'Autumn flyer with leaves and vines: Pumpkin Carving, MSOE YDSA + SAGA. Carve pumpkins and watch Over the Garden Wall. Thursday October 29th, 5:30pm–8pm, CC118. Scan to RSVP. Two pumpkins carry the MSOE YDSA rose logo and the rainbow SAGA logo, glowing as if carved.',
-            description: 'Most of the work is in the pumpkins: both club logos converted to SVG, recolored, SAGA’s background elements removed, and a glow added so they look carved.',
+            description: 'Most of the work is in the pumpkins. I converted both club logos to SVG, recolored them, removed SAGA’s background elements, and added a glow so they look carved.',
           },
           {
             title: 'No Hate, No Fear',
@@ -260,6 +263,7 @@ export const categories: BeyondCategory[] = [
             category: 'McKinley Beach',
             image: img('photo-mckinley-driftwood'),
             alt: 'Driftwood art propped up on a sandy beach in front of Lake Michigan under a blue sky with gulls.',
+            description: 'Found on the beach just like this.',
           },
         ],
       },
@@ -328,7 +332,7 @@ export const categories: BeyondCategory[] = [
     cover: img('craft-loon-cross-stitch'),
     title: 'Crafts & Collage',
     summary: 'Cross stitch, upcycled teacup candles, and collage journals.',
-    description: 'Handmade work: cross stitch, upcycled gifts, and collage journals built from packaging, stickers, and travel scraps.',
+    description: 'Cross stitch, upcycled gifts, and collage journals built from packaging, stickers, and travel scraps.',
     sections: [
       {
         heading: 'Cross Stitch',
@@ -338,13 +342,14 @@ export const categories: BeyondCategory[] = [
             category: 'Cross Stitch',
             image: img('craft-loon-cross-stitch'),
             alt: 'A small cross-stitched loon on blue fabric in a dark square frame, next to a jar of beach stones.',
+            description: 'I love loons. Most summers my family vacations at a lake in northern Minnesota. I collect rocks, and the beach stones in the jar are ones I picked up along Lake Michigan.',
           },
           {
             title: 'Spherical Cow',
             category: 'Cross Stitch',
             image: img('craft-cow-cross-stitch'),
             alt: 'Cross-stitched cow above the words “assume a spherical cow.”',
-            description: 'The physics joke about simplifying a problem until it’s solvable: first, assume a spherical cow.',
+            description: 'The physics joke about simplifying a problem until it’s solvable. First, assume a spherical cow.',
           },
           {
             title: 'Snoopy',
@@ -358,22 +363,82 @@ export const categories: BeyondCategory[] = [
         heading: 'Collage Journals',
         items: [
           {
+            title: 'San Francisco',
+            category: 'Travel Journal',
+            image: img('collage-san-francisco'),
+            alt: 'Travel journal spread from San Francisco with a Fog Cats sticker, a Japan Center receipt, a United boarding pass, washi tape, an SF City Wear clothing tag, and a United Priority tag.',
+            description: 'A trip with my sister and dad. Fog Cats is an all-cat store we found, and most of the Japanese stationery here came from the Japantown mall, including the receipt from its stationery shop. That stationery is what got me into junk journaling, and this was my first spread.',
+          },
+          {
             title: 'Fish',
             category: 'Collage',
             image: img('collage-fish'),
             alt: 'Collage page of cut-out Swedish Fish candy packaging, fish stickers, and a fish skeleton on purple paper.',
+            description: 'The fish stickers are from a Japanese sticker book of fish I picked up in San Francisco, and everything else is cut from a Swedish Fish box.',
           },
           {
             title: 'Sept',
             category: 'Collage',
             image: img('collage-sept'),
             alt: 'Collage page on pink patterned paper: ransom-note letters spelling Sept, cut-out perfume bottles, stickers, and a $69.99 price tag.',
+            description: 'Both perfumes were travel-size decants from my Scentbird subscription that month. Love-O-Matic smells like a strawberry laundromat, and Bo is a sweet, woody scent inspired by a redwood forest. Both were lovely. The stickers are from Magic Hands Art Reuse. The “MESS” is cut from a Tom Tiffany brochure claiming Wisconsin can’t afford Milwaukee’s mess, combined with a Swedish Fish box to make “MESSish,” because my house was kind of a mess-ish that month.',
           },
           {
-            title: 'San Francisco',
+            title: 'Oct.',
+            category: 'Collage',
+            image: img('collage-october'),
+            alt: 'Spread on watercolor pumpkin paper: ransom-note letters spelling Oct., a Commodity Spice perfume label, a Snoopy witch sticker over carved pumpkins, a sepia cemetery photo, a ghost sticker, a Glorioso’s Italian Market tag, and a Polish Flat antiques stamp from Milwaukee.',
+            description: 'The whole month on one spread. The Polish Flat, one of my favorite antique stores in Milwaukee, had a cute Halloween market. The stickers are from Magic Hands Art Reuse, a secondhand art supply store in a Milwaukee art studio, where I can pick up low-cost supplies for any project and their ’90s and early-2000s stationery always gets me. The little Culver’s guy is from Curd-toberfest, Commodity Spice is a perfume I tried that month, and the cemetery cutouts are from the Ghost Tours of Cedarburg brochure.',
+          },
+          {
+            title: 'Don’t Dream It, Be It',
+            category: 'Collage',
+            image: img('collage-tim-curry'),
+            alt: 'Tim Curry as Frank-N-Furter on a striped tag over a sepia graveyard, with gold stars and a Haunted label, facing a black starry page with embossed label tape reading “Don’t dream it, be it. Tim Curry 8/25/26.”',
+            description: 'I found this Tim Curry sticker at an estate sale shortly after he passed away in August. I’m a big Rocky Horror fan and have been to the midnight showings with a shadow cast, props, and audience participation many times, so it became a memorial spread. It was Halloween season, so I went spooky with it. The graveyard background is from a Ghost Tours of Cedarburg flyer. “Don’t dream it, be it” is from Frank-N-Furter’s last big number in the show.',
+          },
+          {
+            title: 'You Can See Everything',
+            category: 'Collage',
+            image: img('collage-see-everything'),
+            alt: 'Spread on a red popcorn bag: ransom-note letters reading “you can see everything” over a cut-out film camera, facing Cookie Dough Bites and Sno Caps candy box logos with heart-shaped cutouts.',
+            description: 'Made after seeing the movie You Can See Everything at the Oriental Theatre, Milwaukee’s gorgeous historic movie palace. That is the real popcorn bag from that night, and those are the boxes of candy I ate. The camera is from a Target magazine, and the letters are from all over, like Tom Tiffany junk mail, travel brochures, and a perfume box.',
+          },
+          {
+            title: 'I ♥ Sushi',
+            category: 'Collage',
+            image: img('collage-sushi'),
+            alt: 'A large yellow smiley face facing an illustrated sushi menu card held with pink grid washi tape, with fish stamps and a fish sticker.',
+            description: 'The sushi postcard was a free gift with a purchase at the Japantown mall. The fish stickers are from a fish-themed Japanese sticker book, the fish stamps are from Magic Hands Art Reuse, and the smiley face is cut from a sushi takeout bag. I like sushi, lol.',
+          },
+          {
+            title: 'Hole-Punch Rainbow',
+            category: 'Collage',
+            image: img('collage-dots'),
+            alt: 'A page of hole-punched paper dots arranged in a rainbow gradient from red to purple, facing scalloped black-and-white patterned circles.',
+            description: 'Every dot is punched from mail that piled up, like junk mail, magazines still delivered for past tenants of my apartment, hospital mailers, and Costco and Sendik’s magazines and promos. I hunted through them for colors, textures, and small variations, which turned into an exercise in classifying color. The line between yellow, orange, and red, or green, blue, and purple, is blurrier than it sounds. The facing page collects large, mostly monochrome patterns, like the security tint printed inside envelopes, packaging, and a QR code. It was a peaceful couch craft, and the tiny decisions I agonized over at the time disappear when I look at the finished page.',
+          },
+          {
+            title: 'Tom Tiffany Farted in My Soup',
+            category: 'Collage · Election',
+            image: img('collage-tiffany'),
+            alt: 'Ransom-note letters reading “Tom Tiffany farted in my soup” beside his campaign-mailer photo doodled with a clown wig, nose, and cheeks, facing an orange NRA endorsement mailer.',
+            description: 'Inspired by a TikTok that grew into a series of political cartoons showing Tom Tiffany doing comically evil things ahead of the election, like farting in your soup. The letters and his photo are cut from the stacks of junk mail about Tiffany I was getting at the time, and the facing page is the NRA mailer that showed up asking me to vote for him.',
+            link: { href: 'https://www.tiktok.com/t/ZPNJEH8ds/', label: 'The TikTok that started it' },
+          },
+          {
+            title: 'Blusconsin',
+            category: 'Collage · Election',
+            image: img('collage-blusconsin'),
+            alt: 'Spread framed in polka-dot washi tape: a torn-paper Wisconsin collage reading “for Wisconsin” over repeating Blusconsin type, facing a hand-lettered Governor Crowley bingo card with an I Voted sticker in the center square, captioned “Oh boy a trifecta! But will anything change?”',
+            description: 'Made after Democrats’ big midterm win in Wisconsin. I designed the Blusconsin background and state outline in Affinity and laser-printed them on blue construction paper, then filled the outline with scraps like a Milwaukee skyline from the Shepherd Express, offcuts from this page and an earlier one, stickers, and a torn-up medication box. The “for Wisconsin,” “Milwaukee,” and the W all came from Tom Tiffany junk mail, which felt right. The bingo card tracks Governor Crowley’s campaign promises. I designed it in Affinity too and laser-printed it onto tissue paper taped to printer paper, then laid it over a Wisconsin Votes postcard of cows in a field so both show through. My I Voted sticker is the free space, and I’ll add a sticker to each square as promises get kept. I’m excited about the trifecta, but now they have to actually deliver.',
+          },
+          {
+            title: 'Austin',
             category: 'Travel Journal',
-            image: img('collage-san-francisco'),
-            alt: 'Travel journal spread from San Francisco with a Fog Cats sticker, washi tape, a clothing tag, and an airline priority tag.',
+            image: img('collage-austin'),
+            alt: 'Travel journal spread from Austin on green paper: cell therapy prep instructions from Ways2Well, a United boarding pass, a Paperwork Austin sticker, a Google guest badge, a Truluck’s tag, a Bird Bird Biscuit menu, and a Clippy sticker saying “The work is mysterious and important.”',
+            description: 'A trip to Ways2Well in Austin for a Dezawa Muse stem cell treatment for my long COVID. I cut the rules from my prep handouts into strips, like no anti-inflammatories for a week, no alcohol, and no injury-prone activities like heavy lifting or rollerblading, which I thought was funny. Around the treatment I got to visit the Google office and eat well at Bird Bird Biscuit and Truluck’s. I flew during the weekend of the FAA ground stop, so the boarding pass earned its spot. The Clippy sticker had been waiting for the right page. It matched the colors, and “the work is mysterious and important” is the mantra from Severance. A little “no pain, no growth” sticker sits by the rules. They were hard to follow, but I’m hopeful about the treatment.',
           },
         ],
       },
@@ -385,6 +450,7 @@ export const categories: BeyondCategory[] = [
             category: 'Upcycled · Christmas Gifts',
             image: img('craft-teacup-candles'),
             alt: 'Candles poured into upcycled teacups, made as Christmas gifts.',
+            description: 'The teacups are thrifted from Goodwill. Some of the red wax is from a candle I took from my grandma’s house after she passed away, so every family member got a piece of her candle. I added scent before pouring.',
           },
         ],
       },
@@ -405,12 +471,14 @@ export const categories: BeyondCategory[] = [
             category: 'SWE · Hosted',
             image: img('event-swe-hands-on-future-1'),
             alt: 'Hands-On Future conference hosted by the Society of Women Engineers.',
+            description: 'As SWE’s Women in STEM Outreach Chair, I was the lead organizer, and it was my big project for the year. It was the first in-person Hands-On Future since COVID, after one cancelled year and one online. Girls from local middle and high schools picked a few majors and took a short hands-on lesson in each, taught by MSOE students, alumni, professors, and corporate partners. I lined up the sponsors and the volunteers who guided groups and taught. Milwaukee Tool took apart one of their drills the way their engineers do in training, and provided lunch. For software engineering, we skipped coding, since CS covered that, and taught designing for a user. Students picked a character from a book, show, or movie, built a persona, and designed a product for them, like a high-tech umbrella for Mary Poppins or a son finder for Nemo’s dad. The kids loved it.',
           },
           {
-            title: 'Conference Session',
+            title: 'STEM Expo',
             category: 'SWE · Hosted',
             image: img('event-swe-hands-on-future-2'),
-            alt: 'A session at the Hands-On Future conference.',
+            alt: 'Hands-On Future attendees gathered around a competition robot at the end-of-day expo.',
+            description: 'The day ended with an expo of MSOE’s STEM and competition teams, like the lunar robotics and VEX robotics teams, where students talked with team members about their projects and saw the robots up close.',
           },
         ],
       },
@@ -422,6 +490,7 @@ export const categories: BeyondCategory[] = [
             category: 'KSM · Outreach Chair',
             image: img('event-diwali'),
             alt: 'Diwali celebration hosted with Kappa Sigma Mu.',
+            description: 'Diwali and Holi were cultural celebrations I led for my sorority, Kappa Sigma Mu. They were open to everyone and planned so Indian international students had a place to celebrate with their peers. Sorority sisters performed dances, and we served Indian food, which for many people from the rural Midwest was a first.',
           },
           {
             title: 'Diwali Presentation',
@@ -434,6 +503,7 @@ export const categories: BeyondCategory[] = [
             category: 'KSM',
             image: img('event-diwali-sand-art'),
             alt: 'Colored sand art made at the Diwali celebration.',
+            description: 'I sourced the supplies for everyone to make small sand mandalas.',
           },
           {
             title: 'Holi Festival',
@@ -446,12 +516,14 @@ export const categories: BeyondCategory[] = [
             category: 'KSM',
             image: img('event-holi-dance-class'),
             alt: 'A dance class at the Holi festival.',
+            description: 'Everyone learned an Indian dance routine together.',
           },
           {
             title: 'Piñata Making',
             category: 'KSM',
             image: img('event-pinata-making'),
             alt: 'Piñata making with Kappa Sigma Mu.',
+            description: 'Part of our Día de los Muertos celebration, one of two I hosted, with Lotería, conchas, tamales, and sugar-skull-style painting on plastic skulls. Those events are where I first learned Lotería. These are the test piñatas we made from recycled cardboard and tissue paper to check the instructions before the event.',
           },
         ],
       },
@@ -463,12 +535,14 @@ export const categories: BeyondCategory[] = [
             category: 'Hosted',
             image: img('event-world-hijab-day-1'),
             alt: 'World Hijab Day panel on campus.',
+            description: 'I organized two World Hijab Day panels. I invited panelists from Muslim women’s groups in the area, our Muslim Students Association, and Muslim faculty, wrote questions using World Hijab Day’s resources, and set up audience questions on note cards so they could be screened and read by a moderator. Each panel was paired with an information booth in the campus center, run with the MSA. I learned a lot about the faith and the practice, and so did the students who came.',
           },
           {
             title: 'World Hijab Day Panelists',
             category: 'Hosted',
             image: img('event-world-hijab-day-2'),
             alt: 'Panelists speaking at the World Hijab Day panel.',
+            description: 'At the second panel, I moderated.',
           },
         ],
       },
