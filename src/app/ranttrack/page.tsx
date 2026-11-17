@@ -30,7 +30,6 @@ export default function RantTrack() {
                     Designed for your worst flare days, when navigating complex UI costs spoons you don&apos;t have.
                 </p>
                 <div className={styles.status}>
-                    <span className={styles.badge}>Status: Live</span>
                     <span className={styles.badge}>React</span>
                     <span className={styles.badge}>TypeScript</span>
                     <span className={styles.badge}>Vite</span>

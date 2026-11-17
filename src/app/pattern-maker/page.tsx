@@ -47,7 +47,6 @@ export default function PatternMaker() {
       </p>
 
       <div className={styles.status}>
-        <span className={styles.badge}>Status: Live</span>
         <span className={styles.badge}>React</span>
         <span className={styles.badge}>TypeScript</span>
         <span className={styles.badge}>Vite</span>
@@ -114,6 +113,17 @@ export default function PatternMaker() {
             PDF export flattens the design into a chart with heavy ten-stitch lines, center
             arrows, a symbol per color, and a DMC legend. Larger patterns split across pages
             with an overview.
+          </p>
+        </section>
+
+        <section className={styles.panel}>
+          <h2 className={styles.panelTitle}>Stitching on Paper</h2>
+          <p className={styles.panelDescription}>
+            Presets for postcards, cards with mounted photos, journals, and tote pockets work at
+            real-world size. A 1:1 piercing guide prints with verification rulers, crop marks,
+            and multi-page tiling, a reference photo can sit under the grid as a tracing layer,
+            and a thread estimator suggests cut lengths, needle size, and strand count for the
+            chosen paper or fabric.
           </p>
         </section>
       </div>

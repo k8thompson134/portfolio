@@ -48,32 +48,62 @@
   }
 }
 
-.reference {
-  margin: $space-4 0;
-  max-width: 680px;
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-4;
+  align-items: start;
+  margin-bottom: $space-6;
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: 1fr;
+  }
 }
 
-.referenceLink {
-  display: block;
-  text-decoration: none;
+.compareItem {
+  margin: 0;
+}
+
+.compareLabel {
+  @include dymo-label;
+  display: inline-block;
+  margin-bottom: $space-2;
+  font-size: 0.65rem;
+}
+
+.compareLabelMuted {
+  opacity: 0.7;
+}
+
+.compareFrame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: $space-3;
+  border: 1px solid rgba($border-gray, 0.5);
+  border-radius: $radius-md;
+  background: $panel-dark;
+  cursor: zoom-in;
+  transition: box-shadow $transition-base, border-color $transition-base;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  &:hover {
+    border-color: $nixie-orange;
+    box-shadow: $shadow-glow-orange;
+  }
 
   &:focus-visible {
     outline: 2px solid $console-teal;
     outline-offset: 2px;
-  }
-}
-
-.referenceImage {
-  width: 100%;
-  height: auto;
-  border-radius: $radius-md;
-  border: 1px solid rgba($border-gray, 0.5);
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
-  transition: transform $transition-base, filter $transition-base;
-
-  .referenceLink:hover & {
-    transform: scale(1.02);
-    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));
   }
 }
 

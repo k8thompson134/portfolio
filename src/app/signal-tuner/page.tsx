@@ -16,7 +16,6 @@ export default function SignalTuner() {
       </p>
 
       <div className={styles.status}>
-        <span className={styles.badge}>Status: Live</span>
         <span className={styles.badge}>TypeScript</span>
         <span className={styles.badge}>Vite</span>
         <span className={styles.badge}>Webamp</span>

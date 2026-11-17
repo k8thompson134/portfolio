@@ -1,7 +1,7 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
-import Image from 'next/image';
 import ScreenshotGallery from '@/components/ScreenshotGallery';
+import InspirationCompare from './InspirationCompare';
 import Footer from '@/components/Footer';
 
 export default function Stormglass() {
@@ -17,7 +17,6 @@ export default function Stormglass() {
       </p>
 
       <div className={styles.status}>
-        <span className={styles.badge}>Status: Live</span>
         <span className={styles.badge}>React</span>
         <span className={styles.badge}>TypeScript</span>
         <span className={styles.badge}>Fastify</span>
@@ -56,36 +55,9 @@ export default function Stormglass() {
           used for years to watch pressure graphs and anticipate bad symptom days —
           Stormglass modernizes that idea and expands it beyond pressure alone.
         </p>
-
-        <figure className={styles.reference}>
-          <a
-            href="http://www.curtronics.com/Weather/graphs/BaroByMinute.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.referenceLink}
-          >
-            <Image
-              src="/images/curtronics-baro.png"
-              alt="Screenshot of Curtronics Milwaukee Weather barometric pressure per minute graph page"
-              width={1024}
-              height={768}
-              className={styles.referenceImage}
-              priority
-            />
-          </a>
-          <figcaption className={styles.referenceCaption}>
-            Inspired by Curtronics&apos; barometric pressure graph page:{' '}
-            <a
-              href="http://www.curtronics.com/Weather/graphs/BaroByMinute.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.referenceLinkText}
-            >
-              curtronics.com/Weather/graphs/BaroByMinute.html
-            </a>
-          </figcaption>
-        </figure>
       </div>
+
+      <InspirationCompare />
 
       <div className={styles.panels}>
         <section className={styles.panel}>
@@ -164,9 +136,21 @@ export default function Stormglass() {
         <section className={styles.panel}>
           <h2 className={styles.panelTitle}>Settings &amp; Personalization</h2>
           <p className={styles.panelDescription}>
-            Users pick their location via geocoding search and toggle which
-            health conditions to track. The app is installable as a PWA with
+            The location is set through geocoding search, with its own timezone
+            for daily summaries, and each health condition can be toggled on or
+            off. The app is installable as a PWA with
             offline support via Workbox for fast, app-like access on mobile.
+          </p>
+        </section>
+
+        <section className={styles.panel}>
+          <h2 className={styles.panelTitle}>Public Forecasts, Private Logs</h2>
+          <p className={styles.panelDescription}>
+            Weather, forecasts, and risk levels are open to anyone visiting the site.
+            Symptom logs, trends, and location changes require a bearer token that
+            stays on the owner&apos;s device rather than being built into the public
+            bundle, and any route not explicitly marked public is denied by default.
+            Public weather history omits symptom severity entirely.
           </p>
         </section>
       </div>
