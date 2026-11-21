@@ -332,6 +332,81 @@ export const categories: BeyondCategory[] = [
     ],
   },
   {
+    slug: '3d',
+    layout: 'photo',
+    cover: img('3d-checkerboard-orb'),
+    title: '3D Renders',
+    summary: 'Surreal, nostalgic little worlds made in Bryce, the 90s 3D program.',
+    description:
+      'Made in Bryce, running in an emulator on my PC. Bryce started as a mathematician’s research into generating mountains and coastlines with fractals, and was turned into a 3D program made for artists in the mid-90s, named after Bryce Canyon. I love how it renders. The hard reflections and too-pink skies come out surreal and dreamlike but also nostalgic, like an I Spy book or an animation playing in a museum when I was a kid. Using the actual program from the time, instead of faking the look in a modern one, was the fun part. These are me messing around to learn it, and Bryce can animate scenes too, which is where I want to go next.',
+    sections: [
+      {
+        heading: 'Glass & Chrome',
+        items: [
+          {
+            title: 'Checkerboard Orb',
+            category: 'Infinite Plane',
+            image: img('3d-checkerboard-orb'),
+            alt: 'A glass dome glowing green from inside sits on an endless black and white checkerboard under a deep purple sky.',
+          },
+          {
+            title: 'Pedestals',
+            category: 'Pink Sunset',
+            image: img('3d-pedestals'),
+            alt: 'A faceted glass sphere, a gold ellipsoid, and a glass ring float above three marble pedestals in green water under a pink and yellow sunset.',
+          },
+          {
+            title: 'Spiral Staircase',
+            category: 'Green Plain',
+            image: img('3d-spiral-staircase'),
+            alt: 'A red spiral staircase rises into a blue cloudy sky over green ground, beside a floating island, a red and black octahedron, a red torus, a blue cone, and a chrome sphere.',
+          },
+          {
+            title: 'Gumdrops',
+            category: 'Open Ocean',
+            image: img('3d-gumdrops'),
+            alt: 'Three glossy domes in yellow, green, and magenta float in blue ocean water, each reflected below.',
+          },
+        ],
+      },
+      {
+        heading: 'The Eye Pyramid',
+        items: [
+          {
+            title: 'Cracked Earth',
+            category: 'Desert at Sunset',
+            image: img('3d-cracked-earth'),
+            alt: 'A floating pyramid with a single eye hovers above a dark pyramid on cracked desert ground, under an orange and pink sunset, reflected in a pool of yellow light.',
+          },
+          {
+            title: 'Golden Flats',
+            category: 'Desert at Sunset',
+            image: img('3d-golden-flats'),
+            alt: 'A floating pyramid with a blue eye hovers over a circuit-textured pyramid on flat golden ground at sunset.',
+          },
+        ],
+      },
+      {
+        heading: 'Skull Island',
+        intro: 'Same boat, two renders. The way there, and how that went.',
+        items: [
+          {
+            title: 'The Crossing',
+            category: 'Yellow Sea',
+            image: img('3d-the-crossing'),
+            alt: 'A small rowboat drifts toward a giant pink skull lying half-sunk in shimmering yellow water.',
+          },
+          {
+            title: 'Shipwreck',
+            category: 'Purple Sea',
+            image: img('3d-shipwreck'),
+            alt: 'The rowboat wrecked against the teeth of the half-sunk skull in purple water.',
+          },
+        ],
+      },
+    ],
+  },
+  {
     slug: 'crafts',
     layout: 'scrapbook',
     cover: img('craft-loon-cross-stitch'),

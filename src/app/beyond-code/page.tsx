@@ -12,7 +12,7 @@ export default function BeyondCodePage() {
       </div>
       <h1 className={styles.pageTitle}>Beyond Code</h1>
       <p className={styles.pageDescription}>
-        Campaign art, logos, posters, photography, handmade work, and the events I&apos;ve organized outside of software.
+        Campaign art, logos, posters, photography, 3D renders, handmade work, and the events I&apos;ve organized outside of software.
       </p>
       <div className={styles.categoryGrid}>
         {categories.map((category) => (
