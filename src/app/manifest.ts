@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Kate Thompson | Software Engineer',
     short_name: 'Kate Thompson',
-    description: 'Portfolio and Command Center of Kate Thompson',
+    description: 'Portfolio and Control Panel of Kate Thompson',
     start_url: '/',
     display: 'standalone',
     background_color: '#0A0E27',

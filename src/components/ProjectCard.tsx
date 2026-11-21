@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from './ProjectCard.module.scss';
 
-// This defines what data each card needs — TypeScript will
+// This defines what data each card needs; TypeScript will
 // yell at you if you forget one when using the component
 interface ProjectCardProps {
   title: string;

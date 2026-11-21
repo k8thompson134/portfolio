@@ -8,7 +8,7 @@ export default function BeyondCodePage() {
   return (
     <main className={styles.main}>
       <div className={styles.backLink}>
-        <Link href="/">← Back to Command Center</Link>
+        <Link href="/">← Back to Control Panel</Link>
       </div>
       <h1 className={styles.pageTitle}>Beyond Code</h1>
       <p className={styles.pageDescription}>

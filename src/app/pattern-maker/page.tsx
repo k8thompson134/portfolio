@@ -38,7 +38,7 @@ export default function PatternMaker() {
   return (
     <main className={styles.main}>
       <Link href="/" className={styles.backLink}>
-        ← Back to Command Center
+        ← Back to Control Panel
       </Link>
 
       <h1 className={styles.title}>Pattern Maker</h1>

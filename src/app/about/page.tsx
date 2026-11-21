@@ -10,7 +10,7 @@ export default function AboutPage() {
   return (
     <main className={styles.main}>
       <div className={styles.backLink}>
-        <Link href="/">← Back to Command Center</Link>
+        <Link href="/">← Back to Control Panel</Link>
       </div>
       <h1 className={styles.pageTitle}>About Me</h1>
       <ProfileCard imageSrc="/images/avatar.png" />

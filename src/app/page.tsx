@@ -51,7 +51,7 @@ export default function Home() {
           />
           <ProjectCard
             title="Local Personal AI System"
-            description="A local-first assistant for health tracking, research, and daily life: a phone web app and car voice agent over one SQLite schema, with a live daily research pipeline for Long COVID and ME/CFS papers."
+            description="A local-first assistant for health tracking, research, and daily life: a phone-first feed, energy pacing, a personal crash forecast, and a live daily research pipeline for Long COVID and ME/CFS papers."
             tech={['Flask', 'Ollama', 'ChromaDB', 'Claude API']}
             href="/local-personal-ai"
             liveUrl="https://research.k8thompson.dev/research-public"
@@ -62,7 +62,7 @@ export default function Home() {
         <div className={styles.rows}>
           <ProjectRow
             title="Homelab Stack"
-            summary="A local AI stack, media server, and 50+ scheduled jobs on one 16 GB Mac mini, run on a measured memory budget."
+            summary="A local AI stack and 50+ scheduled jobs on one 16 GB Mac mini, run on a measured memory budget."
             tech={['Docker Compose', 'launchd', 'Ollama', 'Tailscale']}
             href="/homelab"
           />

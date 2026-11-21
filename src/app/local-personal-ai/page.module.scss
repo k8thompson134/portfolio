@@ -1,0 +1,291 @@
+@use '../../styles/variables' as *;
+
+.main {
+  padding: $space-6;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: $space-4;
+  color: $console-teal;
+  text-decoration: none;
+  font-family: $font-mono;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.title {
+  font-family: $font-display;
+  font-size: 3rem;
+  margin-bottom: $space-2;
+  color: $text-primary;
+}
+
+.tagline {
+  font-size: 1.25rem;
+  color: $text-secondary;
+  margin-bottom: $space-5;
+  max-width: 680px;
+}
+
+.intro {
+  margin-bottom: $space-6;
+
+  p {
+    color: $text-secondary;
+    line-height: 1.6;
+    margin-bottom: $space-3;
+    max-width: 680px;
+  }
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  align-items: center;
+  margin-bottom: $space-6;
+}
+
+.badge {
+  @include dymo-label;
+  font-size: 0.8rem;
+}
+
+.liveLink {
+  margin-left: auto;
+  color: $console-teal;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  transition: color $transition-fast;
+  white-space: nowrap;
+
+  &::after {
+    content: '↗';
+    font-family: sans-serif;
+  }
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.githubLink {
+  color: $console-teal;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  transition: color $transition-fast;
+  white-space: nowrap;
+
+  &::after {
+    content: '↗';
+    font-family: sans-serif;
+  }
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-4;
+  margin-bottom: $space-8;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  @include panel;
+  background: rgba(0, 0, 0, 0.2);
+  padding: $space-4;
+}
+
+.panelTitle {
+  font-family: $font-display;
+  font-size: 1.4rem;
+  margin-bottom: $space-2;
+  color: $text-primary;
+}
+
+.panelDescription {
+  line-height: 1.6;
+  color: $text-secondary;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.panelTakeaway {
+  margin: $space-3 0 0;
+  padding-top: $space-3;
+  border-top: 1px solid rgba($border-gray, 0.5);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: $console-mint;
+}
+
+.section {
+  margin-bottom: $space-7;
+}
+
+.sectionTitle {
+  font-family: $font-display;
+  font-size: 1.5rem;
+  margin-bottom: $space-4;
+  color: $text-primary;
+}
+
+.prose {
+  max-width: 680px;
+
+  p {
+    color: $text-secondary;
+    line-height: 1.6;
+    margin-bottom: $space-3;
+  }
+
+  strong {
+    color: $text-primary;
+  }
+
+  code {
+    font-family: $font-mono;
+    font-size: 0.85em;
+    color: $console-mint;
+  }
+}
+
+.diagram {
+  @include panel;
+  margin-bottom: $space-4;
+  padding: $space-5;
+  overflow-x: auto;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: $console-teal;
+}
+
+.caseStudies {
+  display: grid;
+  gap: $space-4;
+}
+
+.caseStudy {
+  @include panel;
+  background: rgba(0, 0, 0, 0.2);
+  padding: $space-5;
+}
+
+.caseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-4;
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: 1fr;
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.6;
+    color: $text-secondary;
+    font-size: 0.95rem;
+  }
+}
+
+.caseLabel {
+  display: block;
+  margin-bottom: $space-2;
+  font-family: $font-mono;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: $nixie-orange;
+}
+
+.lessons {
+  max-width: 760px;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin-bottom: $space-4;
+    padding-left: $space-5;
+    position: relative;
+    color: $text-secondary;
+    line-height: 1.6;
+
+    &::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: $nixie-orange;
+    }
+  }
+
+  strong {
+    color: $text-primary;
+  }
+
+  code {
+    font-family: $font-mono;
+    font-size: 0.85em;
+    color: $console-mint;
+  }
+}
+
+.inlineLink {
+  color: $console-teal;
+  font-family: $font-mono;
+  font-size: 0.85rem;
+  text-decoration: none;
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.meta {
+  margin: 0 0 $space-2;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  color: $text-muted;
+}

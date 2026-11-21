@@ -7,12 +7,14 @@ const technologies = [
     'React Native',
     'Next.js',
     'Python',
+    'Flask',
+    'FastAPI',
     'PostgreSQL',
     'SQLite',
     'Docker',
+    'Ollama',
     'Java',
     'Ruby on Rails',
-    'Flutter',
 ];
 
 export default function TechStack() {

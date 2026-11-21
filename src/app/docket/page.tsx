@@ -7,7 +7,7 @@ export default function Docket() {
   return (
     <main className={styles.main}>
       <Link href="/" className={styles.backLink}>
-        ← Back to Command Center
+        ← Back to Control Panel
       </Link>
 
       <h1 className={styles.title}>Cream City Docket</h1>
@@ -43,7 +43,7 @@ export default function Docket() {
       <div className={styles.intro}>
         <p>
           Cream City Docket monitors Milwaukee Common Council legislation and turns it
-          into something residents can actually use — plain-English summaries, issue
+          into something residents can actually use: plain-English summaries, issue
           tagging, and email alerts that land before a vote happens, not after.
         </p>
 
@@ -73,7 +73,7 @@ export default function Docket() {
           <p className={styles.panelDescription}>
             An enrichment pipeline runs every new bill through Claude Haiku, producing
             an 8th-grade-reading-level summary and sorting it into a 13-category issue
-            taxonomy — housing, labor, policing, small business, and more — so
+            taxonomy (housing, labor, policing, small business, and more) so
             residents can find what affects them without parsing procedural language.
           </p>
         </section>
@@ -103,8 +103,8 @@ export default function Docket() {
           <p className={styles.panelDescription}>
             No-account email alerts by issue area, district, or specific alder, with
             immediate, daily-digest, or weekly-digest delivery. Alerts fire on bill
-            introduction, hearings, council votes, and mayoral signatures or vetoes —
-            unsubscribe or change preferences any time, no login required.
+            introduction, hearings, council votes, and mayoral signatures or vetoes.
+            Unsubscribe or change preferences any time, no login required.
           </p>
         </section>
 
@@ -114,7 +114,7 @@ export default function Docket() {
             A FastAPI backend polls the Legistar API on an hourly schedule, storing
             matters, alders, and vote history in PostgreSQL. A React and TypeScript
             frontend serves the public site, deployed on Railway (backend) and Vercel
-            (frontend) — all built on data the city already publishes.
+            (frontend), all built on data the city already publishes.
           </p>
         </section>
       </div>

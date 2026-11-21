@@ -7,7 +7,7 @@ export default function SignalTuner() {
   return (
     <main className={styles.main}>
       <Link href="/" className={styles.backLink}>
-        ← Back to Command Center
+        ← Back to Control Panel
       </Link>
 
       <h1 className={styles.title}>Signal Tuner</h1>

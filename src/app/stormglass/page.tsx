@@ -8,7 +8,7 @@ export default function Stormglass() {
   return (
     <main className={styles.main}>
       <Link href="/" className={styles.backLink}>
-        ← Back to Command Center
+        ← Back to Control Panel
       </Link>
 
       <h1 className={styles.title}>Stormglass</h1>
@@ -52,7 +52,7 @@ export default function Stormglass() {
 
         <p>
           The UI and feature set were inspired by a very outdated weather website I
-          used for years to watch pressure graphs and anticipate bad symptom days —
+          used for years to watch pressure graphs and anticipate bad symptom days.
           Stormglass modernizes that idea and expands it beyond pressure alone.
         </p>
       </div>
@@ -66,7 +66,7 @@ export default function Stormglass() {
             The main chart plots barometric pressure readings over selectable
             time windows (6h, 24h, 48h, 7d) with a toggleable temperature
             overlay and forecast line. It calculates swing magnitude,
-            rate-of-change, and detects weather front passages — tagging them
+            rate-of-change, and detects weather front passages, tagging them
             as events with severity ratings directly on the chart.
           </p>
         </section>
@@ -90,7 +90,7 @@ export default function Stormglass() {
           <h2 className={styles.panelTitle}>Air Quality &amp; Wildfire Smoke</h2>
           <p className={styles.panelDescription}>
             Blends a regional air-quality model with hyperlocal PurpleAir ground
-            sensors — whichever reading is higher drives the risk score, so a
+            sensors. Whichever reading is higher drives the risk score, so a
             nearby smoke plume the regional model misses still surfaces. Detects
             worsening or improving smoke trends, forecasts upcoming windows where
             air quality is expected to stay safe, and tracks cumulative exposure

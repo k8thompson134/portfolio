@@ -11,7 +11,7 @@ export default function RantTrack() {
 
     return (
         <main className={styles.main}>
-            <Link href="/" className={styles.backLink}>← Back to Command Center</Link>
+            <Link href="/" className={styles.backLink}>← Back to Control Panel</Link>
             <h1 className={styles.title}>RantTrack</h1>
             <p className={styles.tagline}>Just rant about how you feel. The NLP handles the rest.</p>
 
@@ -78,11 +78,11 @@ export default function RantTrack() {
                         { title: 'History', category: 'Web App', image: '/images/ranttrack-web-history.png', portrait: true },
                         { title: 'Insights', category: 'Web App', image: '/images/ranttrack-web-insights.png', portrait: true },
                         { title: 'Home Screen', category: 'Daily Tracking', image: '/images/ranthome.png', portrait: true },
-                        { title: 'Insights', category: 'Data Visualization', image: '/images/rant insights.png', portrait: true },
-                        { title: 'Monthly View', category: 'Calendar', image: '/images/rant month.png', portrait: true },
+                        { title: 'Mobile Insights', category: 'Data Visualization', image: '/images/ranttrack-mobile-insights.png', portrait: true },
+                        { title: 'Monthly View', category: 'Calendar', image: '/images/ranttrack-mobile-month.png', portrait: true },
                         { title: 'User Guide', category: 'Help & Resources', image: '/images/rantguide.png', portrait: true },
-                        { title: 'Settings', category: 'Configuration', image: '/images/rantsettings.png', portrait: true },
-                        { title: 'Settings', category: 'Customization', image: '/images/rantsettings2.png', portrait: true },
+                        { title: 'Low-Energy Settings', category: 'ME/CFS Features', image: '/images/rantsettings.png', portrait: true },
+                        { title: 'Visual Accessibility', category: 'Contrast, Motion, Text, and Touch Size', image: '/images/rantsettings2.png', portrait: true },
                       ]}
                     />
                 </div>
