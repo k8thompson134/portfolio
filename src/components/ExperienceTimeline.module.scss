@@ -1,0 +1,120 @@
+@use '../styles/variables' as *;
+
+.entries {
+  margin-top: $space-4;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid $border-gray;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: $space-4;
+  padding: 0 0 $space-5 $space-4;
+  position: relative;
+
+  // LED dot on the timeline rail
+  &::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 0.45rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: $led-green;
+    box-shadow: $shadow-glow-green;
+  }
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: 1fr;
+    gap: $space-1;
+  }
+}
+
+.dates {
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  color: $text-muted;
+  padding-top: 0.2rem;
+}
+
+.org {
+  font-family: $font-display;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  color: $text-primary;
+}
+
+.role {
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  color: $console-teal;
+  line-height: 1.5;
+}
+
+.description {
+  margin-top: $space-2;
+  color: $text-secondary;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.entryLink {
+  display: inline-block;
+  margin-top: $space-2;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  color: $console-teal;
+  text-decoration: none;
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+}
+
+.section {
+  margin-top: $space-7;
+}
+
+.heading {
+  @include dymo-label;
+  display: inline-block;
+}
+
+.photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-top: $space-3;
+}
+
+.photo {
+  width: 160px;
+  height: 110px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid $border-gray;
+  border-radius: $radius-md;
+  background: $panel-dark;
+  cursor: zoom-in;
+  transition: border-color $transition-base, box-shadow $transition-base;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: $nixie-orange;
+    box-shadow: $shadow-glow-orange;
+  }
+
+  @media (max-width: $bp-sm) {
+    width: calc(50% - #{$space-1});
+  }
+}

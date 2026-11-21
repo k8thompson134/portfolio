@@ -31,3 +31,24 @@
     color: $nixie-orange;
   }
 }
+
+.section {
+  margin-top: $space-7;
+}
+
+.heading {
+  @include dymo-label;
+  display: inline-block;
+  margin-bottom: $space-4;
+}
+
+.inlineLink {
+  color: $console-teal;
+  text-decoration: none;
+
+  &:hover {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+}
+

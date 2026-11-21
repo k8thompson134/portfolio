@@ -5,24 +5,44 @@ export default function AboutContent() {
   return (
     <div className={styles.about}>
       <p className={styles.lede}>
-        I&apos;m a software engineering student at MSOE who takes projects <span>from problem to production.</span>
+        I build software for <span>the people the usual tools overlook.</span>
       </p>
       <p>
-        Right now that means a voice-first symptom tracker, a civic tech tool for Milwaukee, and a homelab with
-        its own AI stack. I care most about software that is accessible, private by design, and useful to people
-        the usual tools overlook.
+        I like the part before the code. My projects start with research and requirements: Stormglass started from
+        years of watching pressure graphs on an outdated weather site, Pattern Maker from noticing that every
+        cross-stitch tool converts photos and none let you compose, and Lair&apos;s home feed from measuring which
+        kinds of logging I actually kept up with. Planning first means less rebuilding later.
       </p>
-      <p>
-        I work methodically: understand the problem, research solutions, gather requirements, then plan the
-        implementation. Nearly a decade of organizing events taught me how to break large problems down, from
-        Women in STEM meetups with my high school robotics team as a FIRST Ladies regional partner, to SWE
-        conference planning, to cultural celebrations as outreach chair of my sorority.
-      </p>
-      <p>
-        Beyond coding, I&apos;ve taught programming, written technical documentation people actually use, and
-        done graphic design and visual communication.{' '}
-        <Link href="/beyond-code" className={styles.link}>See the design and event work →</Link>
-      </p>
+
+      <section className={styles.section}>
+        <h2 className={styles.heading}>Designing for Bad Days</h2>
+        <p>
+          Accessibility usually means contrast, screen readers, and touch targets, and those matter. I also design
+          for energy and cognitive load, the days a user is exhausted, foggy, or in pain and every extra tap costs
+          something. That is why <Link href="/ranttrack" className={styles.inlineLink}>RantTrack</Link> takes a
+          rant instead of a form, <Link href="/local-personal-ai" className={styles.inlineLink}>Lair</Link>&apos;s
+          check-in is all taps, and <Link href="/stormglass" className={styles.inlineLink}>Stormglass</Link> warns
+          before the weather turns.
+        </p>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.heading}>Teaching &amp; Leadership</h2>
+        <p>
+          I have been teaching programming since middle school robotics, and organizing events for nearly as long,
+          from FIRST Ladies meetups for girls in robotics to SWE&apos;s Hands-On Future conference and multicultural
+          celebrations as an outreach chair.{' '}
+          <Link href="/experience" className={styles.link}>See the timeline →</Link>
+        </p>
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.heading}>Beyond Code</h2>
+        <p>
+          Posters, logos, campaign art, cross-stitch, collage journals, and 3D renders.{' '}
+          <Link href="/beyond-code" className={styles.link}>See the creative work →</Link>
+        </p>
+      </section>
     </div>
   );
 }
