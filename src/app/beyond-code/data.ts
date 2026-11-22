@@ -2,6 +2,10 @@ export interface GalleryItem {
   title: string;
   category: string;
   image: string;
+  // Silent looping clip; `image` is its poster frame
+  video?: string;
+  // Original Bryce output, shown in the render-window frame
+  render?: RenderInfo;
   alt: string;
   description?: string;
   link?: { href: string; label: string };
@@ -9,6 +13,14 @@ export interface GalleryItem {
   pages?: string[];
   // Read only by the hub cover; gallery thumbnails always show the whole piece
   contain?: boolean;
+}
+
+export interface RenderInfo {
+  file: string;
+  size: string;
+  date: string;
+  frames?: number;
+  download: string;
 }
 
 export interface GallerySection {
@@ -25,12 +37,25 @@ export interface BeyondCategory {
   summary: string;
   description: string;
   cover: string;
-  layout?: 'photo' | 'wall' | 'scrapbook';
+  layout?: 'photo' | 'wall' | 'scrapbook' | 'render';
   coverContain?: boolean;
   sections: GallerySection[];
 }
 
 const img = (name: string) => `/images/beyond-code/${name}.webp`;
+const bmp = (file: string, name: string, date: string, size = '480×360'): RenderInfo => ({
+  file: `${file}.bmp`,
+  size,
+  date,
+  download: `/downloads/bryce/${name}.bmp`,
+});
+const avi = (file: string, clip: string, date: string, frames: number): RenderInfo => ({
+  file: `${file}.avi`,
+  size: '320×240',
+  date,
+  frames,
+  download: `/videos/beyond-code/${clip}.mp4`,
+});
 const page = (name: string) => `/images/beyond-code/journal/${name}.webp`;
 const spread = (name: string) => [page(`${name}-left`), page(`${name}-right`)];
 
@@ -333,12 +358,12 @@ export const categories: BeyondCategory[] = [
   },
   {
     slug: '3d',
-    layout: 'photo',
+    layout: 'render',
     cover: img('3d-checkerboard-orb'),
     title: '3D Renders',
     summary: 'Surreal, nostalgic little worlds made in Bryce, the 90s 3D program.',
     description:
-      'Made in Bryce, running in an emulator on my PC. Bryce started as a mathematician’s research into generating mountains and coastlines with fractals, and was turned into a 3D program made for artists in the mid-90s, named after Bryce Canyon. I love how it renders. The hard reflections and too-pink skies come out surreal and dreamlike but also nostalgic, like an I Spy book or an animation playing in a museum when I was a kid. Using the actual program from the time, instead of faking the look in a modern one, was the fun part. These are me messing around to learn it, and Bryce can animate scenes too, which is where I want to go next.',
+      'Made in Bryce, running in an emulator on my PC. Bryce started as a mathematician’s research into generating mountains and coastlines with fractals, and was turned into a 3D program made for artists in the mid-90s, named after Bryce Canyon. I love how it renders. The hard reflections and too-pink skies come out surreal and dreamlike but also nostalgic, like an I Spy book or an animation playing in a museum when I was a kid. Using the actual program from the time, instead of faking the look in a modern one, was the fun part. These are me messing around to learn it, and Bryce can animate scenes too, which is how a shrimp ended up getting abducted.',
     sections: [
       {
         heading: 'Glass & Chrome',
@@ -347,24 +372,28 @@ export const categories: BeyondCategory[] = [
             title: 'Checkerboard Orb',
             category: 'Infinite Plane',
             image: img('3d-checkerboard-orb'),
+            render: bmp('orb', 'orb', '2026-11-20'),
             alt: 'A glass dome glowing green from inside sits on an endless black and white checkerboard under a deep purple sky.',
           },
           {
             title: 'Pedestals',
             category: 'Pink Sunset',
             image: img('3d-pedestals'),
+            render: bmp('glass on peds', 'glass-on-peds', '2026-11-20'),
             alt: 'A faceted glass sphere, a gold ellipsoid, and a glass ring float above three marble pedestals in green water under a pink and yellow sunset.',
           },
           {
             title: 'Spiral Staircase',
             category: 'Green Plain',
             image: img('3d-spiral-staircase'),
+            render: bmp('spiral shapes', 'spiral-shapes', '2026-11-20'),
             alt: 'A red spiral staircase rises into a blue cloudy sky over green ground, beside a floating island, a red and black octahedron, a red torus, a blue cone, and a chrome sphere.',
           },
           {
             title: 'Gumdrops',
             category: 'Open Ocean',
             image: img('3d-gumdrops'),
+            render: bmp('bulbs', 'bulbs', '2026-11-20'),
             alt: 'Three glossy domes in yellow, green, and magenta float in blue ocean water, each reflected below.',
           },
         ],
@@ -376,12 +405,14 @@ export const categories: BeyondCategory[] = [
             title: 'Cracked Earth',
             category: 'Desert at Sunset',
             image: img('3d-cracked-earth'),
+            render: bmp('creppy', 'creppy', '2026-11-21'),
             alt: 'A floating pyramid with a single eye hovers above a dark pyramid on cracked desert ground, under an orange and pink sunset, reflected in a pool of yellow light.',
           },
           {
             title: 'Golden Flats',
             category: 'Desert at Sunset',
             image: img('3d-golden-flats'),
+            render: bmp('piramid', 'piramid', '2026-11-21'),
             alt: 'A floating pyramid with a blue eye hovers over a circuit-textured pyramid on flat golden ground at sunset.',
           },
         ],
@@ -394,13 +425,98 @@ export const categories: BeyondCategory[] = [
             title: 'The Crossing',
             category: 'Yellow Sea',
             image: img('3d-the-crossing'),
+            render: bmp('boat to skull island', 'boat-to-skull-island', '2026-11-20'),
             alt: 'A small rowboat drifts toward a giant pink skull lying half-sunk in shimmering yellow water.',
           },
           {
             title: 'Shipwreck',
             category: 'Purple Sea',
             image: img('3d-shipwreck'),
+            render: bmp('shipwreck', 'shipwreck', '2026-11-20'),
             alt: 'The rowboat wrecked against the teeth of the half-sunk skull in purple water.',
+          },
+        ],
+      },
+      {
+        heading: 'Bubbles',
+        items: [
+          {
+            title: 'Mirror Balls',
+            category: 'Deep Blue',
+            image: img('3d-mirror-balls'),
+            render: bmp('mirrorballs', 'mirrorballs', '2026-11-21'),
+            alt: 'A crowd of glass bubbles in every size, each holding smaller bubbles inside, filling a deep blue frame.',
+          },
+          {
+            title: 'Green Bubbles',
+            category: 'Emerald',
+            image: img('3d-green-bubbles'),
+            render: bmp('greenballs', 'greenballs', '2026-11-21'),
+            alt: 'Glass bubbles in every size packed together against a bright green background, catching white highlights.',
+          },
+          {
+            title: 'Aero Balls',
+            category: 'Aqua',
+            image: img('3d-aero-balls'),
+            render: bmp('aero bals', 'aero-bals', '2026-11-21'),
+            alt: 'Glass bubbles, some tinted green, floating over bright aqua water that glows with reflected light.',
+          },
+          {
+            title: 'Burple Water',
+            category: 'Shallows',
+            image: img('3d-burple-water'),
+            render: bmp('burplewater', 'burplewater', '2026-11-21'),
+            alt: 'Glass bubbles resting on and floating above rippling blue-purple water, reflected in the surface.',
+          },
+        ],
+      },
+      {
+        heading: 'Odds & Ends',
+        items: [
+          {
+            title: 'I Spy',
+            category: 'Junk Drawer',
+            image: img('3d-i-spy'),
+            render: bmp('k8_ispy', 'k8-ispy', '2026-11-22', '320×240'),
+            alt: 'An I Spy style desk scene on wood grain: chess pieces, a metal spring, marbles, a pushpin, a pencil, a gear, a pink eraser, an 8 die, and letter blocks spelling K.',
+          },
+          {
+            title: 'K8TV',
+            category: 'Station Ident',
+            image: img('3d-k8tv'),
+            render: avi('k8tv_bounce', '3d-k8tv', '2026-11-22', 60),
+            video: '/videos/beyond-code/3d-k8tv.mp4',
+            alt: 'Animation: a pixel-block K8 logo in pink and cyan chrome bounces beside the word TV in pink script, with floating cyan cubes, over a cloudy pink sky and a glittering pink floor.',
+          },
+        ],
+      },
+      {
+        heading: 'Shrimp Abduction',
+        intro: 'My first Bryce animation. A UFO, an island, and one shrimp, under three different skies.',
+        items: [
+          {
+            title: 'Daytime',
+            category: 'Blue Sky',
+            image: img('3d-abduction-day'),
+            render: avi('ufoshrimpnap', '3d-abduction-day', '2026-11-21', 165),
+            video: '/videos/beyond-code/3d-abduction-day.mp4',
+            alt: 'Animation: a flying saucer slides in over a rocky island in a pale lavender sea and beams a pink shrimp up in a green light.',
+          },
+          {
+            title: 'Night Shift',
+            category: 'Starry Night',
+            image: img('3d-abduction-night'),
+            render: avi('ufoshrimpnap_stars', '3d-abduction-night', '2026-11-21', 165),
+            video: '/videos/beyond-code/3d-abduction-night.mp4',
+            alt: 'Animation: under a navy starry sky, a flying saucer beams a shrimp up out of dark water in a green light reflected on the waves.',
+          },
+          {
+            title: 'Vaporwave',
+            category: 'Pink Sea',
+            image: img('3d-abduction-vapor'),
+            render: avi('ufoshimp_vapor', '3d-abduction-vapor', '2026-11-21', 165),
+            video: '/videos/beyond-code/3d-abduction-vapor.mp4',
+            alt: 'Animation: a flying saucer drifts in under pink and white clouds and lifts a shrimp out of a rippling pink sea in a purple beam.',
           },
         ],
       },

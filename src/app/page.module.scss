@@ -144,6 +144,44 @@
   max-width: 600px;
 }
 
+// Windows 98 desktop behind the whole Bryce page
+.desktop {
+  // Bleeds the teal out to both edges of the viewport behind the centered column
+  background: #008080;
+  box-shadow: 0 0 0 100vmax #008080;
+  clip-path: inset(0 -100vmax);
+
+  .backLink a {
+    color: #fff;
+
+    &:hover {
+      color: #ffff80;
+      text-shadow: none;
+    }
+  }
+
+  .pageTitle {
+    color: #fff;
+  }
+
+  .pageDescription {
+    color: #e0f2f2;
+  }
+
+  .sectionLabel {
+    color: #fff;
+
+    &::before {
+      background: #fff;
+      box-shadow: none;
+    }
+
+    &::after {
+      background: linear-gradient(90deg, rgba(#fff, 0.5), transparent);
+    }
+  }
+}
+
 .categoryGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import LoopVideo from './LoopVideo';
 import styles from './Lightbox.module.scss';
 
 export interface LightboxItem {
     title: string;
     category: string;
     image: string;
+    video?: string;
     alt?: string;
     description?: string;
     link?: { href: string; label: string };
@@ -55,9 +57,19 @@ export default function Lightbox({ items, index, onIndexChange }: LightboxProps)
                         </svg>
                     </button>
                     <div className={styles.stage}>
-                        {/* Plain img: the expanded view shows the original file at full resolution */}
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={active.image} alt={active.alt ?? active.title} className={styles.fullImage} />
+                        {active.video ? (
+                            <LoopVideo
+                                key={active.video}
+                                src={active.video}
+                                poster={active.image}
+                                label={active.alt ?? active.title}
+                                className={styles.fullImage}
+                            />
+                        ) : (
+                            // Plain img: the expanded view shows the original file at full resolution
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={active.image} alt={active.alt ?? active.title} className={styles.fullImage} />
+                        )}
                         {items.length > 1 && (
                             <>
                                 <button

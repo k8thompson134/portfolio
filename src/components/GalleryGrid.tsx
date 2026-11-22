@@ -5,6 +5,7 @@ import Image from 'next/image';
 import CreativeCard from './CreativeCard';
 import Journal from './Journal';
 import Lightbox from './Lightbox';
+import RenderWindow from './RenderWindow';
 import type { GallerySection } from '@/app/beyond-code/data';
 import styles from './GalleryGrid.module.scss';
 
@@ -13,7 +14,7 @@ const TILTS = [-2, 1.5, -1, 2.5, -1.5, 1, -2.5, 0.5];
 
 interface GalleryGridProps {
     sections: GallerySection[];
-    variant?: 'photo' | 'wall' | 'scrapbook';
+    variant?: 'photo' | 'wall' | 'scrapbook' | 'render';
     headingClassName: string;
     introClassName: string;
 }
@@ -37,6 +38,14 @@ export default function GalleryGrid({ sections, variant, headingClassName, intro
                         {section.intro && <p className={introClassName}>{section.intro}</p>}
                         {section.journal ? (
                             <Journal items={section.items} onOpen={(i) => open(start + i)} />
+                        ) : variant === 'render' ? (
+                            <div
+                                className={`${styles.renderGrid} ${section.items.length === 3 ? styles.renderTriple : ''}`}
+                            >
+                                {section.items.map((item, i) => (
+                                    <RenderWindow key={item.image} item={item} onOpen={() => open(start + i)} />
+                                ))}
+                            </div>
                         ) : variant === 'photo' ? (
                             <div className={styles.photoGrid}>
                                 {section.items.map((item, i) => (

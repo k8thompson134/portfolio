@@ -1,0 +1,157 @@
+@use '../styles/variables' as *;
+
+// Windows 98 palette, scoped to the render windows
+$face: #c0c0c0;
+$light: #ffffff;
+$shadow: #808080;
+$dark: #000000;
+$title-from: #000080;
+$title-to: #1084d0;
+$ui-font: Tahoma, Verdana, 'Segoe UI', sans-serif;
+
+@mixin raised {
+    box-shadow:
+        inset -1px -1px 0 $dark,
+        inset 1px 1px 0 $light,
+        inset -2px -2px 0 $shadow,
+        inset 2px 2px 0 #dfdfdf;
+}
+
+@mixin sunken {
+    box-shadow:
+        inset -1px -1px 0 $light,
+        inset 1px 1px 0 $shadow;
+}
+
+.item {
+    margin: 0;
+}
+
+.window {
+    padding: 3px;
+    background: $face;
+    color: $dark;
+    font-family: $ui-font;
+    font-size: 11px;
+    @include raised;
+}
+
+.titleBar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 20px;
+    padding: 0 3px;
+    background: linear-gradient(90deg, $title-from, $title-to);
+    color: $light;
+    font-weight: bold;
+}
+
+.titleIcon {
+    flex: none;
+    width: 14px;
+    height: 14px;
+}
+
+.titleText {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.controls {
+    display: flex;
+    gap: 2px;
+}
+
+.control {
+    display: grid;
+    place-items: center;
+    width: 16px;
+    height: 14px;
+    background: $face;
+    @include raised;
+
+    svg {
+        width: 8px;
+        height: 8px;
+    }
+}
+
+.viewport {
+    display: block;
+    width: 100%;
+    margin: 3px 0;
+    padding: 2px;
+    border: none;
+    background: $dark;
+    cursor: zoom-in;
+    @include sunken;
+
+    img,
+    video {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+    }
+
+    &:focus-visible {
+        outline: 1px dotted $dark;
+        outline-offset: -4px;
+    }
+}
+
+.statusBar {
+    display: flex;
+    gap: 2px;
+}
+
+.field {
+    flex: 1;
+    min-width: 0;
+    padding: 2px 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    @include sunken;
+}
+
+.date {
+    flex: none;
+}
+
+.save {
+    flex: none;
+    padding: 2px 10px;
+    background: $face;
+    color: $dark;
+    text-decoration: none;
+    @include raised;
+
+    &:active {
+        @include sunken;
+    }
+
+    &:focus-visible {
+        outline: 1px dotted $dark;
+        outline-offset: -4px;
+    }
+}
+
+// Sits on the teal desktop, like an icon label
+.caption {
+    margin-top: $space-2;
+    font-family: $font-display;
+    font-size: 0.9rem;
+    color: #fff;
+
+    span {
+        font-family: $font-mono;
+        font-size: 0.75rem;
+        color: #cfe8e8;
+    }
+}

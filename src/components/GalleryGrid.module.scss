@@ -38,6 +38,24 @@
     }
 }
 
+.renderGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-6 $space-5;
+    margin-bottom: $space-7;
+
+    @media (max-width: $bp-sm) {
+        grid-template-columns: 1fr;
+    }
+}
+
+// Three clips of one animation read left to right as a strip
+.renderTriple {
+    @media (min-width: $bp-md) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 .photo {
     display: block;
     padding: 0;
