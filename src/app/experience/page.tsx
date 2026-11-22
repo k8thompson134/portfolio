@@ -12,7 +12,7 @@ export default function ExperiencePage() {
       </div>
       <h1 className={styles.pageTitle}>Robotics, Teaching &amp; Leadership</h1>
       <p className={styles.pageDescription}>
-        I started programming on a robotics team in 8th grade, started teaching it almost right away, and have been organizing events for nearly as long.
+        I started programming on a robotics team in 8th grade, started teaching it almost right away, and I&apos;ve been organizing events for about as long.
       </p>
 
       <section className={timeline.section}>

@@ -17,9 +17,9 @@ export const ROBOTICS: Entry[] = [
     role: 'Co-Lead Programmer and Vision Systems Lead, then Mentor',
     dates: '2018 – 2022',
     description: [
-      'Made knowledge transfer my focus. I led the programming part of the summer camp that trains new members, moved our code off a single team laptop onto GitHub, and built a library of reusable code and examples so it would outlast my class. I also brought Dynamic AR with me, building AR models of our robots for judging, and coached the drive team from the field. Sustainability became the team’s judging theme my senior year, and the team nominated me for the FIRST Dean’s List.',
-      'On the outreach side I presented at the season kickoff’s notebook and judges’ presentation workshop, emceed demo matches and explained the game to visitors at the Museum of Science and Industry, demoed our robots at Google Chicago, and reimaged wiped, donated laptops with fresh operating systems for schools and firefighters in Jamaica.',
-      'My first season with the team won the Connect Award and second place for the Inspire Award at the 2019 League Championship. Our 2020 season was finalist alliance captain at the League Championship, won the Connect Award at the Illinois State Championship and qualified for Worlds, which was canceled for COVID. I stayed on as a mentor for two more seasons and ran the programming section of the Robotics Boot Camp for new members, and the team has since made the FIRST World Championship three years running.',
+      'Knowledge transfer was my big focus. I led the programming part of our summer camp for new members, got our code off a single team laptop and onto GitHub, and built a library of reusable code and examples so it would outlast my class. I also brought Dynamic AR along to make AR models of our robots for judging, and I coached the drive team from the field. Sustainability ended up as our judging theme my senior year, and the team nominated me for the FIRST Dean’s List.',
+      'For outreach I presented at the kickoff’s notebook and judges’ presentation workshop, emceed demo matches at the Museum of Science and Industry, demoed our robots at Google Chicago, and reimaged donated laptops so they could go to schools and firefighters in Jamaica.',
+      'My first season with the team won the Connect Award and second place for Inspire at the 2019 League Championship. In 2020 we were finalist alliance captain at League, won the Connect Award at State, and qualified for Worlds, which got canceled for COVID. I stuck around as a mentor for two more seasons, running the programming part of Robotics Boot Camp, and the team has since made Worlds three years running.',
     ],
     photos: [
       {
@@ -101,8 +101,8 @@ export const ROBOTICS: Entry[] = [
     role: 'Programmer',
     dates: '2015 – 2018',
     description: [
-      'Joined in 8th grade, learned Java on the team, and wrote autonomous code with the software sub-team. As a freshman I built Dynamic AR, an augmented reality app in Unity and Vuforia that put our robot’s CAD model, and every version of it from the season, in front of judges in the pits. Several other teams in the North region picked up the idea, and I kept building it in later seasons, including a version that used ground-plane detection to show the robot life-size without a printed target.',
-      'We were the winning alliance at the 2016 Illinois State Championship, won the Inspire Award and were a finalist alliance at the 2017 Asia Pacific Invitational in Sydney, and finished 7th at the 2018 FIRST World Championship. The Sydney trip started with company visits in Silicon Valley and included a match played for Chinese television. At the 2016 World Championship in St. Louis I was a student ambassador for corporate visitors and got a judge’s “You Inspire Me” award.',
+      'I joined in 8th grade, learned Java from my teammates, and wrote autonomous code on the software sub-team. My freshman year I built Dynamic AR, an augmented reality app in Unity and Vuforia that pulled up our robot’s CAD model, and every version of it from the season, for judges in the pits. Other teams in the North region started doing it too. I kept building on it in later seasons, including a version that used ground-plane detection to show the robot life-size without a printed target.',
+      'We were the winning alliance at the 2016 Illinois State Championship, won the Inspire Award at the 2017 Asia Pacific Invitational in Sydney, and finished 7th at the 2018 World Championship. The Sydney trip started with company visits in Silicon Valley, and we even played a match for Chinese television. At the 2016 World Championship in St. Louis I was a student ambassador for corporate visitors and got a “You Inspire Me” award from one of the judges.',
     ],
     photos: [
       {
@@ -179,8 +179,8 @@ export const TEACHING: Entry[] = [
     role: 'Student, then Online Programming Instructor',
     dates: '2014 – 2022',
     description: [
-      'Started at iD Tech in 2014 with 12 weeks of camps at the University of Wisconsin–Madison, in Java, C++, VEX robotics, and Unity, and reached L10, the top level of their Pathway program, which 378 of more than 306,000 students have reached. I was in the first class of AcademyNEXT, a month at Stanford on AI and machine learning, where my team’s final project was a robot that used reinforcement learning to find its way back to a home base.',
-      'In summer 2022 I came back to teach kids and teens ages 7 to 17 over video: Java, Python, Unity with C#, Roblox with Lua, and Scratch. Every lesson meant finding the explanation that fit that student, and troubleshooting their setup remotely.',
+      'I started going to iD Tech camps in 2014 and spent 12 weeks there over the years at the University of Wisconsin–Madison, learning Java, C++, VEX robotics, and Unity. I reached L10, the top level of their Pathway program, which only 378 of more than 306,000 students have reached. My last camp was the first AcademyNEXT class, a month at Stanford on AI and machine learning, where my team built a robot that used reinforcement learning to find its way back to a home base.',
+      'In summer 2022 I came back to teach kids and teens ages 7 to 17 over video: Java, Python, Unity with C#, Roblox with Lua, and Scratch. A lot of it was finding the explanation that clicked for each kid, and fixing their setup without being in the room.',
     ],
     link: {
       href: 'https://media.idtech.com/downloads/L10/4/Kathryn%20Thompson%20Letter%20of%20Recommendation.pdf',
@@ -192,8 +192,8 @@ export const TEACHING: Entry[] = [
     role: 'Student Mentor',
     dates: '2015 – 2019',
     description: [
-      'The only student mentor for two FLL teams at my old junior high, the Cyber Cats and Mission Impossiburger, helping with programming, testing, and the research project. I also mentored the POP Rocks and LEGO Masters Jr. FLL teams and an all-girls Jr. FLL team, brought robotics into Girls on the Run, which got some of its girls to join FLL, and volunteered with the LEGO robotics classes at the Cary Area Library.',
-      'With my teams I ran monthly FLL and Jr. FLL workshops at the Lake Villa District Library, GIFT (Girls In FIRST and Tech) sessions, where I ran the electronics station with Snap Circuits and littleBits, and a FIRST Co-Op that introduced nearly 50 kids from seven new teams to FLL and Jr. FLL, with a plumber explaining the season’s water theme. We also ran a themed showcase and competition for Lake and McHenry County teams with Illinois 4-H.',
+      'I was the only student mentor for two FLL teams at my old junior high, the Cyber Cats and Mission Impossiburger, and helped with programming, testing, and the research project. I also mentored the POP Rocks and LEGO Masters Jr. FLL teams and an all-girls Jr. FLL team, volunteered with the LEGO robotics classes at the Cary Area Library, and brought robotics to Girls on the Run, which got a few of the girls to join FLL.',
+      'With my teams I ran monthly FLL and Jr. FLL workshops at the Lake Villa District Library and GIFT (Girls In FIRST and Tech) sessions, where I ran the electronics station with Snap Circuits and littleBits. We also put on a FIRST Co-Op that got nearly 50 kids from seven brand-new teams started in FLL and Jr. FLL, complete with a plumber explaining that season’s water theme, and a showcase and competition for Lake and McHenry County teams with Illinois 4-H.',
     ],
     photos: [
       {
@@ -238,16 +238,59 @@ export const LEADERSHIP: Entry[] = [
     role: 'Outreach Chair',
     dates: '2022 – 2024',
     description: [
-      'Planned multicultural events, including Día de los Muertos, Rosh Hashanah, Holi, and Diwali celebrations and World Hijab Day panels, researching each tradition and working with the people who celebrate it. Also organized service events for local organizations.',
+      'As outreach chair I planned cultural events like Día de los Muertos, Rosh Hashanah, Holi, and Diwali, plus World Hijab Day panels, researching each tradition and working with people who actually celebrate it. For Tie Blanket Tuesday we made blankets for Jewish Family Services in Milwaukee and learned about Hanukkah.',
+      'Some of the best events came from partnering with other groups. We co-hosted a tatreez (Palestinian embroidery) workshop with the Muslim Students Association, who brought in a tatreez artist. A member’s idea to celebrate Korean New Year grew into a Lunar New Year celebration with the International Student Association and AASU, where we ran a Yut Nori station next to Chinese calligraphy and paper lanterns. It has become a yearly event.',
     ],
-    link: { href: '/beyond-code/events', label: 'Event photos' },
+    link: { href: '/beyond-code/events', label: 'More event photos' },
+    photos: [
+      {
+        title: 'Diwali',
+        category: '2023',
+        image: '/images/beyond-code/event-diwali.webp',
+        alt: 'Kate and friends making sand rangoli designs at a table at the Diwali celebration.',
+        width: 1365,
+        height: 1024,
+      },
+      {
+        title: 'Holi Dance Class',
+        category: '2024',
+        image: '/images/beyond-code/event-holi-dance-class.webp',
+        alt: 'A crowd learning an Indian dance routine at the Holi celebration.',
+        width: 1544,
+        height: 869,
+      },
+      {
+        title: 'Día de los Muertos',
+        category: 'Piñata making',
+        image: '/images/beyond-code/event-pinata-making.webp',
+        alt: 'Piñatas shaped like the letters K, S, and M on a table.',
+        width: 576,
+        height: 1024,
+      },
+      {
+        title: 'World Hijab Day Panel',
+        category: 'Kappa Sigma Mu',
+        image: '/images/beyond-code/event-world-hijab-day-1.webp',
+        alt: 'Kate with the World Hijab Day panelists after the panel.',
+        width: 1344,
+        height: 955,
+      },
+      {
+        title: 'Lunar New Year',
+        category: 'With ISA · 2024',
+        image: '/images/experience/ksm-lunar-new-year-flyer.webp',
+        alt: 'Flyer for the 2024 Lunar New Year celebration hosted by ISA and KSM, with a red dragon and fireworks.',
+        width: 478,
+        height: 598,
+      },
+    ],
   },
   {
     org: 'Society of Women Engineers, MSOE',
     role: 'K-12 Outreach Chair',
     dates: '2022 – 2023',
     description: [
-      'Ran Hands-On Future, the first one back after COVID, where high schoolers try out engineering majors through activities led by students and professors. 43 students from Illinois and Wisconsin signed up and ranked nine majors, and I scheduled each into three sessions from their top picks. Recruited volunteers across departments, handled communication with schools, materials, and rooms, and brought in Milwaukee Tool for demos of what is inside their tools and a sponsored lunch.',
+      'I ran Hands-On Future, the first one back after COVID, where high schoolers try out engineering majors through activities led by students and professors. In all, 43 students from Illinois and Wisconsin signed up and ranked nine majors, and I scheduled each of them into three sessions from their top picks. I also recruited volunteers across departments, handled the schools, materials, and rooms, and got Milwaukee Tool to come show what’s inside their tools and sponsor lunch.',
     ],
     link: { href: '/beyond-code/events', label: 'Event photos' },
   },
@@ -256,8 +299,8 @@ export const LEADERSHIP: Entry[] = [
     role: 'Regional Partner Team Lead',
     dates: '2017 – 2020',
     description: [
-      'Became the first Illinois FIRST Ladies Regional Partner in 2017. It started with a league meetup at McHenry County College in 2016 that drew more than 30 girls, and grew into meetups with guest speakers at league meets and the Illinois State Championship in 2017 and 2018, several co-hosted with team Vertigo. For the 2018 North Super Regional in Iowa I raised more than $3,000 from my network of friends and STEM professionals for a breakfast with a guest speaker from AbbVie, and more than 80 people came.',
-      'With The Golden Ratio I led a bowling meetup, the Fearless Females panel at the Cary Area Library and its follow-up, The Conversation Continues, at the League Championship, and raised the funds for and planned the first FIRST Ladies breakfast and professional panel at the Illinois State Championship in 2019, then another in 2020. We also co-hosted a robotics badge workshop with the Girl Scouts, where 120 girls from more than 60 troops earned all three robotics badges for their level, and I spoke at a Google tech talk on how women engineers can support FIRST Ladies.',
+      'In 2017 I became the first Illinois FIRST Ladies Regional Partner. It started with a league meetup at McHenry County College in 2016 that drew more than 30 girls and grew into meetups with guest speakers at league meets and the Illinois State Championship in 2017 and 2018, several of them co-hosted with team Vertigo. For the 2018 North Super Regional in Iowa I raised more than $3,000 from friends and STEM professionals for a breakfast with a speaker from AbbVie, and more than 80 people came.',
+      'At The Golden Ratio I led a bowling meetup, the Fearless Females panel at the Cary Area Library, and its follow-up, The Conversation Continues, at the League Championship. I also raised the money for and planned the first FIRST Ladies breakfast and professional panel at the Illinois State Championship in 2019, and another in 2020. Along the way we co-hosted a robotics badge workshop with the Girl Scouts, where 120 girls from more than 60 troops earned all three robotics badges for their level, and I spoke at a Google tech talk about how women engineers can support FIRST Ladies.',
     ],
     photos: [
       {
@@ -323,7 +366,7 @@ export const LEADERSHIP: Entry[] = [
     role: 'Inaugural Scholar, then Student STEM Advisor',
     dates: '2016 – 2018',
     description: [
-      'Selected for the inaugural class of the 14th District STEM Scholars, then for the pilot group of student STEM advisors the next year. Met monthly with the congressman and local STEM professionals at places like FONA’s flavor chemistry labs, SciTech, and Fermilab, and gave a student perspective on STEM education and space policy in roundtable discussions.',
+      'I was in the first class of the 14th District STEM Scholars, then in the pilot group of student STEM advisors the next year. Every month we met with the congressman and local STEM professionals at places like FONA’s flavor chemistry labs, SciTech, and Fermilab, and gave a student’s take on STEM education and space policy in roundtable discussions.',
     ],
     photos: [
       {

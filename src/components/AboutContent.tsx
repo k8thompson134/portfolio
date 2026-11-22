@@ -29,9 +29,9 @@ export default function AboutContent() {
       <section className={styles.section}>
         <h2 className={styles.heading}>Teaching &amp; Leadership</h2>
         <p>
-          I have been teaching programming since middle school robotics, and organizing events for nearly as long,
-          from FIRST Ladies meetups for girls in robotics to SWE&apos;s Hands-On Future conference and multicultural
-          celebrations as an outreach chair.{' '}
+          I&apos;ve been teaching programming since middle school robotics and organizing events for almost as long,
+          from FIRST Ladies meetups for girls in robotics to SWE&apos;s Hands-On Future conference and the cultural
+          events I planned as my sorority&apos;s outreach chair.{' '}
           <Link href="/experience" className={styles.link}>See the timeline →</Link>
         </p>
       </section>
