@@ -5,6 +5,94 @@ import styles from './page.module.scss';
 import ScreenshotGallery from '@/components/ScreenshotGallery';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import ArchitectureDiagram, { type DiagramBlock } from '@/components/ArchitectureDiagram';
+
+const DATA_FLOW: DiagramBlock[] = [
+    {
+        type: 'boundary',
+        label: 'Your browser · nothing leaves it',
+        variant: 'private',
+        blocks: [
+            {
+                type: 'tier',
+                label: 'Input',
+                nodes: [
+                    {
+                        id: 'rant',
+                        name: 'Rant box',
+                        kind: 'client',
+                        tech: 'Typed or Web Speech API',
+                        link: { href: '#try-it', label: 'Try it' },
+                        detail:
+                            'Type or say how you feel in your own words, the way you would tell a friend. Voice uses the browser’s speech recognition where it is supported, so there is no form to fill out on a bad day.',
+                    },
+                ],
+            },
+            { type: 'link', flows: ['raw text'] },
+            {
+                type: 'tier',
+                label: 'NLP engine',
+                nodes: [
+                    {
+                        id: 'extract',
+                        name: 'Extraction',
+                        kind: 'service',
+                        tech: 'Rule-based · 200+ patterns',
+                        detail:
+                            'A tokenizer and symptom dictionaries pick out symptoms, severity, pain details, triggers, and timing from medical terms, spoon theory, and casual or Gen-Z language. No model, so it runs instantly and offline.',
+                    },
+                    {
+                        id: 'validate',
+                        name: 'Validation',
+                        kind: 'service',
+                        tech: 'Negation · confidence',
+                        detail:
+                            'Handles negation like “no nausea though,” gives every detection a confidence score, and filters out spurious matches before anything is saved.',
+                    },
+                ],
+            },
+            { type: 'link', flows: ['symptoms with severity and confidence'] },
+            {
+                type: 'tier',
+                label: 'Storage',
+                nodes: [
+                    {
+                        id: 'storage',
+                        name: 'localStorage',
+                        kind: 'data',
+                        tech: 'On this device only',
+                        detail:
+                            'Entries are saved in the browser and never sent to a server. If a save fails, the app says so instead of losing the entry quietly. The mobile branch uses on-device SQLite instead.',
+                    },
+                ],
+            },
+            { type: 'link', flows: ['read back'] },
+            {
+                type: 'tier',
+                label: 'Views',
+                nodes: [
+                    {
+                        id: 'history',
+                        name: 'History and Insights',
+                        kind: 'client',
+                        tech: '7 · 30 · 90 days · all time',
+                        link: { href: '#try-it', label: 'Try it' },
+                        detail:
+                            'History grouped by day, and insights on symptom frequency and good, moderate, and rough days over the last 7, 30, or 90 days or all time.',
+                    },
+                    {
+                        id: 'export',
+                        name: 'Export',
+                        kind: 'client',
+                        tech: 'JSON · CSV',
+                        detail:
+                            'Your data is yours: export to JSON or CSV, for a doctor or a spreadsheet, and import a JSON backup on another device.',
+                    },
+                ],
+            },
+        ],
+    },
+];
 
 export default function RantTrack() {
     const [activeTab, setActiveTab] = useState<'demo' | 'gallery'>('demo');
@@ -39,7 +127,12 @@ export default function RantTrack() {
                 </div>
             </div>
 
-            <div className={styles.tabContainer}>
+            <section className={styles.flowSection}>
+                <h2 className={styles.sectionTitle}>How It Works</h2>
+                <ArchitectureDiagram title="RantTrack" notation="Data flow" blocks={DATA_FLOW} />
+            </section>
+
+            <div id="try-it" className={styles.tabContainer}>
                 <button
                     className={`${styles.tabButton} ${activeTab === 'demo' ? styles.activeTab : ''}`}
                     onClick={() => setActiveTab('demo')}

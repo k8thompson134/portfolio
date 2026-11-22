@@ -166,3 +166,18 @@
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: $space-4;
 }
+.flowSection {
+  margin-bottom: $space-6;
+}
+
+.sectionTitle {
+  font-family: $font-display;
+  font-size: 1.5rem;
+  margin-bottom: $space-4;
+  color: $text-primary;
+}
+
+// Leave room above the demo when jumping from the diagram
+.tabContainer {
+  scroll-margin-top: $space-5;
+}
