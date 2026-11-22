@@ -151,3 +151,11 @@
         font-weight: bold;
     }
 }
+.links {
+    color: $console-teal;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

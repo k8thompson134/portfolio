@@ -1,0 +1,122 @@
+@use '../styles/variables' as *;
+
+.main {
+  padding: $space-6;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: $space-5;
+  color: $console-teal;
+  text-decoration: none;
+  font-family: $font-mono;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $console-teal;
+    outline-offset: 2px;
+  }
+}
+
+.slug {
+  font-family: $font-mono;
+  color: $nixie-orange;
+  margin: 0;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: 2.5rem;
+  margin: 0 0 $space-4;
+  color: $text-primary;
+}
+
+.intro {
+  color: $text-secondary;
+  line-height: 1.7;
+  margin-bottom: $space-6;
+}
+
+.section {
+  margin-bottom: $space-6;
+
+  h2 {
+    font-family: $font-mono;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $console-mint;
+    border-bottom: 1px solid $border-gray;
+    padding-bottom: $space-2;
+    margin-bottom: $space-3;
+  }
+
+  p {
+    color: $text-secondary;
+    line-height: 1.7;
+  }
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    padding: $space-2 0;
+    border-bottom: 1px dashed rgba($border-gray, 0.6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2 $space-3;
+    align-items: baseline;
+  }
+
+  a {
+    color: $text-primary;
+    font-weight: 600;
+    text-decoration-color: $console-teal;
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: $console-teal;
+    }
+  }
+}
+
+.note {
+  color: $text-muted;
+  font-size: 0.9rem;
+}
+
+.empty {
+  font-family: $font-mono;
+  color: $text-muted;
+  border: 1px dashed $border-gray;
+  border-radius: $radius-md;
+  padding: $space-4;
+}
+
+.dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: $space-2 $space-4;
+  margin: 0;
+
+  dt {
+    font-family: $font-mono;
+    color: $console-mint;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+
+  dd {
+    margin: 0;
+    color: $text-secondary;
+  }
+}

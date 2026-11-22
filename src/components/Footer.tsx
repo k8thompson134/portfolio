@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './Footer.module.scss';
 import K8Tap from './K8Tap';
 
@@ -8,7 +9,9 @@ export default function Footer() {
     return (
         <footer className={styles.footer}>
             <p className={styles.copyright}>
-                © {currentYear} <span>K8 Control Panel</span> · Built with Next.js
+                © {currentYear} <span>K8 Control Panel</span> · Built with Next.js ·{' '}
+                <Link href="/links" className={styles.links}>Links</Link> ·{' '}
+                <Link href="/guestbook" className={styles.links}>Guestbook</Link>
             </p>
             <p className={styles.hint}>
                 <K8Tap>

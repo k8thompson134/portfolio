@@ -1,0 +1,111 @@
+@use '../../styles/variables' as *;
+
+// Plain on purpose: a paper card that the Affinity artwork sits on top of
+.page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: $space-5 $space-4;
+  background: #e9e4d8;
+  color: #1d1d1f;
+  font-family: var(--font-body), sans-serif;
+}
+
+.card {
+  width: min(100%, 420px);
+  background: #fffdf8;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.art,
+.artSlot {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8 / 5;
+  object-fit: cover;
+}
+
+.artSlot {
+  background: repeating-linear-gradient(135deg, #f1ece0 0 12px, #ebe5d6 12px 24px);
+}
+
+.head {
+  padding: $space-5 $space-5 $space-3;
+
+  h1 {
+    font-family: var(--font-heading), serif;
+    font-weight: 400;
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  p {
+    margin: $space-1 0 0;
+    color: #5f5a50;
+  }
+}
+
+.contacts {
+  list-style: none;
+  margin: 0;
+  padding: 0 $space-5;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    gap: $space-3;
+    padding: $space-2 0;
+    border-top: 1px solid #eee8db;
+  }
+
+  span {
+    color: #8a8477;
+    font-size: 0.9rem;
+  }
+
+  a,
+  b {
+    color: inherit;
+    font-weight: 600;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+}
+
+.save {
+  display: block;
+  margin: $space-5 $space-5 0;
+  padding: $space-3;
+  text-align: center;
+  font-weight: 700;
+  color: #fffdf8;
+  background: #1d1d1f;
+  border-radius: 999px;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 3px solid #5c9ead;
+    outline-offset: 2px;
+  }
+}
+
+.qr {
+  margin: $space-5 auto;
+  width: 132px;
+  text-align: center;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    margin-top: $space-2;
+    font-size: 0.8rem;
+    color: #8a8477;
+  }
+}

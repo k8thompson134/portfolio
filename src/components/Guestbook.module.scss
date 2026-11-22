@@ -1,0 +1,130 @@
+@use '../styles/variables' as *;
+
+.form {
+  display: grid;
+  gap: $space-4;
+  background: $panel-dark;
+  border: 1px solid $border-gray;
+  border-radius: $radius-lg;
+  padding: $space-5;
+  box-shadow: $shadow-panel;
+  margin-bottom: $space-7;
+
+  label {
+    display: grid;
+    gap: $space-1;
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $console-mint;
+  }
+
+  input,
+  textarea {
+    font: inherit;
+    font-family: $font-mono;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 1rem;
+    color: $text-primary;
+    background: $deep-space;
+    border: 1px solid $border-gray;
+    border-radius: $radius-md;
+    padding: $space-2 $space-3;
+    box-shadow: $shadow-inset;
+
+    &:focus-visible {
+      outline: 2px solid $console-teal;
+      outline-offset: 1px;
+    }
+  }
+
+  button {
+    justify-self: start;
+    font-family: $font-mono;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $deep-space;
+    background: $nixie-orange;
+    border: 0;
+    border-radius: $radius-md;
+    padding: $space-2 $space-5;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: $shadow-glow-orange;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+  }
+}
+
+.optional {
+  color: $text-muted;
+  text-transform: none;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+}
+
+.ok {
+  color: $led-green;
+  margin: 0;
+}
+
+.err,
+.offline {
+  color: $led-red;
+  font-family: $font-mono;
+  margin: 0;
+}
+
+.entries {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    border-left: 2px solid $console-teal;
+    padding: $space-2 0 $space-2 $space-4;
+    margin-bottom: $space-4;
+  }
+
+  a {
+    color: $text-primary;
+    text-decoration-color: $console-teal;
+  }
+}
+
+.meta {
+  font-family: $font-mono;
+  font-size: 0.85rem;
+  color: $text-muted;
+  margin: 0 0 $space-1;
+}
+
+.message {
+  color: $text-secondary;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.entries button {
+  font-family: $font-mono;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: $text-primary;
+  background: $panel-mid;
+  border: 1px solid $border-gray;
+  border-radius: $radius-md;
+  padding: $space-1 $space-3;
+  cursor: pointer;
+}
