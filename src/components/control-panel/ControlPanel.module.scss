@@ -1,0 +1,804 @@
+@use '../../styles/variables' as *;
+
+// Site palette plus a few brighter neons for the anime-HUD look
+$ink: $text-secondary;
+$glass: #02030a;
+$phosphor: $led-green;
+$amber: $nixie-orange;
+$neon-cyan: #3fe8ff;
+$neon-magenta: #ff3fb4;
+$neon-yellow: #ffe23f;
+$pixel: var(--cp-pixel), $font-mono;
+$term: var(--cp-term), $font-mono;
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-6;
+
+  @media (max-width: $bp-sm) {
+    padding: $space-4 $space-2;
+  }
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: $space-4;
+  font-family: $term;
+  color: $console-teal;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// The rack: a beige chassis with molded bevels
+.rack {
+  padding: $space-4;
+  border: 1px solid $border-gray;
+  border-radius: $radius-md;
+  background-color: rgba($deep-space, 0.6);
+  background-image:
+    linear-gradient(rgba($console-teal, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba($console-teal, 0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+  box-shadow: $shadow-panel;
+
+  @media (max-width: $bp-sm) {
+    padding: $space-2;
+  }
+}
+
+.rackHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: $space-2 $space-4;
+  margin-bottom: $space-3;
+  padding: 0 $space-1;
+}
+
+.brand {
+  font-family: $pixel;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: $nixie-orange;
+}
+
+.model {
+  font-family: $term;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: $console-teal;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-auto-flow: dense;
+  align-items: start;
+  gap: $space-3;
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $space-2;
+  }
+}
+
+// One module faceplate
+.module {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: $space-2;
+  padding: $space-4 $space-4 $space-5;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 0;
+  background:
+    linear-gradient(color-mix(in srgb, var(--accent) 5%, transparent), transparent 40%),
+    $glass;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 10%, transparent);
+
+  @media (max-width: $bp-sm) {
+    padding: $space-3 $space-3 $space-4;
+  }
+}
+
+.accent-cyan {
+  --accent: #{$neon-cyan};
+}
+
+.accent-magenta {
+  --accent: #{$neon-magenta};
+}
+
+.accent-green {
+  --accent: #{$phosphor};
+}
+
+.accent-yellow {
+  --accent: #{$neon-yellow};
+}
+
+.accent-orange {
+  --accent: #{$amber};
+}
+
+.wide {
+  grid-column: span 2;
+}
+
+// Corner brackets in the module's accent
+.screw {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--accent);
+  border-style: solid;
+  border-width: 0;
+}
+
+.tl {
+  top: -1px;
+  left: -1px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.tr {
+  top: -1px;
+  right: -1px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+
+.bl {
+  bottom: -1px;
+  left: -1px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+
+.br {
+  bottom: -1px;
+  right: -1px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+
+.moduleHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2 $space-3;
+}
+
+// Engraved black label plate
+// Solid title tab, like the headers on 80s anime terminals
+.plate {
+  padding: 2px 8px;
+  background: var(--accent);
+  font-family: $pixel;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: $glass;
+  white-space: nowrap;
+}
+
+.code {
+  font-family: $term;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--accent) 75%, transparent);
+  white-space: nowrap;
+
+  @media (max-width: $bp-sm) {
+    display: none;
+  }
+}
+
+.meta {
+  margin-top: $space-1;
+  padding-top: $space-1;
+  border-top: 1px dashed color-mix(in srgb, var(--accent) 35%, transparent);
+  font-family: $term;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.key {
+  margin-left: auto;
+  padding: 2px 6px;
+  border: 1px solid var(--accent);
+  border-radius: 0;
+  background: transparent;
+  font-family: $term;
+  font-size: 1rem;
+  color: var(--accent);
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--accent);
+    color: $glass;
+    outline: none;
+  }
+}
+
+.engraved {
+  font-family: $pixel;
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+
+// Indicator lamps
+.lampWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lamp {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #3a4560, #151c2e);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+
+.lampOn {
+  &.lamp-green {
+    background: radial-gradient(circle at 35% 35%, #c9ffd8, $phosphor 60%);
+    box-shadow: 0 0 8px $phosphor;
+  }
+
+  &.lamp-amber {
+    background: radial-gradient(circle at 35% 35%, #ffe2b3, $amber 60%);
+    box-shadow: 0 0 8px $amber;
+  }
+
+  &.lamp-red {
+    background: radial-gradient(circle at 35% 35%, #ffb3ad, #ff4a3d 60%);
+    box-shadow: 0 0 9px #ff4a3d;
+    animation: blink 1.2s steps(1) infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.lampLabel {
+  font-family: $pixel;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: $text-secondary;
+}
+
+.lampRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2 $space-3;
+}
+
+// Black glass windows cut into the faceplate
+.screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  background: #000;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent);
+
+  // Scanlines and edge vignette
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.12) 0 1px, transparent 1px 3px);
+  }
+}
+
+.round {
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+
+.glow-green {
+  --glow: #{$phosphor};
+}
+
+.glow-amber {
+  --glow: #{$amber};
+}
+
+.glow-accent {
+  --glow: var(--accent);
+}
+
+.manual,
+.noSignal,
+.warming {
+  padding: $space-3;
+  font-family: $term;
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: var(--glow);
+  text-shadow: 0 0 3px color-mix(in srgb, var(--glow) 45%, transparent);
+
+  p {
+    margin: 0 0 $space-2;
+  }
+}
+
+.noSignal,
+.warming {
+  display: grid;
+  place-items: center;
+  min-height: 110px;
+  letter-spacing: 0.2em;
+  animation: flicker 5s steps(1) infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  48% {
+    opacity: 0.85;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+// Needle gauge
+.gauge {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--glow);
+}
+
+.gaugeTrack,
+.gaugeZone {
+  fill: none;
+  stroke-width: 3;
+}
+
+.gaugeTrack {
+  stroke: color-mix(in srgb, var(--glow) 55%, transparent);
+}
+
+.gaugeZone {
+  stroke: #ff4a3d;
+  stroke-width: 4;
+}
+
+.gaugeTick {
+  stroke: var(--glow);
+  stroke-width: 2;
+}
+
+.gaugeNum {
+  fill: var(--glow);
+  font-family: $term;
+  font-size: 15px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.gaugeUnit {
+  fill: color-mix(in srgb, var(--glow) 70%, transparent);
+  font-family: $term;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-anchor: middle;
+}
+
+.needle {
+  transform-origin: 100px 100px;
+  transition: transform 1.2s cubic-bezier(0.3, 1.5, 0.5, 1);
+
+  line {
+    stroke: #f4f0e2;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 3px var(--glow));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.hub {
+  fill: $panel-mid;
+  stroke: $border-gray;
+  stroke-width: 2;
+}
+
+// Oscilloscope trace
+.scope {
+  display: block;
+  width: 100%;
+  height: 120px;
+}
+
+.scopeGrid {
+  stroke: color-mix(in srgb, var(--glow) 14%, transparent);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.scopeTrace {
+  fill: none;
+  stroke: var(--glow);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 2px var(--glow));
+}
+
+.scopeNow {
+  stroke: $amber;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+}
+
+// Nixie tubes
+.nixieBank {
+  display: flex;
+  gap: 3px;
+}
+
+.tube {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 46px;
+  border-radius: 14px 14px 6px 6px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px),
+    radial-gradient(ellipse at 50% 40%, #2a1608, #0b0705 80%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.7),
+    0 1px 0 rgba(255, 255, 255, 0.4);
+
+  @media (max-width: $bp-sm) {
+    width: 24px;
+    height: 38px;
+  }
+}
+
+.tubeDot {
+  width: 14px;
+
+  @media (max-width: $bp-sm) {
+    width: 11px;
+  }
+}
+
+.tubeGlyph {
+  font-family: $font-mono;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #ffb066;
+  text-shadow:
+    0 0 3px #ff7a1a,
+    0 0 8px rgba(255, 106, 0, 0.45);
+
+  @media (max-width: $bp-sm) {
+    font-size: 1.25rem;
+  }
+}
+
+.readout {
+  font-family: $term;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  color: $console-mint;
+}
+
+// Barometer layout: dial porthole beside the readouts
+.baroFace {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) 1fr;
+  gap: $space-4;
+  align-items: center;
+
+  @media (max-width: 420px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+}
+
+.baroDial {
+  width: 100%;
+  max-width: 220px;
+}
+
+// Vector polar grid behind a round gauge: rings and crosshairs
+.polar {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(color-mix(in srgb, var(--accent) 25%, transparent), color-mix(in srgb, var(--accent) 25%, transparent)) center / 1px 100% no-repeat,
+    linear-gradient(color-mix(in srgb, var(--accent) 25%, transparent), color-mix(in srgb, var(--accent) 25%, transparent)) center / 100% 1px no-repeat,
+    repeating-radial-gradient(circle at center, transparent 0 22px, color-mix(in srgb, var(--accent) 22%, transparent) 22px 23px);
+}
+
+.baroSide {
+  display: grid;
+  gap: $space-2;
+  justify-items: start;
+}
+
+// Reserved slots still read as hardware: a blank plate
+.empty {
+  min-height: 150px;
+  place-content: center;
+  justify-items: center;
+  gap: $space-1;
+  border-style: dashed;
+  background:
+    repeating-linear-gradient(-45deg, color-mix(in srgb, var(--accent) 6%, transparent) 0 6px, transparent 6px 14px),
+    $glass;
+  box-shadow: none;
+
+  @media (max-width: $bp-sm) {
+    min-height: 72px;
+  }
+}
+
+.blankPlate {
+  font-family: $pixel;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.blankNote {
+  font-family: $term;
+  font-size: 0.9rem;
+  letter-spacing: 0.14em;
+  color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.statusBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2 $space-4;
+  margin-top: $space-3;
+  padding: $space-2 $space-3;
+  border: 1px solid $border-gray;
+  border-radius: $radius-sm;
+  background: $glass;
+  font-family: $term;
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
+  color: $amber;
+  text-shadow: none;
+}
+
+.statusRight {
+  margin-left: auto;
+}
+
+.traceAxis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -2px;
+  font-family: $term;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.hex {
+  margin-left: auto;
+  font-family: $term;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: $text-muted;
+
+  @media (max-width: $bp-sm) {
+    display: none;
+  }
+}
+
+.bigRead {
+  font-family: $term;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--accent);
+  text-shadow: 0 0 4px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+// VU meters
+.vuPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-2;
+  padding: $space-2;
+}
+
+.vu {
+  margin: 0;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.vuNeedle {
+  transform-origin: 100px 110px;
+  transition: transform 1.2s cubic-bezier(0.3, 1.6, 0.5, 1);
+
+  line {
+    stroke: #f4f0e2;
+    stroke-width: 2;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 2px var(--glow));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.vuLabel {
+  margin-top: -4px;
+  text-align: center;
+  font-family: $term;
+  font-size: 1rem;
+  color: var(--glow);
+}
+
+.windRow,
+.condRow,
+.spaceRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-3 $space-5;
+}
+
+.compass {
+  width: 84px;
+  height: 84px;
+  --glow: var(--accent);
+}
+
+.compassNeedle {
+  transform-origin: 50px 50px;
+  transition: transform 1.2s ease;
+
+  path {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 2px var(--accent));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// Magic-eye tube: a green fan with a dark wedge that narrows as the value rises
+.eyeWrap {
+  display: grid;
+  justify-items: center;
+  gap: $space-1;
+}
+
+.eye {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #031a0a;
+  box-shadow: inset 0 0 0 2px #0b2a14, 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent);
+  overflow: hidden;
+}
+
+.eyeGlow {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from calc(180deg - var(--open)),
+    #021006 0deg calc(var(--open) * 2),
+    #5bff8c calc(var(--open) * 2 + 1deg),
+    #1fbf55 360deg
+  );
+  filter: drop-shadow(0 0 4px #39ff6a);
+  transition: background 1s ease;
+}
+
+.eyeCap {
+  position: absolute;
+  inset: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #2a2a2a, #050505);
+}
+
+// Segmented bar meter
+.segBar {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+}
+
+.seg {
+  height: 14px;
+  background: color-mix(in srgb, var(--seg) 14%, #000);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--seg) 30%, transparent);
+}
+
+.segOn {
+  background: var(--seg);
+  box-shadow: 0 0 6px var(--seg);
+}
+
+// Kp history: 3-hour bars
+.kpChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 90px;
+  padding: $space-2;
+}
+
+.kpBar {
+  flex: 1;
+  background: var(--glow);
+  box-shadow: 0 0 4px var(--glow);
+  opacity: 0.85;
+}
+
+.kpStorm {
+  background: $amber;
+  box-shadow: 0 0 6px $amber;
+}
+
+.lampCol {
+  display: grid;
+  gap: $space-2;
+  margin-left: auto;
+}
+
+// VU faces are small, so their scale numbers print larger
+.vu .gaugeNum {
+  font-size: 20px;
+}
+
+// On phones, working modules take the full row; only blank slots pair up
+@media (max-width: $bp-sm) {
+  .module:not(.empty) {
+    grid-column: 1 / -1;
+  }
+}
