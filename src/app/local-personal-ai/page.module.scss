@@ -289,3 +289,10 @@
   font-size: 0.8rem;
   color: $text-muted;
 }
+
+// Leave room above anchored sections when jumping from the diagram
+.section,
+.panel,
+.caseStudy {
+  scroll-margin-top: $space-5;
+}

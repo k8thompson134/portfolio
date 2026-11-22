@@ -1,6 +1,194 @@
 import styles from './page.module.scss';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
+import ArchitectureDiagram, { type DiagramBlock } from '@/components/ArchitectureDiagram';
+
+const slugify = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/’/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+const ARCHITECTURE: DiagramBlock[] = [
+  {
+    type: 'columns',
+    blocks: [
+      {
+        type: 'boundary',
+        label: 'Private · Tailscale',
+        variant: 'private',
+        blocks: [
+          {
+            type: 'tier',
+            label: 'Client',
+            nodes: [
+              {
+                id: 'web-app',
+                name: 'Phone web app',
+                kind: 'client',
+                tech: 'Vanilla JS PWA · Web Push',
+        link: { href: '#a-feed-instead-of-a-dashboard', label: 'The home feed' },
+                detail:
+                  'The main interface: a ranked home feed, the tap-only check-in quiz, logging, and the energy moon. Installed to the home screen and only reachable over Tailscale.',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'boundary',
+        label: 'Public',
+        variant: 'public',
+        blocks: [
+          {
+            type: 'tier',
+            label: 'Client',
+            nodes: [
+              {
+                id: 'research-page',
+                name: 'Public research page',
+                kind: 'client',
+                tech: 'Static page + JSON API',
+        link: { href: '#research', label: 'The research pipeline' },
+                detail:
+                  'The one public surface: Long COVID and ME/CFS papers and trials, Kate’s Picks, and the Recommend to Kate button. Served through a Cloudflare Tunnel whose ingress allows exactly two paths.',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    type: 'link',
+    flows: ['web app → API · HTTPS over Tailscale', 'research page → API · Cloudflare Tunnel, 2 allowed paths'],
+  },
+  {
+    type: 'boundary',
+    label: 'Mac mini M4 · self-hosted',
+    variant: 'private',
+    blocks: [
+      {
+        type: 'tier',
+        label: 'Application',
+        nodes: [
+          {
+            id: 'api',
+            name: 'Flask API',
+            kind: 'service',
+            tech: 'Python · gunicorn · ~80 route modules',
+    link: { href: '#the-lair-ledger', label: 'Features it runs' },
+            detail:
+              'Every feature lives here: the feed, energy ledger, crash forecast, email triage, the newspaper, and the research pipeline. The public endpoints return an explicit allowlist of fields.',
+          },
+          {
+            id: 'gateway',
+            name: 'Model gateway',
+            kind: 'service',
+            tech: 'Inference router · grounding checks',
+    link: { href: '#email-extraction-that-cant-make-things-up', label: 'Grounding checks in practice' },
+            detail:
+              'Every model call names its task and goes through one router that logs tier, latency, and tokens. Extracted fields are checked against the source text before anything is stored.',
+          },
+        ],
+      },
+      { type: 'link', flows: ['API → gateway → models · local HTTP'] },
+      {
+        type: 'tier',
+        label: 'Local models',
+        nodes: [
+          {
+            id: 'ollama',
+            name: 'Ollama',
+            kind: 'service',
+            tech: 'Gemma 3 12B · Llama 3.2 1B',
+    link: { href: '#miniaturization-over-hyperscaling', label: 'Why it runs locally' },
+            detail:
+              'Runs more than 99% of Lair’s roughly 300 model calls a day: scoring, extraction, triage, summaries, and the newspaper. Metal-accelerated and memory-mapped on the Mac mini.',
+          },
+          {
+            id: 'whisper',
+            name: 'whisper.cpp',
+            kind: 'service',
+            tech: 'Started on demand',
+            detail: 'Local speech-to-text for voice notes. It starts on the first audio request and stops after 10 idle minutes.',
+          },
+        ],
+      },
+      { type: 'link', flows: ['API → stores · SQL · embeddings · markdown'] },
+      {
+        type: 'tier',
+        label: 'Data',
+        nodes: [
+          {
+            id: 'sqlite',
+            name: 'SQLite',
+            kind: 'data',
+            tech: 'One schema for everything',
+    link: { href: '#medication-effects-from-my-own-data', label: 'What one schema makes possible' },
+            detail:
+              'Symptoms, journal, check-ins, medications, weather, air quality, steps, email, tasks, and research all land in one database, so every chart and forecast reads the same definitions.',
+          },
+          {
+            id: 'chroma',
+            name: 'ChromaDB',
+            kind: 'data',
+            tech: 'Vector store',
+            detail: 'Embeddings for semantic search over notes and history, used to give the models real context.',
+          },
+          {
+            id: 'vault',
+            name: 'Obsidian vault',
+            kind: 'data',
+            tech: 'Markdown',
+            detail: 'Human-readable notes, reports, and saved research that the system writes and searches.',
+          },
+        ],
+      },
+      { type: 'link', flows: ['launchd → API · scheduled runs'] },
+      {
+        type: 'tier',
+        label: 'Schedulers',
+        nodes: [
+          {
+            id: 'jobs',
+            name: 'launchd jobs',
+            kind: 'job',
+            tech: 'Mornings · daily · every 30 min',
+    link: { href: '#a-crash-forecast-fit-on-my-own-history', label: 'The morning crash forecast' },
+            detail:
+              'The energy budget and crash forecast every morning, the research agent and the newspaper daily, and a push sweep every 30 minutes. They run as launchd agents so they keep going when Docker is down.',
+          },
+        ],
+      },
+    ],
+  },
+  { type: 'link', flows: ['jobs + API → outside · HTTPS'] },
+  {
+    type: 'tier',
+    label: 'External systems',
+    nodes: [
+      {
+        id: 'sources',
+        name: 'Data sources',
+        kind: 'external',
+        tech: 'PubMed · ClinicalTrials.gov · Open-Meteo · PurpleAir · Gmail · RSS',
+link: { href: '#research', label: 'Where the papers go' },
+        detail:
+          'Papers and trials for the research pipeline, pressure and air quality every 30 minutes, email for triage and the newspaper, and pollen through Stormglass.',
+      },
+      {
+        id: 'claude',
+        name: 'Claude API',
+        kind: 'external',
+        tech: 'Research explainers only',
+link: { href: '#privacy-by-design', label: 'Why cloud calls are the exception' },
+        detail: 'The one cloud model call: plain-language explainers for research. Everything else stays local.',
+      },
+    ],
+  },
+];
 
 const BAD_DAYS = [
   {
@@ -153,7 +341,7 @@ export default function LocalPersonalAIPage() {
         </div>
       </section>
 
-      <section className={styles.section}>
+      <section id="research" className={styles.section}>
         <h2 className={styles.sectionTitle}>Live: Long COVID and ME/CFS Research</h2>
         <div className={styles.prose}>
           <p>
@@ -195,25 +383,7 @@ export default function LocalPersonalAIPage() {
 
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Architecture</h2>
-        <pre className={styles.diagram}>{`Inputs
-├── Phone web app (feed, quiz, logging)
-├── Email sync (two inboxes)
-├── Weather, air quality, steps
-└── PubMed, ClinicalTrials.gov, RSS
-        ↓
-Flask API (gunicorn)
-├── Inference router
-│   ├── local: Gemma 3 12B, Llama 3.2 1B
-│   └── remote: Claude (research explainers)
-├── Grounding checks on model output
-└── ChromaDB retrieval
-        ↓
-SQLite (one schema) + Obsidian vault
-        ↓
-Scheduled jobs (launchd)
-├── energy budget + crash forecast, mornings
-├── research agent + newspaper, daily
-└── push sweep, every 30 min`}</pre>
+        <ArchitectureDiagram title="Lair" notation="C4 · container view" blocks={ARCHITECTURE} />
         <div className={styles.prose}>
           <p>
             <strong>Every concept has one definition, shared by every feature.</strong> A pressure swing is a day with
@@ -237,7 +407,7 @@ Scheduled jobs (launchd)
         <h2 className={styles.sectionTitle}>Designed for Bad Days</h2>
         <div className={styles.panels}>
           {BAD_DAYS.map((p) => (
-            <section key={p.title} className={styles.panel}>
+            <section key={p.title} id={slugify(p.title)} className={styles.panel}>
               <h3 className={styles.panelTitle}>{p.title}</h3>
               <p className={styles.panelDescription}>{p.description}</p>
               {p.takeaway && <p className={styles.panelTakeaway}>{p.takeaway}</p>}
@@ -250,7 +420,7 @@ Scheduled jobs (launchd)
         <h2 className={styles.sectionTitle}>Case Studies</h2>
         <div className={styles.caseStudies}>
           {CASE_STUDIES.map((study) => (
-            <article key={study.title} className={styles.caseStudy}>
+            <article key={study.title} id={slugify(study.title)} className={styles.caseStudy}>
               <h3 className={styles.panelTitle}>{study.title}</h3>
               <div className={styles.caseGrid}>
                 <div>
@@ -275,7 +445,7 @@ Scheduled jobs (launchd)
         <h2 className={styles.sectionTitle}>Why Local-First</h2>
         <div className={styles.panels}>
           {LOCAL_FIRST.map((item) => (
-            <section key={item.title} className={styles.panel}>
+            <section key={item.title} id={slugify(item.title)} className={styles.panel}>
               <h3 className={styles.panelTitle}>{item.title}</h3>
               <p className={styles.panelDescription}>{item.description}</p>
             </section>

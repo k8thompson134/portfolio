@@ -289,3 +289,9 @@
   font-size: 0.8rem;
   color: $text-muted;
 }
+
+// Leave room above anchored items when jumping from the diagram
+.panel,
+.lessons li {
+  scroll-margin-top: $space-5;
+}

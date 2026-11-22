@@ -216,3 +216,17 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: $space-4;
 }
+
+.architecture {
+  margin-bottom: $space-7;
+}
+
+// A lone last panel spans both columns instead of leaving a gap
+.panel:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+// Leave room above panels when jumping from the diagram
+.panel {
+  scroll-margin-top: $space-5;
+}

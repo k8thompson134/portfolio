@@ -3,6 +3,146 @@ import Link from 'next/link';
 import ScreenshotGallery from '@/components/ScreenshotGallery';
 import InspirationCompare from './InspirationCompare';
 import Footer from '@/components/Footer';
+import ArchitectureDiagram, { type DiagramBlock } from '@/components/ArchitectureDiagram';
+
+const ARCHITECTURE: DiagramBlock[] = [
+  {
+    type: 'columns',
+    blocks: [
+      {
+        type: 'boundary',
+        label: 'Public',
+        variant: 'public',
+        blocks: [
+          {
+            type: 'tier',
+            label: 'Client',
+            nodes: [
+              {
+                id: 'pwa',
+                name: 'Stormglass PWA',
+                kind: 'client',
+                tech: 'React · TypeScript · Workbox',
+                link: { href: '#pressure-dynamics', label: 'The pressure chart' },
+                detail:
+                  'The installable app anyone can open: the pressure chart, condition forecasts, and air quality, with offline support. Web Push delivers opt-in alerts.',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'boundary',
+        label: 'Owner only',
+        variant: 'private',
+        blocks: [
+          {
+            type: 'tier',
+            label: 'Client',
+            nodes: [
+              {
+                id: 'owner',
+                name: 'My devices',
+                kind: 'client',
+                tech: 'Bearer token on the device',
+                link: { href: '#public-forecasts-private-logs', label: 'Public forecasts, private logs' },
+                detail:
+                  'Symptom logs, trends, and location changes need a bearer token that stays on my device instead of being built into the public bundle.',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  { type: 'link', flows: ['HTTPS · public routes allowlisted', 'everything else needs the token'] },
+  {
+    type: 'boundary',
+    label: 'Railway',
+    variant: 'host',
+    blocks: [
+      {
+        type: 'tier',
+        label: 'Application',
+        nodes: [
+          {
+            id: 'api',
+            name: 'Fastify API',
+            kind: 'service',
+            tech: 'Node · TypeScript',
+            link: { href: '#public-forecasts-private-logs', label: 'Access model' },
+            detail:
+              'Serves weather, forecasts, risk scoring, symptoms, and push subscriptions. Any route not explicitly marked public is denied by default.',
+          },
+          {
+            id: 'risk',
+            name: 'Risk engine',
+            kind: 'service',
+            tech: 'Per-condition scoring',
+            link: { href: '#health-impact-forecast', label: 'The health forecast' },
+            detail:
+              'Scores 13 conditions against current conditions and the forecast, explains what is driving each risk, and decides which push alerts are worth sending.',
+          },
+        ],
+      },
+      { type: 'link', flows: ['SQL via Drizzle ORM'] },
+      {
+        type: 'tier',
+        label: 'Data',
+        nodes: [
+          {
+            id: 'pg',
+            name: 'PostgreSQL',
+            kind: 'data',
+            tech: 'Drizzle ORM',
+            link: { href: '#symptom-logging-trends', label: 'Symptom logging and trends' },
+            detail:
+              'Every reading, symptom log with its environmental snapshot, and push subscription. Symptom severity never appears in the public weather history.',
+          },
+        ],
+      },
+      { type: 'link', flows: ['node-cron → API'] },
+      {
+        type: 'tier',
+        label: 'Schedulers',
+        nodes: [
+          {
+            id: 'poll',
+            name: 'Weather poll',
+            kind: 'job',
+            tech: 'Every 30 min · daily cleanup',
+            detail:
+              'Polls every source every 30 minutes, runs the alert checks, and trims the notification log nightly at 3am.',
+          },
+        ],
+      },
+    ],
+  },
+  { type: 'link', flows: ['HTTPS · every 30 min'] },
+  {
+    type: 'tier',
+    label: 'External systems',
+    nodes: [
+      {
+        id: 'weather',
+        name: 'Weather and air APIs',
+        kind: 'external',
+        tech: 'Open-Meteo · PurpleAir · NOAA SWPC · Google Pollen',
+        link: { href: '#air-quality-wildfire-smoke', label: 'Air quality' },
+        detail:
+          'Pressure, temperature, wind, UV, and regional AQI from Open-Meteo, hyperlocal ground sensors from PurpleAir, Kp and solar wind from NOAA, and pollen from Google. Every source has a free tier. PurpleAir and Pollen are optional: without their keys the app falls back to the regional air model and skips pollen.',
+      },
+      {
+        id: 'push',
+        name: 'Web Push',
+        kind: 'external',
+        tech: 'VAPID',
+        detail:
+          'Push services deliver opt-in alerts for the conditions with a clear, actionable trigger.',
+      },
+    ],
+  },
+];
 
 export default function Stormglass() {
   return (
@@ -60,7 +200,7 @@ export default function Stormglass() {
       <InspirationCompare />
 
       <div className={styles.panels}>
-        <section className={styles.panel}>
+        <section id="pressure-dynamics" className={styles.panel}>
           <h2 className={styles.panelTitle}>Pressure Dynamics</h2>
           <p className={styles.panelDescription}>
             The main chart plots barometric pressure readings over selectable
@@ -71,22 +211,20 @@ export default function Stormglass() {
           </p>
         </section>
 
-        <section className={styles.panel}>
+        <section id="health-impact-forecast" className={styles.panel}>
           <h2 className={styles.panelTitle}>Health Impact Forecast</h2>
           <p className={styles.panelDescription}>
-            Evaluates 13 health conditions against current environmental data:
-            POTS/Dysautonomia, Joint Pain, Migraine, ME/CFS/PEM, Fibromyalgia,
-            Sinus, Raynaud&apos;s, Sleep Quality, Cluster Headache, EDS,
-            Air Quality, Geomagnetic Storms, and Pollen. Each condition
-            gets a Low/Moderate/High/Severe risk level with a plain-language
-            explanation of which factors are driving it, plus opt-in push
-            notifications for the conditions with a clear, actionable trigger.
-            A composite &ldquo;Body Impact Level&rdquo; bar summarizes overall
-            flare risk at a glance.
+            Checks 13 conditions, from POTS and migraines to Raynaud&apos;s and
+            pollen sensitivity, against current conditions and the forecast, and
+            each one can be turned on or off. Every condition gets a
+            Low/Moderate/High/Severe risk level with a plain-language explanation
+            of what is driving it, plus opt-in push notifications for the ones
+            with a clear, actionable trigger. A &ldquo;Body Impact Level&rdquo;
+            bar sums up overall flare risk at a glance.
           </p>
         </section>
 
-        <section className={styles.panel}>
+        <section id="air-quality-wildfire-smoke" className={styles.panel}>
           <h2 className={styles.panelTitle}>Air Quality &amp; Wildfire Smoke</h2>
           <p className={styles.panelDescription}>
             Blends a regional air-quality model with hyperlocal PurpleAir ground
@@ -98,30 +236,7 @@ export default function Stormglass() {
           </p>
         </section>
 
-        <section className={styles.panel}>
-          <h2 className={styles.panelTitle}>Current Conditions</h2>
-          <p className={styles.panelDescription}>
-            A live snapshot showing pressure (with trend badge and hourly
-            rate-of-change), temperature, humidity, dew point, wind speed,
-            24-hour pressure range vs. historic high, and US AQI with PM2.5/PM10
-            breakdowns.
-          </p>
-        </section>
-
-        <section className={styles.panel}>
-          <h2 className={styles.panelTitle}>Data Pipeline</h2>
-          <p className={styles.panelDescription}>
-            A Fastify backend polls Open-Meteo (pressure, temp, humidity, wind,
-            UV, regional AQI), PurpleAir (hyperlocal ground-sensor air quality),
-            NOAA Space Weather (Kp index, solar wind), and the Google Pollen API
-            on a 30-minute cron. Readings are stored in PostgreSQL via Drizzle
-            ORM. Every source has a free tier, and PurpleAir and Google Pollen
-            are optional: without their keys, the app falls back to the regional
-            air-quality model and skips pollen.
-          </p>
-        </section>
-
-        <section className={styles.panel}>
+        <section id="symptom-logging-trends" className={styles.panel}>
           <h2 className={styles.panelTitle}>Symptom Logging &amp; Trends</h2>
           <p className={styles.panelDescription}>
             Logging a symptom records its severity and condition tags along with
@@ -130,20 +245,11 @@ export default function Stormglass() {
             the trends view ranks which factors line up with each person&apos;s
             own flares, highlights what tends to help them recover, and warns
             when several of their high-risk factors align at once.
+            The whole app installs as a PWA and works offline.
           </p>
         </section>
 
-        <section className={styles.panel}>
-          <h2 className={styles.panelTitle}>Settings &amp; Personalization</h2>
-          <p className={styles.panelDescription}>
-            The location is set through geocoding search, with its own timezone
-            for daily summaries, and each health condition can be toggled on or
-            off. The app is installable as a PWA with
-            offline support via Workbox for fast, app-like access on mobile.
-          </p>
-        </section>
-
-        <section className={styles.panel}>
+        <section id="public-forecasts-private-logs" className={styles.panel}>
           <h2 className={styles.panelTitle}>Public Forecasts, Private Logs</h2>
           <p className={styles.panelDescription}>
             Weather, forecasts, and risk levels are open to anyone visiting the site.
@@ -154,6 +260,11 @@ export default function Stormglass() {
           </p>
         </section>
       </div>
+
+      <section className={styles.architecture}>
+        <h2 className={styles.galleryTitle}>Architecture</h2>
+        <ArchitectureDiagram title="Stormglass" notation="C4 · container view" blocks={ARCHITECTURE} />
+      </section>
 
       <section className={styles.gallery}>
         <h2 className={styles.galleryTitle}>Screenshots</h2>

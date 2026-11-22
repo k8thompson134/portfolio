@@ -2,6 +2,141 @@ import styles from './page.module.scss';
 import Link from 'next/link';
 import ScreenshotGallery from '@/components/ScreenshotGallery';
 import Footer from '@/components/Footer';
+import ArchitectureDiagram, { type DiagramBlock } from '@/components/ArchitectureDiagram';
+
+const ARCHITECTURE: DiagramBlock[] = [
+  {
+    type: 'tier',
+    label: 'Clients',
+    nodes: [
+      {
+        id: 'site',
+        name: 'Docket website',
+        kind: 'client',
+        tech: 'React · TypeScript · Vite · Vercel',
+        link: { href: '#bill-feed', label: 'The bill feed' },
+        detail:
+          'The public site: the bill feed, bill pages with timelines and vote breakdowns, and alder profiles. Built on data the city already publishes.',
+      },
+      {
+        id: 'inbox',
+        name: 'Subscriber inbox',
+        kind: 'client',
+        tech: 'Email · no account',
+        link: { href: '#email-alerts', label: 'Email alerts' },
+        detail:
+          'Residents subscribe by issue area, district, or alder and manage preferences from links in their email, with no login.',
+      },
+    ],
+  },
+  { type: 'link', flows: ['HTTPS · JSON API', 'email links → /manage/{token}'] },
+  {
+    type: 'boundary',
+    label: 'Railway',
+    variant: 'host',
+    blocks: [
+      {
+        type: 'tier',
+        label: 'Application',
+        nodes: [
+          {
+            id: 'api',
+            name: 'FastAPI',
+            kind: 'service',
+            tech: 'Python · SQLAlchemy · Alembic',
+            link: { href: '#bill-feed', label: 'Features' },
+            detail:
+              'Serves the public API for bills, alders, votes, and subscriptions, and confirms and manages subscriptions from email links.',
+          },
+          {
+            id: 'enrich',
+            name: 'Enrichment',
+            kind: 'service',
+            tech: 'Runs after each poll',
+            link: { href: '#plain-language-summaries', label: 'Summaries and tagging' },
+            detail:
+              'Sends each new bill to Claude Haiku for an 8th-grade summary and tags from a 13-category issue taxonomy.',
+          },
+        ],
+      },
+      { type: 'link', flows: ['SQL'] },
+      {
+        type: 'tier',
+        label: 'Data',
+        nodes: [
+          {
+            id: 'pg',
+            name: 'PostgreSQL',
+            kind: 'data',
+            tech: '15 tables',
+            link: { href: '#alder-profiles', label: 'Alder profiles' },
+            detail:
+              'Matters, alders, history, votes, subscribers, the notification queue, and the alert log. Council roles and committee memberships go back to 2004.',
+          },
+        ],
+      },
+      { type: 'link', flows: ['APScheduler → poller, enrichment, alerts'] },
+      {
+        type: 'tier',
+        label: 'Schedulers',
+        nodes: [
+          {
+            id: 'poll',
+            name: 'Legistar poller',
+            kind: 'job',
+            tech: 'Hourly',
+            link: { href: '#timeline-vote-breakdowns', label: 'Timelines and votes' },
+            detail:
+              'Polls Legistar every hour and upserts matters, votes, and alder records, then hands new bills to enrichment and queues alerts.',
+          },
+          {
+            id: 'digest',
+            name: 'Digest sender',
+            kind: 'job',
+            tech: '7am CT daily · weekly',
+            link: { href: '#email-alerts', label: 'Email alerts' },
+            detail:
+              'Immediate alerts go out right away; daily and weekly digests drain from the queue at 7am Central.',
+          },
+        ],
+      },
+    ],
+  },
+  { type: 'link', flows: ['HTTPS'] },
+  {
+    type: 'tier',
+    label: 'External systems',
+    nodes: [
+      {
+        id: 'legistar',
+        name: 'Legistar API',
+        kind: 'external',
+        tech: 'City of Milwaukee',
+        link: { href: '#bill-feed', label: 'The bill feed' },
+        detail:
+          'The Common Council’s official legislative record: matters, histories, votes, and sponsors.',
+      },
+      {
+        id: 'haiku',
+        name: 'Claude Haiku',
+        kind: 'external',
+        tech: 'Anthropic API',
+        link: { href: '#plain-language-summaries', label: 'Summaries and tagging' },
+        detail:
+          'Writes the plain-language summaries and issue tags for each new bill.',
+      },
+      {
+        id: 'resend',
+        name: 'Resend',
+        kind: 'external',
+        tech: 'Email delivery',
+        link: { href: '#email-alerts', label: 'Email alerts' },
+        detail:
+          'Sends confirmation emails, immediate alerts, and digests.',
+      },
+    ],
+  },
+];
 
 export default function Docket() {
   return (
@@ -57,7 +192,7 @@ export default function Docket() {
       </div>
 
       <div className={styles.panels}>
-        <section className={styles.panel}>
+        <section id="bill-feed" className={styles.panel}>
           <h2 className={styles.panelTitle}>Bill Feed &amp; Discovery</h2>
           <p className={styles.panelDescription}>
             Browses the full Common Council legislative record with filters for type,
@@ -68,7 +203,7 @@ export default function Docket() {
           </p>
         </section>
 
-        <section className={styles.panel}>
+        <section id="plain-language-summaries" className={styles.panel}>
           <h2 className={styles.panelTitle}>Plain-Language Summaries &amp; Tagging</h2>
           <p className={styles.panelDescription}>
             An enrichment pipeline runs every new bill through Claude Haiku, producing
@@ -78,7 +213,7 @@ export default function Docket() {
           </p>
         </section>
 
-        <section className={styles.panel}>
+        <section id="alder-profiles" className={styles.panel}>
           <h2 className={styles.panelTitle}>Alder Profiles &amp; Vote Records</h2>
           <p className={styles.panelDescription}>
             Every alder gets a profile with an AI-generated legislative-focus summary,
@@ -88,7 +223,7 @@ export default function Docket() {
           </p>
         </section>
 
-        <section className={styles.panel}>
+        <section id="timeline-vote-breakdowns" className={styles.panel}>
           <h2 className={styles.panelTitle}>Timeline &amp; Vote Breakdowns</h2>
           <p className={styles.panelDescription}>
             Each bill gets a full page tracking its path from introduction through
@@ -98,7 +233,7 @@ export default function Docket() {
           </p>
         </section>
 
-        <section className={styles.panel}>
+        <section id="email-alerts" className={styles.panel}>
           <h2 className={styles.panelTitle}>Email Alerts</h2>
           <p className={styles.panelDescription}>
             No-account email alerts by issue area, district, or specific alder, with
@@ -107,17 +242,12 @@ export default function Docket() {
             Unsubscribe or change preferences any time, no login required.
           </p>
         </section>
-
-        <section className={styles.panel}>
-          <h2 className={styles.panelTitle}>Data Pipeline</h2>
-          <p className={styles.panelDescription}>
-            A FastAPI backend polls the Legistar API on an hourly schedule, storing
-            matters, alders, and vote history in PostgreSQL. A React and TypeScript
-            frontend serves the public site, deployed on Railway (backend) and Vercel
-            (frontend), all built on data the city already publishes.
-          </p>
-        </section>
       </div>
+
+      <section className={styles.architecture}>
+        <h2 className={styles.galleryTitle}>Architecture</h2>
+        <ArchitectureDiagram title="Cream City Docket" notation="C4 · container view" blocks={ARCHITECTURE} />
+      </section>
 
       <section className={styles.gallery}>
         <h2 className={styles.galleryTitle}>Screenshots</h2>

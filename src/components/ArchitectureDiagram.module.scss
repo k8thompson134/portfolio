@@ -1,0 +1,477 @@
+@use '../styles/variables' as *;
+
+$kind-client: $console-teal;
+$kind-service: $nixie-orange;
+$kind-data: $led-green;
+$kind-job: $led-yellow;
+$kind-external: $text-muted;
+
+.diagram {
+  margin: 0 0 $space-4;
+  border: 1px solid $border-gray;
+  border-radius: $radius-md;
+  background: $panel-dark;
+  box-shadow: $shadow-panel;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-2 $space-4;
+  border-bottom: 1px solid $border-gray;
+  background: $panel-mid;
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.leds {
+  display: flex;
+  gap: 5px;
+
+  i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $led-red;
+  }
+
+  i:nth-child(2) {
+    background: $led-yellow;
+  }
+
+  i:nth-child(3) {
+    background: $led-green;
+    box-shadow: $shadow-glow-green;
+  }
+}
+
+.title {
+  color: $text-primary;
+}
+
+.notation {
+  margin-left: auto;
+  white-space: nowrap;
+  color: $console-teal;
+}
+
+// Blueprint grid behind the boxes
+.canvas {
+  padding: $space-4;
+  background-color: rgba($deep-space, 0.6);
+  background-image:
+    linear-gradient(rgba($console-teal, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba($console-teal, 0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
+
+  @media (max-width: $bp-sm) {
+    padding: $space-3 $space-2;
+  }
+}
+
+.tier {
+  display: grid;
+  gap: $space-1;
+}
+
+.tierLabel {
+  font-family: $font-mono;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.nodes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: $space-2;
+
+  // Two across on phones; the tech line moves to the pop-up window
+  @media (max-width: $bp-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+}
+
+.node {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  padding: $space-2 $space-3;
+  border: 1px solid $border-gray;
+  border-left: 3px solid var(--kind);
+  border-radius: $radius-sm;
+  background: $panel-dark;
+  color: $text-primary;
+  text-align: left;
+  cursor: pointer;
+  transition: box-shadow $transition-fast, border-color $transition-fast;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--kind);
+    outline: none;
+  }
+
+  @media (max-width: $bp-sm) {
+    padding: 6px $space-2;
+  }
+
+  &.selected {
+    border-color: var(--kind);
+    background: color-mix(in srgb, var(--kind) 12%, $panel-dark);
+    box-shadow: 0 0 0 1px var(--kind), 0 0 14px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.client {
+  --kind: #{$kind-client};
+}
+
+.service {
+  --kind: #{$kind-service};
+}
+
+.data {
+  --kind: #{$kind-data};
+}
+
+.job {
+  --kind: #{$kind-job};
+}
+
+.external {
+  --kind: #{$kind-external};
+
+  &.node {
+    border-style: dashed;
+    border-left-style: solid;
+    background: transparent;
+  }
+}
+
+.stereotype {
+  font-family: $font-mono;
+  font-size: 0.6rem;
+  color: var(--kind);
+}
+
+.nodeName {
+  font-family: $font-display;
+  font-size: 0.9rem;
+  line-height: 1.25;
+}
+
+.nodeTech {
+  font-family: $font-mono;
+  font-size: 0.65rem;
+  line-height: 1.4;
+  color: $text-secondary;
+
+  @media (max-width: $bp-sm) {
+    display: none;
+  }
+}
+
+// Connector between tiers: a vertical wire with the flows it carries
+.link {
+  display: flex;
+  align-items: stretch;
+  gap: $space-3;
+  min-height: 32px;
+  margin: $space-1 0 $space-1 $space-5;
+
+  @media (max-width: $bp-sm) {
+    min-height: 26px;
+    margin-left: $space-3;
+  }
+}
+
+.wire {
+  position: relative;
+  width: 2px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(to bottom, $console-teal 0 6px, transparent 6px 10px);
+  background-size: 2px 10px;
+  animation: flow 1s linear infinite;
+
+  // Arrowhead
+  &::after {
+    content: '';
+    position: absolute;
+    left: -4px;
+    bottom: -2px;
+    border: 5px solid transparent;
+    border-top: 6px solid $console-teal;
+    border-bottom: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes flow {
+  to {
+    background-position: 0 10px;
+  }
+}
+
+.flows {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 0;
+  list-style: none;
+  font-family: $font-mono;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: $console-mint;
+
+  @media (max-width: $bp-sm) {
+    font-size: 0.62rem;
+  }
+}
+
+.boundary {
+  position: relative;
+  margin: $space-3 0;
+  padding: $space-4 $space-3 $space-3;
+  border: 1px dashed var(--edge);
+  border-radius: $radius-md;
+
+  @media (max-width: $bp-sm) {
+    padding: $space-4 6px 6px;
+  }
+}
+
+.private {
+  --edge: #{$console-teal};
+}
+
+.public {
+  --edge: #{$nixie-orange};
+}
+
+.host {
+  --edge: #{$console-mint};
+
+  &.boundary {
+    border-color: rgba($console-mint, 0.35);
+  }
+}
+
+.boundaryLabel {
+  position: absolute;
+  top: -0.55rem;
+  left: $space-3;
+  padding: 0 $space-2;
+  background: $deep-space;
+  font-family: $font-mono;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--edge);
+
+  @media (max-width: $bp-sm) {
+    left: $space-2;
+    max-width: calc(100% - #{$space-3});
+    padding: 0 $space-1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+  }
+}
+
+.dock {
+  position: fixed;
+  left: 50%;
+  bottom: 18vh;
+  z-index: 50;
+  width: min(560px, calc(100vw - #{$space-4}));
+  transform: translateX(-50%);
+  pointer-events: none;
+
+  @media (max-width: $bp-sm) {
+    bottom: 12vh;
+  }
+}
+
+// A small retro terminal window that pops up over the page
+.window {
+  pointer-events: auto;
+  border: 1px solid var(--kind);
+  border-radius: $radius-md;
+  background: #050816;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 22px rgba(0, 0, 0, 0.7), 0 0 14px color-mix(in srgb, var(--kind) 35%, transparent);
+  overflow: hidden;
+  animation: pop 180ms ease-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+.windowBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 4px 4px $space-3;
+  background: var(--kind);
+  color: $deep-space;
+}
+
+.windowTitle {
+  font-family: $font-mono;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.windowClose {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 22px;
+  border: 1px solid rgba($deep-space, 0.5);
+  border-radius: $radius-sm;
+  background: rgba($deep-space, 0.15);
+  color: $deep-space;
+  cursor: pointer;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: $deep-space;
+    color: var(--kind);
+    outline: none;
+  }
+}
+
+.windowBody {
+  display: grid;
+  gap: $space-1;
+  padding: $space-3 $space-4 $space-4;
+  font-family: $font-mono;
+  // Faint scan lines
+  background-image: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+
+  p {
+    margin: $space-1 0 0;
+    font-family: $font-body;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: $text-secondary;
+  }
+
+  @media (max-width: $bp-sm) {
+    padding: $space-2 $space-3 $space-3;
+
+    p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+  }
+}
+
+.prompt {
+  color: $led-green;
+  font-size: 0.85rem;
+  text-shadow: $shadow-glow-green;
+}
+
+.readoutKind {
+  font-size: 0.7rem;
+  color: $text-muted;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2 $space-4;
+  margin: 0;
+  padding: $space-2 $space-4;
+  border-top: 1px solid $border-gray;
+  list-style: none;
+  font-family: $font-mono;
+  font-size: 0.65rem;
+  color: $text-muted;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: $space-1;
+  }
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-left: 3px solid var(--kind);
+  border-top: 1px solid var(--kind);
+  border-right: 1px solid var(--kind);
+  border-bottom: 1px solid var(--kind);
+}
+
+.line {
+  width: 18px;
+  border-top: 1px dashed var(--edge);
+}
+
+.hint {
+  margin-left: auto;
+  color: $console-teal;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $space-3;
+
+  @media (max-width: $bp-sm) {
+    gap: 6px;
+
+    .nodes {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .boundary {
+    margin: $space-2 0 0;
+  }
+}
+
+.jump {
+  justify-self: start;
+  margin-top: $space-1;
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  color: $console-teal;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    color: $nixie-orange;
+    text-decoration: underline;
+  }
+}
